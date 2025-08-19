@@ -213,14 +213,14 @@ const Settings = () => {
                   <div className="px-3 py-2 text-sm font-medium text-muted-foreground border-b border-border mb-2">
                     Credits 2392
                   </div>
-                  <Button variant="ghost" size="sm" className="w-full justify-start" onClick={() => navigate('/settings')}>
-                    <SettingsIcon className="w-4 h-4 mr-3" />
-                    Settings
-                  </Button>
-                  <Button variant="ghost" size="sm" className="w-full justify-start" onClick={() => navigate('/settings')}>
-                    <CreditCard className="w-4 h-4 mr-3" />
-                    Billing and Plan
-                  </Button>
+                                <Button variant="ghost" size="sm" className="w-full justify-start">
+                <SettingsIcon className="w-4 h-4 mr-3" />
+                Settings
+              </Button>
+              <Button variant="ghost" size="sm" className="w-full justify-start">
+                <CreditCard className="w-4 h-4 mr-3" />
+                Billing and Plan
+              </Button>
                   <Button variant="ghost" size="sm" className="w-full justify-start">
                     <LogOut className="w-4 h-4 mr-3" />
                     Logout
