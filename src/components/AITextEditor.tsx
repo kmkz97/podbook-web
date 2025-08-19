@@ -197,22 +197,9 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
 
       {/* Main Editor Area */}
       <div className="flex-1 flex flex-col">
-        {/* Top Toolbar */}
+        {/* Editor Toolbar */}
         <div className="bg-card border-b border-border p-4">
           <div className="flex items-center justify-between">
-            {/* Left: Project Info */}
-            <div className="flex items-center gap-6">
-              <div>
-                <h1 className="text-lg font-bold text-foreground">Tech News Weekly Digest</h1>
-                <div className="flex items-center gap-4 text-sm text-muted-foreground mt-1">
-                  <span>5 chapters</span>
-                  <span>14 words</span>
-                  <span>~28 pages</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Middle: Formatting Tools */}
             <div className="flex items-center gap-2">
               <Button
                 variant={editor.isActive('bold') ? 'default' : 'ghost'}
@@ -274,7 +261,6 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
               </Button>
             </div>
 
-            {/* Right: Action Tools */}
             <div className="flex items-center gap-2">
               <Button
                 variant="ghost"
@@ -305,6 +291,32 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
               <Button variant="outline" size="sm" onClick={saveChapter}>
                 <Save className="w-4 h-4 mr-2" />
                 Save
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Chapter Header */}
+        <div className="bg-muted/30 px-8 py-4 border-b border-border">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-foreground">{currentChapter.title}</h1>
+              <p className="text-sm text-muted-foreground">
+                {currentChapter.wordCount} words • ~{currentChapter.estimatedPages} pages
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" size="sm">
+                <Eye className="w-4 h-4 mr-2" />
+                Preview
+              </Button>
+              <Button variant="outline" size="sm">
+                <Download className="w-4 h-4 mr-2" />
+                Export
+              </Button>
+              <Button variant="outline" size="sm">
+                <Share2 className="w-4 h-4 mr-2" />
+                Share
               </Button>
             </div>
           </div>
