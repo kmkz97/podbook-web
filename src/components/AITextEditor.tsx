@@ -297,16 +297,6 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
           </div>
         </div>
 
-        {/* Chapter Header */}
-        <div className="px-8 py-4">
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">{currentChapter.title}</h1>
-            <p className="text-sm text-muted-foreground">
-              {currentChapter.wordCount} words • ~{currentChapter.estimatedPages} pages
-            </p>
-          </div>
-        </div>
-
         {/* Editor Content */}
         <div className="flex-1 overflow-y-auto">
           <div className="max-w-4xl mx-auto p-8">
