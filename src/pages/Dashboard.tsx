@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Search, Filter, Download, Eye, Trash2, Plus, Calendar, Clock, Home, FileText, Settings, User, ChevronDown } from "lucide-react";
+import { BookOpen, Search, Filter, Download, Eye, Trash2, Plus, Calendar, Clock, Home, FileText, Settings, User, ChevronDown, LogOut } from "lucide-react";
 
 interface Project {
   id: string;
@@ -142,10 +142,10 @@ const Dashboard = () => {
           </nav>
         </div>
         
-        {/* Sticky User Section at Bottom */}
+                {/* Sticky User Section at Bottom */}
         <div className="mt-auto p-6 border-t border-border">
           <div className="group relative">
-            <div className="flex items-center space-x-3 p-3 rounded-lg bg-muted/50 cursor-pointer hover:bg-muted transition-colors">
+            <div className="flex items-center space-x-3 p-3 rounded-lg cursor-pointer hover:bg-muted transition-colors">
               <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
                 <User className="w-4 h-4 text-primary-foreground" />
               </div>
@@ -156,8 +156,8 @@ const Dashboard = () => {
               <ChevronDown className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
             </div>
             
-            {/* Settings Dropdown - appears on hover */}
-            <div className="absolute bottom-full left-0 right-0 mb-2 bg-background border border-border rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto">
+            {/* Settings Dropdown - appears on hover and stays open */}
+            <div className="absolute bottom-full left-0 right-0 mb-2 bg-background border border-border rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto hover:opacity-100">
               <div className="p-2">
                 <Button variant="ghost" size="sm" className="w-full justify-start">
                   <Settings className="w-4 h-4 mr-3" />
@@ -170,6 +170,10 @@ const Dashboard = () => {
                 <Button variant="ghost" size="sm" className="w-full justify-start">
                   <Download className="w-4 h-4 mr-3" />
                   Export Data
+                </Button>
+                <Button variant="ghost" size="sm" className="w-full justify-start text-destructive hover:text-destructive">
+                  <LogOut className="w-4 h-4 mr-3" />
+                  Logout
                 </Button>
               </div>
             </div>
