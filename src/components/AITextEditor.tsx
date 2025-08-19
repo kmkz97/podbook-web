@@ -34,6 +34,8 @@ interface AITextEditorProps {
 }
 
 const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
+  console.log('AITextEditor component rendered with:', { projectId, projectTitle });
+  
   const [chapters, setChapters] = useState<Chapter[]>([
     {
       id: '1',
@@ -125,6 +127,8 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
     },
   });
 
+  console.log('TipTap editor created:', editor);
+
   const setActiveChapter = useCallback((chapter: Chapter) => {
     setCurrentChapter(chapter);
     setChapters(prev => prev.map(ch => ({ ...ch, isActive: ch.id === chapter.id })));
@@ -166,168 +170,13 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
 
   return (
     <div className="flex flex-col h-screen bg-background">
-      {/* Combined Navigation Bar */}
       <div className="bg-card border-b border-border p-4">
-        <div className="flex items-center justify-between">
-          {/* Left: Project Info */}
-          <div className="flex items-center gap-6">
-            <div>
-              <h2 className="text-xl font-bold text-foreground mb-1">{projectTitle}</h2>
-              <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                <span>{chapters.length} chapters</span>
-                <span>{chapters.reduce((total, ch) => total + ch.wordCount, 0).toLocaleString()} words</span>
-                <span>~{chapters.reduce((total, ch) => total + ch.estimatedPages, 0)} pages</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Middle: Formatting Tools */}
-          <div className="flex items-center gap-2">
-            <Button
-              variant={editor.isActive('bold') ? 'default' : 'ghost'}
-              size="sm"
-              onClick={() => editor.chain().focus().toggleBold().run()}
-              disabled={!editor.can().chain().focus().toggleBold().run()}
-            >
-              <Bold className="w-4 h-4" />
-            </Button>
-            <Button
-              variant={editor.isActive('italic') ? 'default' : 'ghost'}
-              size="sm"
-              onClick={() => editor.chain().focus().toggleItalic().run()}
-              disabled={!editor.can().chain().focus().toggleItalic().run()}
-            >
-              <Italic className="w-4 h-4" />
-            </Button>
-            <Separator orientation="vertical" className="h-6" />
-            <Button
-              variant={editor.isActive('heading', { level: 1 }) ? 'default' : 'ghost'}
-              size="sm"
-              onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-            >
-              <Heading1 className="w-4 h-4" />
-            </Button>
-            <Button
-              variant={editor.isActive('heading', { level: 2 }) ? 'default' : 'ghost'}
-              size="sm"
-              onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-            >
-              <Heading2 className="w-4 h-4" />
-            </Button>
-            <Button
-              variant={editor.isActive('heading', { level: 3 }) ? 'default' : 'ghost'}
-              size="sm"
-              onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-            >
-              <Heading3 className="w-4 h-4" />
-            </Button>
-            <Separator orientation="vertical" className="h-6" />
-            <Button
-              variant={editor.isActive('bulletList') ? 'default' : 'ghost'}
-              size="sm"
-              onClick={() => editor.chain().focus().toggleBulletList().run()}
-            >
-              <List className="w-4 h-4" />
-            </Button>
-            <Button
-              variant={editor.isActive('orderedList') ? 'default' : 'ghost'}
-              size="sm"
-              onClick={() => editor.chain().focus().toggleOrderedList().run()}
-            >
-              <ListOrdered className="w-4 h-4" />
-            </Button>
-            <Button
-              variant={editor.isActive('blockquote') ? 'default' : 'ghost'}
-              size="sm"
-              onClick={() => editor.chain().focus().toggleBlockquote().run()}
-            >
-              <Quote className="w-4 h-4" />
-            </Button>
-          </div>
-
-          {/* Right: Action Tools */}
-          <div className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => editor.chain().focus().undo().run()}
-              disabled={!editor.can().chain().focus().undo().run()}
-            >
-              <Undo className="w-4 h-4" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => editor.chain().focus().redo().run()}
-              disabled={!editor.can().chain().focus().redo().run()}
-            >
-              <Redo className="w-4 h-4" />
-            </Button>
-            <Separator orientation="vertical" className="h-6" />
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={getAIAssistance}
-              disabled={isAIAssisting}
-            >
-              <Sparkles className="w-4 h-4 mr-2" />
-              AI Assist
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={saveChapter}
-            >
-              <Save className="w-4 h-4 mr-2" />
-              Save
-            </Button>
-          </div>
-        </div>
+        <h1 className="text-2xl font-bold">AITextEditor - {projectTitle}</h1>
+        <p>Project ID: {projectId}</p>
+        <p>This is a test to see if the component renders</p>
       </div>
-
-      {/* Main Content Area */}
-      <div className="flex flex-1 overflow-hidden">
-        {/* Left Chapter Navigation */}
-        <aside className="w-80 bg-card flex flex-col">
-          {/* Chapter List */}
-          <div className="p-6">
-            <h3 className="font-semibold text-foreground mb-4">Chapters</h3>
-            <div className="space-y-2">
-              {chapters.map((chapter) => (
-                <button
-                  key={chapter.id}
-                  onClick={() => setActiveChapter(chapter)}
-                  className={`w-full text-left p-3 rounded-lg transition-colors ${
-                    currentChapter.id === chapter.id
-                      ? 'bg-primary text-primary-foreground'
-                      : 'hover:bg-muted'
-                  }`}
-                >
-                  <div className="font-medium">{chapter.title}</div>
-                  <div className="text-sm text-muted-foreground mt-1">
-                    {chapter.wordCount} words • ~{chapter.estimatedPages} pages
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
-        </aside>
-
-        {/* Editor Content */}
-        <div className="flex-1 overflow-y-auto relative">
-          <div className="max-w-4xl mx-auto p-8">
-            <EditorContent
-              editor={editor}
-              className="prose prose-lg max-w-none focus:outline-none"
-            />
-          </div>
-          {editor && (
-            <FloatingToolbar 
-              editor={editor} 
-              onAIAssist={getAIAssistance}
-            />
-          )}
-        </div>
+      <div className="flex-1 p-8">
+        <p>Editor content would go here...</p>
       </div>
     </div>
   );

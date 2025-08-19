@@ -124,12 +124,15 @@ const ProjectDetail = () => {
 
   // If editing, show the AI text editor
   if (isEditing) {
+    console.log('isEditing is true, rendering AITextEditor');
     return (
       <div className="min-h-screen bg-background">
         <AITextEditor projectId={project.id} projectTitle={project.title} />
       </div>
     );
   }
+
+  console.log('isEditing is false, rendering project details, isEditing value:', isEditing);
 
   return (
     <div className="min-h-screen bg-background">
@@ -176,7 +179,11 @@ const ProjectDetail = () => {
                 <Share2 className="w-4 h-4 mr-2" />
                 Share
               </Button>
-              <Button variant="outline" onClick={() => setIsEditing(true)}>
+              <Button variant="outline" onClick={() => {
+                console.log('Edit button clicked, setting isEditing to true');
+                setIsEditing(true);
+                console.log('isEditing state:', true);
+              }}>
                 <Edit3 className="w-4 h-4 mr-2" />
                 Edit
               </Button>
@@ -284,7 +291,11 @@ const ProjectDetail = () => {
                 <Share2 className="w-4 h-4 mr-2" />
                 Share Project
               </Button>
-              <Button variant="outline" className="w-full justify-start" onClick={() => setIsEditing(true)}>
+              <Button variant="outline" className="w-full justify-start" onClick={() => {
+                console.log('Edit Project button clicked, setting isEditing to true');
+                setIsEditing(true);
+                console.log('isEditing state:', true);
+              }}>
                 <Edit3 className="w-4 h-4 mr-2" />
                 Edit Project
               </Button>
