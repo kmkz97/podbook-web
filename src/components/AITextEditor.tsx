@@ -238,9 +238,9 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
       {/* Main Content Area */}
       <div className="flex flex-1 overflow-hidden">
         {/* Left Chapter Navigation */}
-        <aside className={`bg-card flex flex-col transition-all duration-300 ease-in-out ${showChapterDrawer ? 'w-80' : 'w-0'}`}>
+        <aside className={`bg-card flex flex-col transition-all duration-300 ease-in-out overflow-hidden ${showChapterDrawer ? 'w-80' : 'w-12'}`}>
           {/* Chapter Drawer Toggle */}
-          <div className="flex justify-end p-2">
+          <div className="flex justify-start p-2 min-w-fit">
             <Button
               variant="ghost"
               size="sm"
@@ -257,7 +257,7 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
           
           {/* Chapter List - only show when drawer is open */}
           {showChapterDrawer && (
-            <div className="p-6">
+            <div className="p-6 min-w-fit">
               <h3 className="font-semibold text-foreground mb-4">Chapters</h3>
               <div className="space-y-2">
                 {chapters.map((chapter) => (
@@ -273,20 +273,6 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
 
         {/* Editor Content */}
         <div className="flex-1 overflow-y-auto relative">
-          {/* Floating Chapter Drawer Toggle - only show when drawer is closed */}
-          {!showChapterDrawer && (
-            <div className="absolute top-4 left-4 z-40">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setShowChapterDrawer(true)}
-                className="h-10 w-10 rounded-full p-0 shadow-lg hover:shadow-xl transition-all duration-200"
-              >
-                <Menu className="w-5 h-5" />
-              </Button>
-            </div>
-          )}
-          
           {/* Floating AI Chat Button - only show when drawer is closed */}
           {!showAIChat && (
             <div className="absolute top-4 right-4 z-40">
