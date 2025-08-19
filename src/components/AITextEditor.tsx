@@ -4,10 +4,7 @@ import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import Highlight from '@tiptap/extension-highlight';
 import Typography from '@tiptap/extension-typography';
-import Link from '@tiptap/extension-link';
-import CodeBlock from '@tiptap/extension-code-block';
 import Image from '@tiptap/extension-image';
-import { Table } from '@tiptap/extension-table';
 import Mention from '@tiptap/extension-mention';
 import FloatingToolbar from './FloatingToolbar';
 import { Button } from '@/components/ui/button';
@@ -88,26 +85,9 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
       Placeholder.configure({ placeholder: 'Start writing your chapter content...' }),
       Highlight,
       Typography,
-      Link.configure({
-        openOnClick: false,
-        HTMLAttributes: {
-          class: 'text-primary underline cursor-pointer'
-        }
-      }),
-      CodeBlock.configure({
-        HTMLAttributes: {
-          class: 'bg-muted p-4 rounded-lg font-mono text-sm'
-        }
-      }),
       Image.configure({
         HTMLAttributes: {
           class: 'max-w-full h-auto rounded-lg'
-        }
-      }),
-      Table.configure({
-        resizable: true,
-        HTMLAttributes: {
-          class: 'border-collapse border border-border'
         }
       }),
       Mention.configure({
