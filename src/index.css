@@ -216,6 +216,11 @@
   @apply hover:bg-muted hover:text-foreground;
 }
 
+/* Back button styling */
+.back-button {
+  @apply text-foreground hover:text-foreground;
+}
+
 /* Settings Dropdown Padding Fix */
 .settings-dropdown {
   padding-bottom: 0.5rem;
