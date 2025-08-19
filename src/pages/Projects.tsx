@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { BookOpen, Search, Filter, Download, Eye, Trash2, Plus, Calendar, Clock, Home, FileText, Settings, User, ChevronDown, LogOut, CreditCard } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface Project {
   id: string;
@@ -18,8 +19,9 @@ interface Project {
 }
 
 const Projects = () => {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
+  const [statusFilter] = useState("all");
   
   const [projects] = useState<Project[]>([
     {
@@ -168,11 +170,11 @@ const Projects = () => {
                   <div className="px-3 py-2 text-sm font-medium text-muted-foreground border-b border-border mb-2">
                     Credits 2392
                   </div>
-                  <Button variant="ghost" size="sm" className="w-full justify-start">
+                  <Button variant="ghost" size="sm" className="w-full justify-start" onClick={() => navigate('/settings')}>
                     <Settings className="w-4 h-4 mr-3" />
                     Settings
                   </Button>
-                  <Button variant="ghost" size="sm" className="w-full justify-start">
+                  <Button variant="ghost" size="sm" className="w-full justify-start" onClick={() => navigate('/settings')}>
                     <CreditCard className="w-4 h-4 mr-3" />
                     Billing and Plan
                   </Button>

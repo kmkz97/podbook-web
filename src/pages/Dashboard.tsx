@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { BookOpen, Search, Filter, Download, Eye, Trash2, Plus, Calendar, Clock, Home, FileText, Settings, User, ChevronDown, LogOut, CreditCard } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface Project {
   id: string;
@@ -162,11 +163,11 @@ const Dashboard = () => {
                 <div className="px-3 py-2 text-sm font-medium text-muted-foreground border-b border-border mb-2">
                   Credits 2392
                 </div>
-                <Button variant="ghost" size="sm" className="w-full justify-start">
+                <Button variant="ghost" size="sm" className="w-full justify-start" onClick={() => navigate('/settings')}>
                   <Settings className="w-4 h-4 mr-3" />
                   Settings
                 </Button>
-                <Button variant="ghost" size="sm" className="w-full justify-start">
+                <Button variant="ghost" size="sm" className="w-full justify-start" onClick={() => navigate('/settings')}>
                   <CreditCard className="w-4 h-4 mr-3" />
                   Billing and Plan
                 </Button>
