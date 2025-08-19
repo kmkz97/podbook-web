@@ -25,7 +25,8 @@ import {
   Clock,
   FileImage,
   FileAudio,
-  FileVideo
+  FileVideo,
+  X
 } from "lucide-react";
 
 interface BookType {
@@ -105,6 +106,11 @@ const BookCreationWizard = () => {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
     }
+  };
+
+  const handleCancel = () => {
+    // For demo purposes, just go back to dashboard
+    window.location.href = "/dashboard";
   };
 
   const handleFileUpload = (files: FileList | null) => {
@@ -551,40 +557,26 @@ const BookCreationWizard = () => {
   return (
     <div className="min-h-screen bg-background py-8">
       <div className="max-w-6xl mx-auto px-4">
-        {/* Progress Bar */}
+        {/* Header with Cancel Button */}
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-2xl font-bold text-foreground">Create New Book</h1>
+          <Button variant="outline" onClick={handleCancel}>
+            <X className="w-4 h-4 mr-2" />
+            Cancel
+          </Button>
+        </div>
+
+        {/* Simple Progress Bar */}
         <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            {steps.map((step, index) => (
-              <div key={step.id} className="flex items-center">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                  step.completed 
-                    ? 'bg-primary text-primary-foreground' 
-                    : currentStep === step.id 
-                    ? 'bg-primary/20 text-primary border-2 border-primary' 
-                    : 'bg-muted text-muted-foreground'
-                }`}>
-                  {step.completed ? <CheckCircle className="w-4 h-4" /> : step.id}
-                </div>
-                {index < steps.length - 1 && (
-                  <div className={`w-16 h-1 mx-2 ${
-                    step.completed ? 'bg-primary' : 'bg-muted'
-                  }`} />
-                )}
-              </div>
-            ))}
+          <div className="w-full bg-muted rounded-full h-2">
+            <div 
+              className="bg-primary h-2 rounded-full transition-all duration-300"
+              style={{ width: `${(currentStep / steps.length) * 100}%` }}
+            />
           </div>
-          
-          <div className="flex items-center justify-between text-sm">
-            {steps.map((step) => (
-              <div key={step.id} className="text-center flex-1">
-                <div className={`font-medium ${
-                  currentStep === step.id ? 'text-primary' : 'text-muted-foreground'
-                }`}>
-                  {step.title}
-                </div>
-                <div className="text-xs text-muted-foreground">{step.description}</div>
-              </div>
-            ))}
+          <div className="flex justify-between text-xs text-muted-foreground mt-2">
+            <span>Step {currentStep} of {steps.length}</span>
+            <span>{Math.round((currentStep / steps.length) * 100)}% Complete</span>
           </div>
         </div>
 
