@@ -272,7 +272,7 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
       {/* Main Content Area */}
       <div className="flex flex-1 overflow-hidden">
         {/* Left Chapter Navigation */}
-        <aside className="w-80 bg-card border-r border-border flex flex-col">
+        <aside className="w-80 bg-card flex flex-col">
           {/* Chapter List */}
           <div className="p-6">
             <h3 className="font-semibold text-foreground mb-4">Chapters</h3>
