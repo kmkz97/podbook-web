@@ -1,5 +1,7 @@
 import { BookOpen, Twitter, Github, Mail } from "lucide-react";
 
+// Footer component for Inprint application
+
 const Footer = () => {
   return (
     <footer className="py-16 bg-primary text-primary-foreground">

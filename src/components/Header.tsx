@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/button";
 import { BookOpen, Menu } from "lucide-react";
 import { Link } from "react-router-dom";
 
+// Header component for Inprint application
+
 const Header = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border/50">
