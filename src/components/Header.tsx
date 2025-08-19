@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { BookOpen, Menu } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -14,23 +15,26 @@ const Header = () => {
           </div>
 
           <nav className="hidden md:flex items-center gap-8">
-            <a href="#how-it-works" className="text-foreground hover:text-accent transition-colors">
-              How It Works
-            </a>
-            <a href="#features" className="text-foreground hover:text-accent transition-colors">
-              Features
-            </a>
-            <a href="#pricing" className="text-foreground hover:text-accent transition-colors">
-              Pricing
-            </a>
+            <Link to="/" className="text-foreground hover:text-accent transition-colors">
+              Home
+            </Link>
+            <Link to="/dashboard" className="text-foreground hover:text-accent transition-colors">
+              Dashboard
+            </Link>
+            <Link to="/projects" className="text-foreground hover:text-accent transition-colors">
+              Projects
+            </Link>
+            <Link to="/new-project" className="text-foreground hover:text-accent transition-colors">
+              Create Book
+            </Link>
           </nav>
 
           <div className="flex items-center gap-4">
             <Button variant="outline" className="hidden sm:inline-flex">
               Sign In
             </Button>
-            <Button className="bg-primary hover:bg-primary/90">
-              Get Started
+            <Button className="bg-primary hover:bg-primary/90" asChild>
+              <Link to="/dashboard">Dashboard</Link>
             </Button>
             <Button variant="ghost" size="sm" className="md:hidden">
               <Menu className="w-5 h-5" />
