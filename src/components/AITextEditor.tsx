@@ -230,16 +230,6 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
             <Separator orientation="vertical" className="h-6" />
             <Button variant="outline" size="sm" onClick={getAIAssistance} disabled={isAIAssisting}> <Sparkles className="w-4 h-4 mr-2" /> AI Assist </Button>
             <Button variant="outline" size="sm" onClick={saveChapter}> <Save className="w-4 h-4 mr-2" /> Save </Button>
-            <Separator orientation="vertical" className="h-6" />
-            <Button 
-              variant={showAIChat ? "default" : "outline"} 
-              size="sm" 
-              onClick={() => setShowAIChat(!showAIChat)}
-              className="ml-2"
-            > 
-              <MessageSquare className="w-4 h-4 mr-2" /> 
-              AI Chat 
-            </Button>
           </div>
         </div>
       </div>
@@ -274,15 +264,24 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
 
         {/* Editor Content */}
         <div className="flex-1 overflow-y-auto relative">
+          {/* Floating AI Chat Button */}
+          <div className="absolute top-4 left-4 z-40">
+            <Button
+              variant={showAIChat ? "default" : "outline"}
+              size="sm"
+              onClick={() => setShowAIChat(!showAIChat)}
+              className="h-10 w-10 rounded-full p-0 shadow-lg hover:shadow-xl transition-all duration-200"
+            >
+              <Sparkles className="w-5 h-5" />
+            </Button>
+          </div>
+          
           <div className="max-w-4xl mx-auto p-8">
-            <EditorContent
-              editor={editor}
-              className="prose prose-lg max-w-none focus:outline-none"
-            />
+            <EditorContent editor={editor} className="prose prose-lg max-w-none focus:outline-none" />
           </div>
           {editor && (
-            <FloatingToolbar 
-              editor={editor} 
+            <FloatingToolbar
+              editor={editor}
               onAIAssist={getAIAssistance}
             />
           )}

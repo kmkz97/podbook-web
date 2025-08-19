@@ -28,7 +28,7 @@ const FloatingToolbar = ({ editor, onAIAssist }: FloatingToolbarProps) => {
   useEffect(() => {
     const updateToolbar = () => {
       const { from, to } = editor.state.selection;
-      
+
       if (from === to) {
         setIsVisible(false);
         setShowAIInput(false);
@@ -36,19 +36,30 @@ const FloatingToolbar = ({ editor, onAIAssist }: FloatingToolbarProps) => {
       }
 
       try {
-        const { top, left, width } = editor.view.coordsAtPos(from);
-        const { bottom } = editor.view.coordsAtPos(to);
+        // Get the coordinates of the selection start
+        const coords = editor.view.coordsAtPos(from);
         
-        // Get the editor container position for relative positioning
-        const editorElement = editor.view.dom.closest('.ProseMirror') || editor.view.dom;
-        const editorRect = editorElement.getBoundingClientRect();
+        // Get the editor container for relative positioning
+        const editorRect = editor.view.dom.getBoundingClientRect();
         
+        // Calculate position relative to the editor container
+        const relativeX = coords.left - editorRect.left + (coords.right - coords.left) / 2;
+        const relativeY = coords.top - editorRect.top;
+
         setPosition({
-          x: left + width / 2,
-          y: top
+          x: relativeX,
+          y: relativeY
+        });
+
+        console.log('Toolbar position updated:', { 
+          relativeX, 
+          relativeY, 
+          coordsLeft: coords.left, 
+          coordsTop: coords.top,
+          editorRectLeft: editorRect.left,
+          editorRectTop: editorRect.top
         });
         
-        console.log('Toolbar position updated:', { x: left + width / 2, y: top, left, width, top });
         setIsVisible(true);
       } catch (error) {
         console.log('Error updating toolbar position:', error);
@@ -85,7 +96,7 @@ const FloatingToolbar = ({ editor, onAIAssist }: FloatingToolbarProps) => {
 
   return (
     <div
-      className="fixed z-50 bg-background border border-border rounded-lg shadow-lg p-2"
+      className="absolute z-50 bg-background border border-border rounded-lg shadow-lg p-2"
       style={{
         left: `${position.x}px`,
         top: `${position.y - 50}px`,
