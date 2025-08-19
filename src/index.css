@@ -202,3 +202,21 @@
   height: 0;
   pointer-events: none;
 }
+
+/* Left Navigation Styling */
+.left-nav-create-book {
+  @apply bg-primary text-primary-foreground hover:bg-primary/90;
+}
+
+.left-nav-active {
+  @apply bg-muted text-foreground;
+}
+
+.left-nav-hover {
+  @apply hover:bg-muted hover:text-foreground;
+}
+
+/* Settings Dropdown Padding Fix */
+.settings-dropdown {
+  padding-bottom: 0.5rem;
+}

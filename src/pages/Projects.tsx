@@ -102,7 +102,7 @@ const Projects = () => {
             <nav className="space-y-6">
               {/* Create Book Button */}
               <div>
-                <Button variant="ghost" className="w-full justify-start" asChild>
+                <Button className="w-full justify-start left-nav-create-book" asChild>
                   <Link to="/new-project">
                     <Plus className="w-4 h-4 mr-3" />
                     Create Book
@@ -146,6 +146,25 @@ const Projects = () => {
                   </Button>
                 </div>
               </div>
+
+              {/* Quick Actions */}
+              <div>
+                <h3 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wider">
+                  Quick Actions
+                </h3>
+                <div className="space-y-2">
+                  <Button variant="ghost" className="w-full justify-start left-nav-hover" asChild>
+                    <Link to="/new-project">
+                      <BookOpen className="w-4 h-4 mr-3" />
+                      New Book
+                    </Link>
+                  </Button>
+                  <Button variant="ghost" className="w-full justify-start left-nav-hover">
+                    <Download className="w-4 h-4 mr-3" />
+                    Import RSS
+                  </Button>
+                </div>
+              </div>
             </nav>
           </div>
           
@@ -166,9 +185,9 @@ const Projects = () => {
               {/* Settings Dropdown - appears on hover and stays open */}
               <div className="absolute bottom-full left-0 right-0 mb-0 bg-background border border-border rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto hover:opacity-100">
                 <div className="p-2">
-                  <div className="px-3 py-2 text-sm font-medium text-muted-foreground border-b border-border mb-2">
-                    Credits 2392
-                  </div>
+                                  <div className="px-3 py-2 text-sm font-medium text-muted-foreground border-b border-border mb-2 settings-dropdown">
+                  Credits 2392
+                </div>
                   <Button variant="ghost" size="sm" className="w-full justify-start" onClick={() => navigate('/settings')}>
                     <Settings className="w-4 h-4 mr-3" />
                     Settings

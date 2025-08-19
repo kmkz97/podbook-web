@@ -160,7 +160,7 @@ const Processing = () => {
             <nav className="space-y-6">
               {/* Create Book Button */}
               <div>
-                <Button variant="default" className="w-full justify-start" asChild>
+                <Button className="w-full justify-start left-nav-create-book" asChild>
                   <Link to="/new-project">
                     <BookOpen className="w-4 h-4 mr-3" />
                     Create Book
@@ -182,6 +182,25 @@ const Processing = () => {
                       <FileTextIcon className="w-4 h-4 mr-3" />
                       My Projects
                     </Link>
+                  </Button>
+                </div>
+              </div>
+
+              {/* Quick Actions */}
+              <div>
+                <h3 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wider">
+                  Quick Actions
+                </h3>
+                <div className="space-y-2">
+                  <Button variant="ghost" className="w-full justify-start left-nav-hover" asChild>
+                    <Link to="/new-project">
+                      <BookOpen className="w-4 h-4 mr-3" />
+                      New Book
+                    </Link>
+                  </Button>
+                  <Button variant="ghost" className="w-full justify-start left-nav-hover">
+                    <Download className="w-4 h-4 mr-3" />
+                    Import RSS
                   </Button>
                 </div>
               </div>
