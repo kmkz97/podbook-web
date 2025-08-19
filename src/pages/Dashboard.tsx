@@ -86,20 +86,27 @@ const Dashboard = () => {
         {/* Left Sidebar Navigation */}
         <aside className="w-64 bg-card border-r border-border min-h-screen flex flex-col">
           {/* Logo Section */}
-          <div className="p-6 border-b border-border">
+          <div className="p-6">
             <h1 className="text-2xl font-bold text-foreground">Podbook</h1>
           </div>
           
           {/* Navigation Content */}
           <div className="flex-1 p-6">
             <nav className="space-y-6">
-              {/* Main Navigation */}
+              {/* Create Book Button */}
               <div>
-                <h3 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wider">
-                  Main
-                </h3>
+                <Button variant="default" className="w-full justify-start" asChild>
+                  <Link to="/new-project">
+                    <Plus className="w-4 h-4 mr-3" />
+                    Create Book
+                  </Link>
+                </Button>
+              </div>
+              
+              {/* Navigation */}
+              <div>
                 <div className="space-y-2">
-                  <Button variant="default" className="w-full justify-start" asChild>
+                  <Button variant="ghost" className="w-full justify-start" asChild>
                     <Link to="/dashboard">
                       <Home className="w-4 h-4 mr-3" />
                       Dashboard
@@ -109,12 +116,6 @@ const Dashboard = () => {
                     <Link to="/projects">
                       <FileText className="w-4 h-4 mr-3" />
                       My Projects
-                    </Link>
-                  </Button>
-                  <Button variant="ghost" className="w-full justify-start" asChild>
-                    <Link to="/new-project">
-                      <Plus className="w-4 h-4 mr-3" />
-                      Create Book
                     </Link>
                   </Button>
                 </div>
@@ -235,38 +236,27 @@ const Dashboard = () => {
           </div>
 
           {/* Recent Projects */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-xl font-bold">Recent Projects</CardTitle>
-              <CardDescription>
-                Your latest RSS-to-book conversions
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {projects.slice(0, 3).map((project) => (
-                  <div key={project.id} className="flex items-center justify-between p-4 border border-border rounded-lg">
-                    <div className="flex items-center space-x-4">
-                      <BookOpen className="h-8 w-8 text-primary" />
-                      <div>
-                        <h3 className="font-medium text-foreground">{project.title}</h3>
-                        <p className="text-sm text-muted-foreground">{project.rss_url}</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      {getStatusBadge(project.status)}
-                      <Button variant="outline" size="sm" asChild>
-                        <Link to={`/projects/${project.id}`}>
-                          <Eye className="h-4 w-4 mr-1" />
-                          View
-                        </Link>
-                      </Button>
-                    </div>
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold text-foreground mb-4">Recent Projects</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {projects.slice(0, 3).map((project) => (
+                <div key={project.id} className="bg-card border border-border rounded-lg p-4 hover:shadow-md transition-shadow">
+                  <div className="flex items-start justify-between mb-3">
+                    <BookOpen className="h-6 w-6 text-primary mt-1" />
+                    {getStatusBadge(project.status)}
                   </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+                  <h3 className="font-medium text-foreground mb-2">{project.title}</h3>
+                  <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{project.rss_url}</p>
+                  <Button variant="outline" size="sm" className="w-full" asChild>
+                    <Link to={`/projects/${project.id}`}>
+                      <Eye className="h-4 w-4 mr-2" />
+                      View Project
+                    </Link>
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </div>
         </main>
       </div>
     </div>
