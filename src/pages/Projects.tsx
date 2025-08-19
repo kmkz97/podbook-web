@@ -163,7 +163,7 @@ const Projects = () => {
               </div>
               
               {/* Settings Dropdown - appears on hover and stays open */}
-              <div className="absolute bottom-full left-0 right-0 mb-1 bg-background border border-border rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto hover:opacity-100">
+              <div className="absolute top-full left-0 right-0 mt-1 bg-background border border-border rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto hover:opacity-100">
                 <div className="p-2">
                   <div className="px-3 py-2 text-sm font-medium text-muted-foreground border-b border-border mb-2">
                     Credits 2392
