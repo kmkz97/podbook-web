@@ -9,6 +9,9 @@ import Projects from "./pages/Projects";
 import NewProject from "./pages/NewProject";
 import Processing from "./pages/Processing";
 import NotFound from "./pages/NotFound";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import Start from "./pages/Start";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +23,9 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/start" element={<Start />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/projects/:id" element={<Projects />} />

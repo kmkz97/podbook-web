@@ -1,6 +1,6 @@
-import { BookOpen, Twitter, Github, Mail } from "lucide-react";
+import { Twitter, Github, Mail } from "lucide-react";
 
-// Footer component for Inprint application
+// Footer component for Podbook application
 
 const Footer = () => {
   return (
@@ -9,10 +9,7 @@ const Footer = () => {
         <div className="grid md:grid-cols-4 gap-8">
           <div className="col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center">
-                <BookOpen className="w-5 h-5 text-accent-foreground" />
-              </div>
-              <h3 className="text-xl font-bold">Inprint</h3>
+              <h3 className="text-xl font-bold">Podbook</h3>
             </div>
             <p className="text-primary-foreground/80 mb-6 max-w-md">
               Transform your favorite RSS feeds into beautiful, readable books. 
@@ -53,7 +50,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-primary-foreground/20 mt-12 pt-8 text-center text-primary-foreground/60">
-          <p>&copy; 2024 Inprint. All rights reserved.</p>
+          <p>&copy; 2024 Podbook. All rights reserved.</p>
         </div>
       </div>
     </footer>

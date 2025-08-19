@@ -35,7 +35,7 @@ const RSSFeedInput = () => {
             Convert Your First RSS Feed
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Enter any RSS feed URL below and watch as Inprint transforms it into a professionally formatted book.
+            Enter any RSS feed URL below and watch as Podbook transforms it into a professionally formatted book.
           </p>
         </div>
 
@@ -43,7 +43,7 @@ const RSSFeedInput = () => {
           <Card className="shadow-soft">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Rss className="w-5 h-5 text-accent" />
+                <Rss className="w-5 h-5 text-foreground" />
                 RSS Feed Input
               </CardTitle>
               <CardDescription>
@@ -83,7 +83,7 @@ const RSSFeedInput = () => {
           <Card className="shadow-soft">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <BookOpen className="w-5 h-5 text-accent" />
+                <BookOpen className="w-5 h-5 text-foreground" />
                 Your Generated Book
               </CardTitle>
               <CardDescription>
@@ -92,8 +92,8 @@ const RSSFeedInput = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="bg-secondary/50 rounded-lg p-6 text-center">
-                <div className="w-24 h-32 bg-gradient-accent rounded-lg mx-auto mb-4 flex items-center justify-center">
-                  <BookOpen className="w-8 h-8 text-accent-foreground" />
+                <div className="w-24 h-32 bg-muted rounded-lg mx-auto mb-4 flex items-center justify-center">
+                  <BookOpen className="w-8 h-8 text-foreground" />
                 </div>
                 <h3 className="font-semibold text-foreground mb-2">Your Book Title</h3>
                 <p className="text-sm text-muted-foreground mb-4">

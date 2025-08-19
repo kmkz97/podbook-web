@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "@/components/Header";
+import DashboardHeader from "@/components/DashboardHeader";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -79,7 +79,7 @@ const NewProject = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <DashboardHeader />
       
       <main className="container mx-auto px-4 py-8 mt-20">
         <div className="max-w-2xl mx-auto">

@@ -60,8 +60,8 @@ const Features = () => {
             return (
               <Card key={index} className="shadow-soft hover:shadow-medium transition-all duration-300 border-border/50">
                 <CardHeader>
-                  <div className="w-12 h-12 bg-gradient-accent rounded-lg flex items-center justify-center mb-4">
-                    <Icon className="w-6 h-6 text-accent-foreground" />
+                  <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center mb-4">
+                    <Icon className="w-6 h-6 text-foreground" />
                   </div>
                   <CardTitle className="text-xl">{feature.title}</CardTitle>
                 </CardHeader>

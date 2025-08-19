@@ -28,7 +28,7 @@ const HowItWorks = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            How Inprint Works
+            How Podbook Works
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Transform any RSS feed into a professionally formatted book in just three simple steps.
@@ -40,7 +40,7 @@ const HowItWorks = () => {
             const Icon = step.icon;
             return (
               <Card key={index} className="relative shadow-soft hover:shadow-medium transition-all duration-300 bg-card">
-                <div className="absolute -top-4 left-6 w-8 h-8 bg-gradient-accent rounded-full flex items-center justify-center text-accent-foreground font-bold text-sm">
+                <div className="absolute -top-4 left-6 w-8 h-8 bg-muted rounded-full flex items-center justify-center text-foreground font-bold text-sm">
                   {step.step}
                 </div>
                 <CardHeader className="pt-8">
