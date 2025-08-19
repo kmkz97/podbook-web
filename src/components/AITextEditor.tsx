@@ -10,7 +10,7 @@ import { Separator } from '@/components/ui/separator';
 import { Input } from '@/components/ui/input';
 import {
   Bold, Italic, List, ListOrdered, Quote, Heading1, Heading2, Heading3,
-  Undo, Redo, Save, Sparkles, Eye, Download, Share2, Settings, Plus, MessageSquare, X, ChevronLeft, Menu
+  Undo, Redo, Save, Sparkles, Eye, Download, Share2, Settings, Plus, MessageSquare, X, ChevronLeft, Menu, Home
 } from 'lucide-react';
 
 interface Chapter {
@@ -148,11 +148,19 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
       {/* Combined Navigation Bar */}
       <div className="bg-card border-b border-border p-4">
         <div className="flex items-center justify-between">
-          {/* Left: Project Info */}
-          <div className="flex items-center gap-6">
+          {/* Left: Home Button & Project Info */}
+          <div className="flex items-center gap-4">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => window.history.back()}
+              className="h-8 w-8 p-0"
+            >
+              <Home className="w-4 h-4" />
+            </Button>
             <div>
-              <h2 className="text-xl font-bold text-foreground mb-1">{projectTitle}</h2>
-              <div className="flex items-center gap-4 text-sm text-muted-foreground">
+              <h2 className="text-lg font-bold text-foreground mb-0.5">{projectTitle}</h2>
+              <div className="flex items-center gap-3 text-xs text-muted-foreground">
                 <span>{chapters.length} chapters</span>
                 <span>{totalWords.toLocaleString()} words</span>
                 <span>~{totalPages} pages</span>
