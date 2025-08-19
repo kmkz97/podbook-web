@@ -22,6 +22,9 @@ const Settings = () => {
   const [activeSection, setActiveSection] = useState('account');
   const [showUserDropdown, setShowUserDropdown] = useState(false);
 
+  // Debug: Log when component mounts
+  console.log('Settings component loaded');
+
   const renderAccountSettings = () => (
     <div className="space-y-6">
       <Card>

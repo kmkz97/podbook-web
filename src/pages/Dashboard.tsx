@@ -17,6 +17,7 @@ interface Project {
 }
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [projects] = useState<Project[]>([
     {
       id: '1',
