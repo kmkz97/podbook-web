@@ -152,59 +152,54 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
     <div className="flex h-screen bg-background">
       {/* Left Chapter Navigation */}
       <aside className="w-80 bg-card border-r border-border flex flex-col">
-        <div className="p-6 border-b border-border">
-          <h2 className="text-xl font-bold text-foreground mb-2">{projectTitle}</h2>
-          <div className="flex items-center gap-4 text-sm text-muted-foreground">
-            <span>{chapters.length} chapters</span>
-            <span>{totalWords.toLocaleString()} words</span>
-            <span>~{totalPages} pages</span>
-          </div>
-        </div>
-
-        <div className="flex-1 overflow-y-auto p-4">
+        {/* Chapter List */}
+        <div className="p-6">
+          <h3 className="font-semibold text-foreground mb-4">Chapters</h3>
           <div className="space-y-2">
             {chapters.map((chapter) => (
-              <div
+              <button
                 key={chapter.id}
-                className={`p-4 rounded-lg cursor-pointer transition-all ${
-                  chapter.isActive 
-                    ? 'bg-primary text-primary-foreground' 
-                    : 'bg-muted hover:bg-muted/80'
-                }`}
                 onClick={() => setActiveChapter(chapter)}
+                className={`w-full text-left p-3 rounded-lg transition-colors ${
+                  currentChapter.id === chapter.id
+                    ? 'bg-primary text-primary-foreground'
+                    : 'hover:bg-muted'
+                }`}
               >
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-medium">{chapter.title}</h3>
-                  <Badge variant={chapter.isActive ? 'secondary' : 'outline'} className="text-xs">
-                    {chapter.wordCount} words
-                  </Badge>
+                <div className="font-medium">{chapter.title}</div>
+                <div className="text-sm text-muted-foreground mt-1">
+                  {chapter.wordCount} words • ~{chapter.estimatedPages} pages
                 </div>
-                <p className={`text-sm ${chapter.isActive ? 'text-primary-foreground/80' : 'text-muted-foreground'}`}>
-                  ~{chapter.estimatedPages} pages
-                </p>
-              </div>
+              </button>
             ))}
           </div>
-        </div>
-
-        <div className="p-4 border-t border-border">
-          <Button variant="outline" className="w-full" size="sm">
-            <Plus className="w-4 h-4 mr-2" />
-            Add Chapter
-          </Button>
         </div>
       </aside>
 
       {/* Main Editor Area */}
       <div className="flex-1 flex flex-col">
-        {/* Editor Toolbar */}
+        {/* Combined Navigation Bar */}
         <div className="bg-card border-b border-border p-4">
           <div className="flex items-center justify-between">
+            {/* Left: Project Info */}
+            <div className="flex items-center gap-6">
+              <div>
+                <h2 className="text-xl font-bold text-foreground mb-1">{projectTitle}</h2>
+                <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                  <span>{chapters.length} chapters</span>
+                  <span>{chapters.reduce((total, ch) => total + ch.wordCount, 0).toLocaleString()} words</span>
+                  <span>~{chapters.reduce((total, ch) => total + ch.estimatedPages, 0)} pages</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Middle: Formatting Tools */}
             <div className="flex items-center gap-2">
               <Button
                 variant={editor.isActive('bold') ? 'default' : 'ghost'}
                 size="sm"
                 onClick={() => editor.chain().focus().toggleBold().run()}
+                disabled={!editor.can().chain().focus().toggleBold().run()}
               >
                 <Bold className="w-4 h-4" />
               </Button>
@@ -212,6 +207,7 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
                 variant={editor.isActive('italic') ? 'default' : 'ghost'}
                 size="sm"
                 onClick={() => editor.chain().focus().toggleItalic().run()}
+                disabled={!editor.can().chain().focus().toggleItalic().run()}
               >
                 <Italic className="w-4 h-4" />
               </Button>
@@ -261,12 +257,13 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
               </Button>
             </div>
 
+            {/* Right: Action Tools */}
             <div className="flex items-center gap-2">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => editor.chain().focus().undo().run()}
-                disabled={!editor.can().undo()}
+                disabled={!editor.can().chain().focus().undo().run()}
               >
                 <Undo className="w-4 h-4" />
               </Button>
@@ -274,7 +271,7 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
                 variant="ghost"
                 size="sm"
                 onClick={() => editor.chain().focus().redo().run()}
-                disabled={!editor.can().redo()}
+                disabled={!editor.can().chain().focus().redo().run()}
               >
                 <Redo className="w-4 h-4" />
               </Button>
@@ -286,9 +283,13 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
                 disabled={isAIAssisting}
               >
                 <Sparkles className="w-4 h-4 mr-2" />
-                {isAIAssisting ? 'AI Thinking...' : 'AI Assist'}
+                AI Assist
               </Button>
-              <Button variant="outline" size="sm" onClick={saveChapter}>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={saveChapter}
+              >
                 <Save className="w-4 h-4 mr-2" />
                 Save
               </Button>
