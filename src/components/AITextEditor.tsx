@@ -237,39 +237,41 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
 
       {/* Main Content Area */}
       <div className="flex flex-1 overflow-hidden">
-        {/* Left Chapter Navigation */}
-        <aside className={`bg-card flex flex-col transition-all duration-300 ease-in-out overflow-hidden ${showChapterDrawer ? 'w-80' : 'w-12'}`}>
-          {/* Chapter Drawer Toggle */}
-          <div className="flex justify-start p-2 min-w-fit">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setShowChapterDrawer(!showChapterDrawer)}
-              className="h-8 w-8 p-0 hover:bg-muted"
-            >
-              {showChapterDrawer ? (
-                <ChevronLeft className="w-4 h-4" />
-              ) : (
-                <Menu className="w-4 h-4" />
-              )}
-            </Button>
-          </div>
-          
-          {/* Chapter List - only show when drawer is open */}
-          {showChapterDrawer && (
-            <div className="p-6 min-w-fit">
-              <h3 className="font-semibold text-foreground mb-4">Chapters</h3>
-              <div className="space-y-2">
-                {chapters.map((chapter) => (
-                  <button key={chapter.id} onClick={() => setActiveChapter(chapter)} className={`w-full text-left p-3 rounded-lg transition-colors ${currentChapter.id === chapter.id ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'}`}>
-                    <div className="font-medium">{chapter.title}</div>
-                    <div className="text-sm text-muted-foreground mt-1"> {chapter.wordCount} words • ~{chapter.estimatedPages} pages </div>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-        </aside>
+                           {/* Left Chapter Navigation */}
+                   <aside className={`bg-card flex flex-col transition-all duration-300 ease-in-out overflow-hidden ${showChapterDrawer ? 'w-80' : 'w-12'}`}>
+                     {/* Chapter Header with Toggle */}
+                     <div className="flex items-center gap-2 p-3 min-w-fit">
+                       <Button
+                         variant="ghost"
+                         size="sm"
+                         onClick={() => setShowChapterDrawer(!showChapterDrawer)}
+                         className="h-6 w-6 p-0 hover:bg-muted"
+                       >
+                         {showChapterDrawer ? (
+                           <ChevronLeft className="w-4 h-4" />
+                         ) : (
+                           <Menu className="w-4 h-4" />
+                         )}
+                       </Button>
+                       {showChapterDrawer && (
+                         <h3 className="font-medium text-foreground text-sm">Chapters</h3>
+                       )}
+                     </div>
+                     
+                     {/* Chapter List - only show when drawer is open */}
+                     {showChapterDrawer && (
+                       <div className="px-3 pb-3 min-w-fit">
+                         <div className="space-y-1">
+                           {chapters.map((chapter) => (
+                             <button key={chapter.id} onClick={() => setActiveChapter(chapter)} className={`w-full text-left p-2 rounded-md transition-colors text-sm ${currentChapter.id === chapter.id ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'}`}>
+                               <div className="font-medium">{chapter.title}</div>
+                               <div className="text-xs text-muted-foreground mt-0.5"> {chapter.wordCount} words • ~{chapter.estimatedPages} pages </div>
+                             </button>
+                           ))}
+                         </div>
+                       </div>
+                     )}
+                   </aside>
 
         {/* Editor Content */}
         <div className="flex-1 overflow-y-auto relative">
