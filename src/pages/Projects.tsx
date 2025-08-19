@@ -176,10 +176,10 @@ const Projects = () => {
                     <CreditCard className="w-4 h-4 mr-3" />
                     Billing and Plan
                   </Button>
-                  <Button variant="ghost" size="sm" className="w-full justify-start text-destructive hover:text-destructive">
-                    <LogOut className="w-4 h-4 mr-3" />
-                    Logout
-                  </Button>
+                                  <Button variant="ghost" size="sm" className="w-full justify-start">
+                  <LogOut className="w-4 h-4 mr-3" />
+                  Logout
+                </Button>
                 </div>
               </div>
             </div>
