@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -61,6 +62,7 @@ const bookTypes: BookType[] = [
 ];
 
 const BookCreationWizard = () => {
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedBookType, setSelectedBookType] = useState<string>('');
   const [bookDetails, setBookDetails] = useState({
@@ -122,7 +124,14 @@ const BookCreationWizard = () => {
 
   const handleClose = () => {
     // For demo purposes, just go back to dashboard
-    window.location.href = "/dashboard";
+    navigate("/dashboard");
+  };
+
+  const handleFinish = () => {
+    // Navigate to the project detail page
+    // In a real app, this would create the project and return an ID
+    const projectId = 'new-project-' + Date.now(); // Generate a temporary ID
+    navigate(`/projects/${projectId}`);
   };
 
   const handleFileUpload = (files: FileList | null) => {
@@ -244,7 +253,7 @@ const BookCreationWizard = () => {
             <Input
               id="audience"
               placeholder="e.g., Beginners, Professionals"
-              value={bookDetails.audience}
+              value={bookDetails.author}
               onChange={(e) => setBookDetails(prev => ({ ...prev, audience: e.target.value }))}
               className="mt-1"
             />
@@ -599,18 +608,26 @@ const BookCreationWizard = () => {
             Previous
           </Button>
           
-          <Button
-            onClick={handleNext}
-            disabled={
-              (currentStep === 1 && !selectedBookType) ||
-              (currentStep === 2 && (!bookDetails.title || !bookDetails.description)) ||
-              (currentStep === 5 && !preview)
-            }
-            className="bg-primary hover:bg-primary/90"
-          >
-            {currentStep === steps.length ? 'Finish' : 'Next'}
-            <ArrowRight className="w-4 h-4 ml-2" />
-          </Button>
+          {currentStep === steps.length ? (
+            <Button
+              onClick={handleFinish}
+              className="bg-primary hover:bg-primary/90"
+            >
+              Finish
+            </Button>
+          ) : (
+            <Button
+              onClick={handleNext}
+              disabled={
+                (currentStep === 1 && !selectedBookType) ||
+                (currentStep === 2 && (!bookDetails.title || !bookDetails.description))
+              }
+              className="bg-primary hover:bg-primary/90"
+            >
+              Next
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
+          )}
         </div>
       </div>
     </div>
