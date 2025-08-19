@@ -95,7 +95,7 @@ const Projects = () => {
       <main className="container mx-auto px-4 py-8 mt-20">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
           <div>
-            <h1 className="text-4xl font-serif font-bold text-foreground mb-2">
+            <h1 className="text-4xl font-bold text-foreground mb-2">
               My Projects
             </h1>
             <p className="text-lg text-muted-foreground">
@@ -148,7 +148,7 @@ const Projects = () => {
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <CardTitle className="text-lg font-serif mb-2">
+                    <CardTitle className="text-lg font-bold mb-2">
                       {project.title}
                     </CardTitle>
                     <CardDescription className="text-sm break-all">

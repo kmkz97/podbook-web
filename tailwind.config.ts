@@ -75,7 +75,8 @@ export default {
 				'smooth': 'var(--transition-smooth)',
 			},
 			fontFamily: {
-				'serif': ['Georgia', 'Cambria', 'Times New Roman', 'serif'],
+				'sans': ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'sans-serif'],
+				'serif': ['Inter', 'Georgia', 'Cambria', 'Times New Roman', 'serif'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

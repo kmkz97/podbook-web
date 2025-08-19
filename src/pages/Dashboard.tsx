@@ -79,7 +79,7 @@ const Dashboard = () => {
       
       <main className="container mx-auto px-4 py-8 mt-20">
         <div className="mb-8">
-          <h1 className="text-4xl font-serif font-bold text-foreground mb-2">
+          <h1 className="text-4xl font-bold text-foreground mb-2">
             Welcome back!
           </h1>
           <p className="text-lg text-muted-foreground">
@@ -154,7 +154,7 @@ const Dashboard = () => {
         {/* Recent Projects */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-xl font-serif">Recent Projects</CardTitle>
+                            <CardTitle className="text-xl font-bold">Recent Projects</CardTitle>
             <CardDescription>
               Your latest RSS-to-book conversions
             </CardDescription>
