@@ -50,19 +50,9 @@ const FloatingToolbar = ({ editor, onAIAssist }: FloatingToolbarProps) => {
           x: relativeX,
           y: relativeY
         });
-
-        console.log('Toolbar position updated:', { 
-          relativeX, 
-          relativeY, 
-          coordsLeft: coords.left, 
-          coordsTop: coords.top,
-          editorRectLeft: editorRect.left,
-          editorRectTop: editorRect.top
-        });
         
         setIsVisible(true);
       } catch (error) {
-        console.log('Error updating toolbar position:', error);
         setIsVisible(false);
       }
     };
@@ -108,7 +98,9 @@ const FloatingToolbar = ({ editor, onAIAssist }: FloatingToolbarProps) => {
           <Button
             variant={editor.isActive('bold') ? 'default' : 'ghost'}
             size="sm"
-            onClick={() => editor.chain().focus().toggleBold().run()}
+            onClick={() => {
+              editor.chain().focus().toggleBold().run();
+            }}
           >
             <Bold className="w-4 h-4" />
           </Button>
@@ -116,7 +108,9 @@ const FloatingToolbar = ({ editor, onAIAssist }: FloatingToolbarProps) => {
           <Button
             variant={editor.isActive('italic') ? 'default' : 'ghost'}
             size="sm"
-            onClick={() => editor.chain().focus().toggleItalic().run()}
+            onClick={() => {
+              editor.chain().focus().toggleItalic().run();
+            }}
           >
             <Italic className="w-4 h-4" />
           </Button>
@@ -124,7 +118,9 @@ const FloatingToolbar = ({ editor, onAIAssist }: FloatingToolbarProps) => {
           <Button
             variant={editor.isActive('code') ? 'default' : 'ghost'}
             size="sm"
-            onClick={() => editor.chain().focus().toggleCode().run()}
+            onClick={() => {
+              editor.chain().focus().toggleCode().run();
+            }}
           >
             <Code className="w-4 h-4" />
           </Button>
@@ -132,7 +128,9 @@ const FloatingToolbar = ({ editor, onAIAssist }: FloatingToolbarProps) => {
           <Button
             variant={editor.isActive('blockquote') ? 'default' : 'ghost'}
             size="sm"
-            onClick={() => editor.chain().focus().toggleBlockquote().run()}
+            onClick={() => {
+              editor.chain().focus().toggleBlockquote().run();
+            }}
           >
             <Quote className="w-4 h-4" />
           </Button>
@@ -140,7 +138,9 @@ const FloatingToolbar = ({ editor, onAIAssist }: FloatingToolbarProps) => {
           <Button
             variant={editor.isActive('bulletList') ? 'default' : 'ghost'}
             size="sm"
-            onClick={() => editor.chain().focus().toggleBulletList().run()}
+            onClick={() => {
+              editor.chain().focus().toggleBulletList().run();
+            }}
           >
             <List className="w-4 h-4" />
           </Button>
@@ -148,7 +148,9 @@ const FloatingToolbar = ({ editor, onAIAssist }: FloatingToolbarProps) => {
           <Button
             variant={editor.isActive('orderedList') ? 'default' : 'ghost'}
             size="sm"
-            onClick={() => editor.chain().focus().toggleOrderedList().run()}
+            onClick={() => {
+              editor.chain().focus().toggleOrderedList().run();
+            }}
           >
             <ListOrdered className="w-4 h-4" />
           </Button>
