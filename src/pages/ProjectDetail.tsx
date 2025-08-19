@@ -126,10 +126,7 @@ const ProjectDetail = () => {
   if (isEditing) {
     return (
       <div className="min-h-screen bg-background">
-        <DashboardHeader />
-        <div className="mt-20">
-          <AITextEditor projectId={project.id} projectTitle={project.title} />
-        </div>
+        <AITextEditor projectId={project.id} projectTitle={project.title} />
       </div>
     );
   }
