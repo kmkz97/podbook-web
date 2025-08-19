@@ -125,8 +125,14 @@ const ProjectDetail = () => {
   // If editing, show the AI text editor
   if (isEditing) {
     console.log('isEditing is true, rendering AITextEditor');
+    console.log('Project data:', project);
     return (
       <div className="min-h-screen bg-background">
+        <div className="p-4 bg-red-100 border border-red-500">
+          <p>Debug: About to render AITextEditor</p>
+          <p>isEditing: {isEditing.toString()}</p>
+          <p>Project ID: {project?.id}</p>
+        </div>
         <AITextEditor projectId={project.id} projectTitle={project.title} />
       </div>
     );

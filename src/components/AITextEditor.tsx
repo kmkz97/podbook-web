@@ -174,6 +174,10 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
         <h1 className="text-2xl font-bold">AITextEditor - {projectTitle}</h1>
         <p>Project ID: {projectId}</p>
         <p>This is a test to see if the component renders</p>
+        <div className="p-4 bg-green-100 border border-green-500 mt-4">
+          <p>Debug: AITextEditor component is rendering!</p>
+          <p>Timestamp: {new Date().toISOString()}</p>
+        </div>
       </div>
       <div className="flex-1 p-8">
         <p>Editor content would go here...</p>
