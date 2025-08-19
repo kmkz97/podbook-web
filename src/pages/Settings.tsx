@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -10,17 +10,19 @@ import {
   User, 
   CreditCard, 
   Settings as SettingsIcon, 
+  ChevronRight,
   Home,
   BookOpen,
   FileText,
   LogOut,
-  ChevronDown,
-  Plus
+  ChevronDown
 } from 'lucide-react';
 
 const Settings = () => {
-  const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState('account');
+  const [showUserDropdown, setShowUserDropdown] = useState(false);
+
+
 
   const renderAccountSettings = () => (
     <div className="space-y-6">
@@ -151,143 +153,117 @@ const Settings = () => {
   );
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="flex">
-        {/* Standard Left Sidebar Navigation */}
-        <aside className="w-64 bg-card border-r border-border min-h-screen flex flex-col">
-          {/* Logo Section */}
-          <div className="p-6">
-            <h1 className="text-2xl font-bold text-foreground">Podbook</h1>
+    <div className="flex h-screen bg-background">
+      {/* Left Navigation */}
+      <aside className="w-64 bg-card border-r border-border flex flex-col">
+        {/* Logo */}
+        <div className="p-6">
+          <h1 className="text-2xl font-bold text-foreground">Podbook</h1>
+        </div>
+
+        {/* Navigation */}
+        <div className="flex-1 px-6">
+          <div className="space-y-2">
+            <Link to="/dashboard">
+              <Button variant="ghost" className="w-full justify-start">
+                <Home className="w-4 h-4 mr-3" />
+                Dashboard
+              </Button>
+            </Link>
+            <Link to="/projects">
+              <Button variant="ghost" className="w-full justify-start">
+                <FileText className="w-4 h-4 mr-3" />
+                My Projects
+              </Button>
+            </Link>
+            <Link to="/new-project">
+              <Button variant="default" className="w-full justify-start">
+                <BookOpen className="w-4 h-4 mr-3" />
+                Create Book
+              </Button>
+            </Link>
           </div>
-          
-          {/* Navigation Content */}
-          <div className="flex-1 p-6">
-            <nav className="space-y-6">
-              {/* Create Book Button */}
-              <div>
-                <Button variant="ghost" className="w-full justify-start" asChild>
-                  <Link to="/new-project">
-                    <Plus className="w-4 h-4 mr-3" />
-                    Create Book
-                  </Link>
+
+          <Separator className="my-6" />
+
+          <div className="space-y-2">
+            <Button 
+              variant={activeSection === 'account' ? 'default' : 'ghost'} 
+              className="w-full justify-start"
+              onClick={() => setActiveSection('account')}
+            >
+              <User className="w-4 h-4 mr-3" />
+              Account Settings
+            </Button>
+            <Button 
+              variant={activeSection === 'billing' ? 'default' : 'ghost'} 
+              className="w-full justify-start"
+              onClick={() => setActiveSection('billing')}
+            >
+              <CreditCard className="w-4 h-4 mr-3" />
+              Billing and Plan
+            </Button>
+          </div>
+        </div>
+
+        {/* User Section - Sticky Bottom */}
+        <div className="mt-auto p-6 border-t border-border">
+          <div className="group relative">
+            <div className="flex items-center space-x-3 p-3 rounded-lg cursor-pointer hover:bg-muted transition-colors">
+              <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                <User className="w-4 h-4 text-primary-foreground" />
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium">John Doe</p>
+                <p className="text-xs text-muted-foreground">Pro Account</p>
+              </div>
+              <ChevronDown className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+            </div>
+
+            {/* Settings Dropdown - appears on hover and stays open */}
+            <div className="absolute bottom-full left-0 right-0 mb-0 bg-background border border-border rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto hover:opacity-100">
+              <div className="p-2">
+                <div className="px-3 py-2 text-sm font-medium text-muted-foreground border-b border-border mb-2">
+                  Credits 2392
+                </div>
+                <Button variant="ghost" size="sm" className="w-full justify-start">
+                  <SettingsIcon className="w-4 h-4 mr-3" />
+                  Settings
+                </Button>
+                <Button variant="ghost" size="sm" className="w-full justify-start">
+                  <CreditCard className="w-4 h-4 mr-3" />
+                  Billing and Plan
+                </Button>
+                <Button variant="ghost" size="sm" className="w-full justify-start">
+                  <LogOut className="w-4 h-4 mr-3" />
+                  Logout
                 </Button>
               </div>
-              
-              {/* Navigation */}
-              <div>
-                <div className="space-y-2">
-                  <Button variant="ghost" className="w-full justify-start" asChild>
-                    <Link to="/dashboard">
-                      <Home className="w-4 h-4 mr-3" />
-                      Dashboard
-                    </Link>
-                  </Button>
-                  <Button variant="ghost" className="w-full justify-start" asChild>
-                    <Link to="/projects">
-                      <FileText className="w-4 h-4 mr-3" />
-                      My Projects
-                    </Link>
-                  </Button>
-                </div>
-              </div>
-            </nav>
-          </div>
-
-          {/* User Section - Sticky Bottom */}
-          <div className="mt-auto p-6 border-t border-border">
-            <div className="group relative">
-              <div className="flex items-center space-x-3 p-3 rounded-lg cursor-pointer hover:bg-muted transition-colors">
-                <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                  <User className="w-4 h-4 text-primary-foreground" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm font-medium">John Doe</p>
-                  <p className="text-xs text-muted-foreground">Pro Account</p>
-                </div>
-                <ChevronDown className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
-              </div>
-
-              {/* Settings Dropdown - appears on hover and stays open */}
-              <div className="absolute bottom-full left-0 right-0 mb-0 bg-background border border-border rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto hover:opacity-100">
-                <div className="p-2">
-                  <div className="px-3 py-2 text-sm font-medium text-muted-foreground border-b border-border mb-2">
-                    Credits 2392
-                  </div>
-                                <Button variant="ghost" size="sm" className="w-full justify-start">
-                <SettingsIcon className="w-4 h-4 mr-3" />
-                Settings
-              </Button>
-              <Button variant="ghost" size="sm" className="w-full justify-start">
-                <CreditCard className="w-4 h-4 mr-3" />
-                Billing and Plan
-              </Button>
-                  <Button variant="ghost" size="sm" className="w-full justify-start">
-                    <LogOut className="w-4 h-4 mr-3" />
-                    Logout
-                  </Button>
-                </div>
-              </div>
             </div>
           </div>
-        </aside>
+        </div>
+      </aside>
 
-        {/* Main Content Area */}
-        <main className="flex-1">
-          <div className="flex h-screen">
-            {/* Settings Left Navigation */}
-            <aside className="w-64 bg-muted/30 border-r border-border flex flex-col">
-              {/* Settings Header */}
-              <div className="p-6 border-b border-border">
-                <h2 className="text-xl font-bold text-foreground">Settings</h2>
-                <p className="text-sm text-muted-foreground mt-1">Manage your account and preferences</p>
-              </div>
-
-              {/* Settings Navigation */}
-              <div className="flex-1 p-6">
-                <nav className="space-y-2">
-                  <Button 
-                    variant={activeSection === 'account' ? 'default' : 'ghost'} 
-                    className="w-full justify-start"
-                    onClick={() => setActiveSection('account')}
-                  >
-                    <User className="w-4 h-4 mr-3" />
-                    Account Settings
-                  </Button>
-                  <Button 
-                    variant={activeSection === 'billing' ? 'default' : 'ghost'} 
-                    className="w-full justify-start"
-                    onClick={() => setActiveSection('billing')}
-                  >
-                    <CreditCard className="w-4 h-4 mr-3" />
-                    Billing and Plan
-                  </Button>
-                </nav>
-              </div>
-            </aside>
-
-            {/* Settings Content */}
-            <div className="flex-1 overflow-y-auto">
-              <div className="p-8">
-                <div className="max-w-4xl">
-                  <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-foreground mb-2">
-                      {activeSection === 'account' ? 'Account Settings' : 'Billing and Plan'}
-                    </h1>
-                    <p className="text-muted-foreground">
-                      {activeSection === 'account' 
-                        ? 'Manage your account settings and preferences' 
-                        : 'View and manage your subscription and billing information'
-                      }
-                    </p>
-                  </div>
-
-                  {activeSection === 'account' ? renderAccountSettings() : renderBillingAndPlan()}
-                </div>
-              </div>
+      {/* Main Content */}
+      <main className="flex-1 overflow-y-auto">
+        <div className="p-8">
+          <div className="max-w-4xl">
+            <div className="mb-8">
+              <h1 className="text-3xl font-bold text-foreground mb-2">
+                {activeSection === 'account' ? 'Account Settings' : 'Billing and Plan'}
+              </h1>
+              <p className="text-muted-foreground">
+                {activeSection === 'account' 
+                  ? 'Manage your account settings and preferences' 
+                  : 'View and manage your subscription and billing information'
+                }
+              </p>
             </div>
+
+            {activeSection === 'account' ? renderAccountSettings() : renderBillingAndPlan()}
           </div>
-        </main>
-      </div>
+        </div>
+      </main>
     </div>
   );
 };

@@ -109,6 +109,12 @@ const Dashboard = () => {
               <div>
                 <div className="space-y-2">
                   <Button variant="ghost" className="w-full justify-start" asChild>
+                    <Link to="/dashboard">
+                      <Home className="w-4 h-4 mr-3" />
+                      Dashboard
+                    </Link>
+                  </Button>
+                  <Button variant="ghost" className="w-full justify-start" asChild>
                     <Link to="/projects">
                       <FileText className="w-4 h-4 mr-3" />
                       My Projects
