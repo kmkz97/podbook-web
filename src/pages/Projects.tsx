@@ -5,8 +5,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { BookOpen, Search, Filter, Download, Eye, Trash2, Plus, Calendar, Clock, Home, FileText, Settings, User, ChevronDown, LogOut, CreditCard } from "lucide-react";
+import { BookOpen, Search, Filter, Download, Eye, Trash2, Plus, Calendar, Clock, Home, FileText, Settings, User, ChevronDown, LogOut, CreditCard, Sun, Moon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "@/contexts/ThemeContext";
 
 interface Project {
   id: string;
@@ -20,6 +21,7 @@ interface Project {
 
 const Projects = () => {
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter] = useState("all");
   
@@ -178,10 +180,14 @@ const Projects = () => {
                     <CreditCard className="w-4 h-4 mr-3" />
                     Billing and Plan
                   </Button>
-                                  <Button variant="ghost" size="sm" className="w-full justify-start">
-                  <LogOut className="w-4 h-4 mr-3" />
-                  Logout
-                </Button>
+                  <Button variant="ghost" size="sm" className="w-full justify-start" onClick={toggleTheme}>
+                    {theme === 'dark' ? <Sun className="w-4 h-4 mr-3" /> : <Moon className="w-4 h-4 mr-3" />}
+                    {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+                  </Button>
+                  <Button variant="ghost" size="sm" className="w-full justify-start">
+                    <LogOut className="w-4 h-4 mr-3" />
+                    Logout
+                  </Button>
                 </div>
               </div>
             </div>

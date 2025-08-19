@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Search, Filter, Download, Eye, Trash2, Plus, Calendar, Clock, Home, FileText, Settings, User, ChevronDown, LogOut, CreditCard } from "lucide-react";
+import { BookOpen, Search, Filter, Download, Eye, Trash2, Plus, Calendar, Clock, Home, FileText, Settings, User, ChevronDown, LogOut, CreditCard, Sun, Moon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "@/contexts/ThemeContext";
 
 interface Project {
   id: string;
@@ -18,6 +19,7 @@ interface Project {
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
   const [projects] = useState<Project[]>([
     {
       id: '1',
@@ -171,6 +173,10 @@ const Dashboard = () => {
                 <Button variant="ghost" size="sm" className="w-full justify-start" onClick={() => navigate('/settings')}>
                   <CreditCard className="w-4 h-4 mr-3" />
                   Billing and Plan
+                </Button>
+                <Button variant="ghost" size="sm" className="w-full justify-start" onClick={toggleTheme}>
+                  {theme === 'dark' ? <Sun className="w-4 h-4 mr-3" /> : <Moon className="w-4 h-4 mr-3" />}
+                  {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
                 </Button>
                 <Button variant="ghost" size="sm" className="w-full justify-start">
                   <LogOut className="w-4 h-4 mr-3" />

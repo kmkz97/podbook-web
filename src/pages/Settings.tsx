@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
+import { useTheme } from '@/contexts/ThemeContext';
 import { 
   User, 
   CreditCard, 
@@ -14,6 +15,7 @@ import {
 } from 'lucide-react';
 
 const Settings = () => {
+  const { theme, toggleTheme } = useTheme();
   const [activeSection, setActiveSection] = useState('account');
 
   const renderAccountSettings = () => (
@@ -63,7 +65,7 @@ const Settings = () => {
               <Label>Dark Mode</Label>
               <p className="text-sm text-muted-foreground">Switch between light and dark themes</p>
             </div>
-            <Switch />
+            <Switch checked={theme === 'dark'} onCheckedChange={toggleTheme} />
           </div>
         </CardContent>
       </Card>
