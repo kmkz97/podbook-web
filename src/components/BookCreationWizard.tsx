@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -87,6 +87,18 @@ const BookCreationWizard = () => {
     totalPages: number;
     estimatedCost: number;
   } | null>(null);
+  const [showChangesSaved, setShowChangesSaved] = useState(false);
+
+  // Show "changes saved" message periodically when step changes
+  useEffect(() => {
+    if (currentStep > 1) {
+      setShowChangesSaved(true);
+      const timer = setTimeout(() => {
+        setShowChangesSaved(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [currentStep]);
 
   const steps: WizardStep[] = [
     { id: 1, title: 'Book Type', description: 'Choose your book category', completed: !!selectedBookType },
@@ -108,7 +120,7 @@ const BookCreationWizard = () => {
     }
   };
 
-  const handleCancel = () => {
+  const handleClose = () => {
     // For demo purposes, just go back to dashboard
     window.location.href = "/dashboard";
   };
@@ -282,7 +294,7 @@ const BookCreationWizard = () => {
             />
             <div className="flex justify-between text-sm text-muted-foreground">
               <span>3 chapters</span>
-              <span className="font-medium text-foreground">{bookSpecs.targetChapters[0]} chapters</span>
+              <span className="font-medium text-sm font-medium text-foreground">{bookSpecs.targetChapters[0]} chapters</span>
               <span>50 chapters</span>
             </div>
           </div>
@@ -546,13 +558,19 @@ const BookCreationWizard = () => {
   return (
     <div className="min-h-screen bg-background py-8">
       <div className="max-w-6xl mx-auto px-4">
-        {/* Header with Cancel Button */}
+        {/* Header with Close Button */}
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold text-foreground">Create New Book</h1>
-          <Button variant="outline" onClick={handleCancel}>
-            <X className="w-4 h-4 mr-2" />
-            Cancel
-          </Button>
+          <div className="flex items-center gap-3">
+            {showChangesSaved && (
+              <span className="text-sm text-muted-foreground animate-in fade-in duration-300">
+                Changes saved
+              </span>
+            )}
+            <Button variant="outline" size="sm" onClick={handleClose}>
+              <X className="w-4 h-4" />
+            </Button>
+          </div>
         </div>
 
         {/* Simple Progress Bar */}
