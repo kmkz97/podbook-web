@@ -262,19 +262,21 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
           </div>
         </aside>
 
-        {/* Editor Content */}
-        <div className="flex-1 overflow-y-auto relative">
-          {/* Floating AI Chat Button */}
-          <div className="absolute top-4 left-4 z-40">
-            <Button
-              variant={showAIChat ? "default" : "outline"}
-              size="sm"
-              onClick={() => setShowAIChat(!showAIChat)}
-              className="h-10 w-10 rounded-full p-0 shadow-lg hover:shadow-xl transition-all duration-200"
-            >
-              <Sparkles className="w-5 h-5" />
-            </Button>
-          </div>
+                           {/* Editor Content */}
+                   <div className="flex-1 overflow-y-auto relative">
+                     {/* Floating AI Chat Button - only show when drawer is closed */}
+                     {!showAIChat && (
+                       <div className="absolute top-4 right-4 z-40">
+                         <Button
+                           variant="outline"
+                           size="sm"
+                           onClick={() => setShowAIChat(true)}
+                           className="h-10 w-10 rounded-full p-0 shadow-lg hover:shadow-xl transition-all duration-200"
+                         >
+                           <Sparkles className="w-5 h-5" />
+                         </Button>
+                       </div>
+                     )}
           
           <div className="max-w-4xl mx-auto p-8">
             <EditorContent editor={editor} className="prose prose-lg max-w-none focus:outline-none" />
