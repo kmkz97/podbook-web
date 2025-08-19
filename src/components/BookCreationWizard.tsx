@@ -335,18 +335,26 @@ const BookCreationWizard = () => {
               <Button variant="outline">Validate</Button>
             </div>
             {contentSources.rssFeed && (
-              <div className="p-4 bg-muted rounded-lg">
-                <p className="text-sm text-muted-foreground">Found 25 episodes</p>
-                <div className="mt-2 space-y-2">
-                  {[1, 2, 3].map((i) => (
-                    <div key={i} className="flex items-center gap-2">
-                      <input type="checkbox" id={`episode-${i}`} defaultChecked />
-                      <label htmlFor={`episode-${i}`} className="text-sm">
-                        Episode {i}: Sample Title
-                      </label>
+              <div className="space-y-2">
+                <h4 className="font-medium">Found Episodes:</h4>
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <div key={i} className="flex items-center justify-between p-2 bg-muted rounded">
+                    <div className="flex items-center gap-2">
+                      <Rss className="w-4 h-4" />
+                      <span className="text-sm">Episode {i}: Sample Title</span>
+                      <Badge variant="secondary" className="text-xs">
+                        ~15 min
+                      </Badge>
                     </div>
-                  ))}
-                </div>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => {/* Handle episode removal */}}
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                ))}
               </div>
             )}
           </CardContent>
@@ -401,25 +409,6 @@ const BookCreationWizard = () => {
                 ))}
               </div>
             )}
-          </CardContent>
-        </Card>
-
-        {/* Text Input Section */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Type className="w-5 h-5 text-primary" />
-              Text Content
-            </CardTitle>
-            <CardDescription>Paste or type your content directly</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Textarea
-              placeholder="Paste your content here..."
-              value={contentSources.textContent}
-              onChange={(e) => setContentSources(prev => ({ ...prev, textContent: e.target.value }))}
-              rows={6}
-            />
           </CardContent>
         </Card>
       </div>
