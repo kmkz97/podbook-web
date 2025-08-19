@@ -9,20 +9,12 @@ import { Switch } from '@/components/ui/switch';
 import { 
   User, 
   CreditCard, 
-  Settings as SettingsIcon, 
-  ChevronRight,
   Home,
-  BookOpen,
-  FileText,
-  LogOut,
-  ChevronDown
+  ChevronLeft
 } from 'lucide-react';
 
 const Settings = () => {
   const [activeSection, setActiveSection] = useState('account');
-  const [showUserDropdown, setShowUserDropdown] = useState(false);
-
-
 
   const renderAccountSettings = () => (
     <div className="space-y-6">
@@ -154,38 +146,27 @@ const Settings = () => {
 
   return (
     <div className="flex h-screen bg-background">
-      {/* Left Navigation */}
+      {/* Custom Left Navigation */}
       <aside className="w-64 bg-card border-r border-border flex flex-col">
         {/* Logo */}
         <div className="p-6">
           <h1 className="text-2xl font-bold text-foreground">Podbook</h1>
         </div>
 
-        {/* Navigation */}
-        <div className="flex-1 px-6">
-          <div className="space-y-2">
+        {/* Back to Dashboard Button */}
+        <div className="px-6 mb-6">
+          <Button variant="ghost" className="w-full justify-start" asChild>
             <Link to="/dashboard">
-              <Button variant="ghost" className="w-full justify-start">
-                <Home className="w-4 h-4 mr-3" />
-                Dashboard
-              </Button>
+              <ChevronLeft className="w-4 h-4 mr-3" />
+              Back to Dashboard
             </Link>
-            <Link to="/projects">
-              <Button variant="ghost" className="w-full justify-start">
-                <FileText className="w-4 h-4 mr-3" />
-                My Projects
-              </Button>
-            </Link>
-            <Link to="/new-project">
-              <Button variant="default" className="w-full justify-start">
-                <BookOpen className="w-4 h-4 mr-3" />
-                Create Book
-              </Button>
-            </Link>
-          </div>
+          </Button>
+        </div>
 
-          <Separator className="my-6" />
+        <Separator className="mx-6 mb-6" />
 
+        {/* Settings Navigation */}
+        <div className="px-6">
           <div className="space-y-2">
             <Button 
               variant={activeSection === 'account' ? 'default' : 'ghost'} 
@@ -203,43 +184,6 @@ const Settings = () => {
               <CreditCard className="w-4 h-4 mr-3" />
               Billing and Plan
             </Button>
-          </div>
-        </div>
-
-        {/* User Section - Sticky Bottom */}
-        <div className="mt-auto p-6 border-t border-border">
-          <div className="group relative">
-            <div className="flex items-center space-x-3 p-3 rounded-lg cursor-pointer hover:bg-muted transition-colors">
-              <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                <User className="w-4 h-4 text-primary-foreground" />
-              </div>
-              <div className="flex-1">
-                <p className="text-sm font-medium">John Doe</p>
-                <p className="text-xs text-muted-foreground">Pro Account</p>
-              </div>
-              <ChevronDown className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
-            </div>
-
-            {/* Settings Dropdown - appears on hover and stays open */}
-            <div className="absolute bottom-full left-0 right-0 mb-0 bg-background border border-border rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto hover:opacity-100">
-              <div className="p-2">
-                <div className="px-3 py-2 text-sm font-medium text-muted-foreground border-b border-border mb-2">
-                  Credits 2392
-                </div>
-                <Button variant="ghost" size="sm" className="w-full justify-start">
-                  <SettingsIcon className="w-4 h-4 mr-3" />
-                  Settings
-                </Button>
-                <Button variant="ghost" size="sm" className="w-full justify-start">
-                  <CreditCard className="w-4 h-4 mr-3" />
-                  Billing and Plan
-                </Button>
-                <Button variant="ghost" size="sm" className="w-full justify-start">
-                  <LogOut className="w-4 h-4 mr-3" />
-                  Logout
-                </Button>
-              </div>
-            </div>
           </div>
         </div>
       </aside>
