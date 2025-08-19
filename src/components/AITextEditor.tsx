@@ -4,28 +4,19 @@ import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import Highlight from '@tiptap/extension-highlight';
 import Typography from '@tiptap/extension-typography';
+import Link from '@tiptap/extension-link';
+import CodeBlock from '@tiptap/extension-code-block';
+import Image from '@tiptap/extension-image';
+import { Table } from '@tiptap/extension-table';
+import Mention from '@tiptap/extension-mention';
+import FloatingToolbar from './FloatingToolbar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { 
-  Bold, 
-  Italic, 
-  List, 
-  ListOrdered, 
-  Quote, 
-  Heading1, 
-  Heading2, 
-  Heading3,
-  Undo,
-  Redo,
-  Save,
-  Sparkles,
-  Eye,
-  Download,
-  Share2,
-  Settings,
-  Plus
+import {
+  Bold, Italic, List, ListOrdered, Quote, Heading1, Heading2, Heading3,
+  Undo, Redo, Save, Sparkles, Eye, Download, Share2, Settings, Plus
 } from 'lucide-react';
 
 interface Chapter {
@@ -92,17 +83,42 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
-      Placeholder.configure({
-        placeholder: 'Start writing your chapter content...',
-      }),
+      Placeholder.configure({ placeholder: 'Start writing your chapter content...' }),
       Highlight,
       Typography,
+      Link.configure({
+        openOnClick: false,
+        HTMLAttributes: {
+          class: 'text-primary underline cursor-pointer'
+        }
+      }),
+      CodeBlock.configure({
+        HTMLAttributes: {
+          class: 'bg-muted p-4 rounded-lg font-mono text-sm'
+        }
+      }),
+      Image.configure({
+        HTMLAttributes: {
+          class: 'max-w-full h-auto rounded-lg'
+        }
+      }),
+      Table.configure({
+        resizable: true,
+        HTMLAttributes: {
+          class: 'border-collapse border border-border'
+        }
+      }),
+      Mention.configure({
+        HTMLAttributes: {
+          class: 'bg-primary/10 text-primary px-1 rounded'
+        }
+      })
     ],
     content: currentChapter.content,
     onUpdate: ({ editor }) => {
       const newContent = editor.getHTML();
-      setChapters(prev => prev.map(ch => 
-        ch.id === currentChapter.id 
+      setChapters(prev => prev.map(ch =>
+        ch.id === currentChapter.id
           ? { ...ch, content: newContent, wordCount: editor.getText().split(/\s+/).length }
           : ch
       ));
@@ -120,8 +136,8 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
   const saveChapter = useCallback(() => {
     if (editor) {
       const newContent = editor.getHTML();
-      setChapters(prev => prev.map(ch => 
-        ch.id === currentChapter.id 
+      setChapters(prev => prev.map(ch =>
+        ch.id === currentChapter.id
           ? { ...ch, content: newContent, wordCount: editor.getText().split(/\s+/).length }
           : ch
       ));
@@ -298,13 +314,19 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
         </aside>
 
         {/* Editor Content */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto relative">
           <div className="max-w-4xl mx-auto p-8">
             <EditorContent
               editor={editor}
               className="prose prose-lg max-w-none focus:outline-none"
             />
           </div>
+          {editor && (
+            <FloatingToolbar 
+              editor={editor} 
+              onAIAssist={getAIAssistance}
+            />
+          )}
         </div>
       </div>
     </div>
