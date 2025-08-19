@@ -5,9 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { useTheme } from "@/contexts/ThemeContext";
 import { 
-  BookOpen, 
   Download, 
   Eye, 
   Calendar, 
@@ -18,16 +16,10 @@ import {
   Target,
   ArrowLeft,
   Share2,
-  Edit3,
-  Home,
-  Settings,
-  ChevronDown,
-  LogOut,
-  CreditCard,
-  Sun,
-  Moon
+  Edit3
 } from "lucide-react";
 import { Label } from "@/components/ui/label";
+import LeftNavigation from "@/components/LeftNavigation";
 
 interface Chapter {
   id: string;
@@ -58,7 +50,6 @@ interface Project {
 const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { theme, toggleTheme } = useTheme();
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
@@ -413,7 +404,7 @@ const ProjectDetail = () => {
               <Button 
                 variant="ghost" 
                 onClick={() => navigate(-1)} 
-                className="mb-4 hover:bg-muted"
+                className="mb-4 hover:bg-muted text-foreground hover:text-foreground"
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back
