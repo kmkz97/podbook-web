@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import DashboardHeader from "@/components/DashboardHeader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Search, Filter, Download, Eye, Trash2, Plus, Calendar, Clock, Home, FileText, Settings, User } from "lucide-react";
+import { BookOpen, Search, Filter, Download, Eye, Trash2, Plus, Calendar, Clock, Home, FileText, Settings, User, ChevronDown } from "lucide-react";
 
 interface Project {
   id: string;
@@ -83,38 +82,43 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <DashboardHeader />
-      
-      <div className="flex mt-20">
+      <div className="flex">
         {/* Left Sidebar Navigation */}
-        <aside className="w-64 bg-card border-r border-border min-h-screen p-6">
-          <nav className="space-y-6">
-            {/* Main Navigation */}
-            <div>
-              <h3 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wider">
-                Main
-              </h3>
-              <div className="space-y-2">
-                <Button variant="default" className="w-full justify-start" asChild>
-                  <Link to="/dashboard">
-                    <Home className="w-4 h-4 mr-3" />
-                    Dashboard
-                  </Link>
-                </Button>
-                <Button variant="ghost" className="w-full justify-start" asChild>
-                  <Link to="/projects">
-                    <FileText className="w-4 h-4 mr-3" />
-                    My Projects
-                  </Link>
-                </Button>
-                <Button variant="ghost" className="w-full justify-start" asChild>
-                  <Link to="/new-project">
-                    <Plus className="w-4 h-4 mr-3" />
-                    Create Book
-                  </Link>
-                </Button>
+        <aside className="w-64 bg-card border-r border-border min-h-screen flex flex-col">
+          {/* Logo Section */}
+          <div className="p-6 border-b border-border">
+            <h1 className="text-2xl font-bold text-foreground">Podbook</h1>
+          </div>
+          
+          {/* Navigation Content */}
+          <div className="flex-1 p-6">
+            <nav className="space-y-6">
+              {/* Main Navigation */}
+              <div>
+                <h3 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wider">
+                  Main
+                </h3>
+                <div className="space-y-2">
+                  <Button variant="default" className="w-full justify-start" asChild>
+                    <Link to="/dashboard">
+                      <Home className="w-4 h-4 mr-3" />
+                      Dashboard
+                    </Link>
+                  </Button>
+                  <Button variant="ghost" className="w-full justify-start" asChild>
+                    <Link to="/projects">
+                      <FileText className="w-4 h-4 mr-3" />
+                      My Projects
+                    </Link>
+                  </Button>
+                  <Button variant="ghost" className="w-full justify-start" asChild>
+                    <Link to="/new-project">
+                      <Plus className="w-4 h-4 mr-3" />
+                      Create Book
+                    </Link>
+                  </Button>
+                </div>
               </div>
-            </div>
 
             {/* Quick Actions */}
             <div>
@@ -134,26 +138,42 @@ const Dashboard = () => {
                 </Button>
               </div>
             </div>
-
-            {/* User Section */}
-            <div className="pt-6 border-t border-border">
-              <div className="flex items-center space-x-3 p-3 rounded-lg bg-muted/50">
-                <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                  <User className="w-4 h-4 text-primary-foreground" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium">John Doe</p>
-                  <p className="text-xs text-muted-foreground">Pro Account</p>
-                </div>
+          </nav>
+        </div>
+        
+        {/* Sticky User Section at Bottom */}
+        <div className="mt-auto p-6 border-t border-border">
+          <div className="group relative">
+            <div className="flex items-center space-x-3 p-3 rounded-lg bg-muted/50 cursor-pointer hover:bg-muted transition-colors">
+              <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                <User className="w-4 h-4 text-primary-foreground" />
               </div>
-              <div className="mt-3 space-y-2">
+              <div className="flex-1">
+                <p className="text-sm font-medium">John Doe</p>
+                <p className="text-xs text-muted-foreground">Pro Account</p>
+              </div>
+              <ChevronDown className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+            </div>
+            
+            {/* Settings Dropdown - appears on hover */}
+            <div className="absolute bottom-full left-0 right-0 mb-2 bg-background border border-border rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto">
+              <div className="p-2">
                 <Button variant="ghost" size="sm" className="w-full justify-start">
                   <Settings className="w-4 h-4 mr-3" />
                   Settings
                 </Button>
+                <Button variant="ghost" size="sm" className="w-full justify-start">
+                  <User className="w-4 h-4 mr-3" />
+                  Profile
+                </Button>
+                <Button variant="ghost" size="sm" className="w-full justify-start">
+                  <Download className="w-4 h-4 mr-3" />
+                  Export Data
+                </Button>
               </div>
             </div>
-          </nav>
+          </div>
+        </div>
         </aside>
 
         {/* Main Content Area */}
