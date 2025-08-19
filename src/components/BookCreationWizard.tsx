@@ -574,10 +574,6 @@ const BookCreationWizard = () => {
               style={{ width: `${(currentStep / steps.length) * 100}%` }}
             />
           </div>
-          <div className="flex justify-between text-xs text-muted-foreground mt-2">
-            <span>Step {currentStep} of {steps.length}</span>
-            <span>{Math.round((currentStep / steps.length) * 100)}% Complete</span>
-          </div>
         </div>
 
         {/* Step Content */}
