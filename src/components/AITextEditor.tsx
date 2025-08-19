@@ -6,21 +6,19 @@ import Highlight from '@tiptap/extension-highlight';
 import Typography from '@tiptap/extension-typography';
 import FloatingToolbar from './FloatingToolbar';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
+import { Input } from '@/components/ui/input';
 import {
   Bold, Italic, List, ListOrdered, Quote, Heading1, Heading2, Heading3,
-  Undo, Redo, Save, Sparkles, Eye, Download, Share2, Settings, Plus
+  Undo, Redo, Save, Sparkles, Eye, Download, Share2, Settings, Plus, MessageSquare, X
 } from 'lucide-react';
 
 interface Chapter {
-  id: string;
+  id: number;
   title: string;
   wordCount: number;
   estimatedPages: number;
   content: string;
-  isActive: boolean;
 }
 
 interface AITextEditorProps {
@@ -30,50 +28,18 @@ interface AITextEditorProps {
 
 const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
   const [chapters, setChapters] = useState<Chapter[]>([
-    {
-      id: '1',
-      title: 'Introduction',
-      wordCount: 1200,
-      estimatedPages: 4,
-      content: 'Welcome to this comprehensive guide...',
-      isActive: true
-    },
-    {
-      id: '2',
-      title: 'Getting Started',
-      wordCount: 1800,
-      estimatedPages: 6,
-      content: 'To begin your journey...',
-      isActive: false
-    },
-    {
-      id: '3',
-      title: 'Core Concepts',
-      wordCount: 2400,
-      estimatedPages: 8,
-      content: 'The fundamental principles...',
-      isActive: false
-    },
-    {
-      id: '4',
-      title: 'Advanced Topics',
-      wordCount: 2000,
-      estimatedPages: 7,
-      content: 'For experienced users...',
-      isActive: false
-    },
-    {
-      id: '5',
-      title: 'Conclusion',
-      wordCount: 800,
-      estimatedPages: 3,
-      content: 'In summary...',
-      isActive: false
-    }
+    { id: 1, title: 'Introduction', content: '<h1>Introduction</h1><p>Welcome to your book. Start writing your introduction here...</p>', wordCount: 12, estimatedPages: 1 },
+    { id: 2, title: 'Chapter 1', content: '<h1>Chapter 1</h1><p>This is the beginning of your first chapter. Add your content here...</p>', wordCount: 15, estimatedPages: 1 },
+    { id: 3, title: 'Chapter 2', content: '<h1>Chapter 2</h1><p>Continue your story in the second chapter...</p>', wordCount: 12, estimatedPages: 1 },
   ]);
-
   const [currentChapter, setCurrentChapter] = useState<Chapter>(chapters[0]);
   const [isAIAssisting, setIsAIAssisting] = useState(false);
+  const [showAIChat, setShowAIChat] = useState(false);
+  const [chatMessages, setChatMessages] = useState<Array<{ role: 'user' | 'ai', content: string, timestamp: Date }>>([
+    { role: 'ai', content: 'Hello! I\'m here to help you with your document. What would you like me to help you with?', timestamp: new Date() }
+  ]);
+  const [chatInput, setChatInput] = useState('');
+  const [isProcessingChat, setIsProcessingChat] = useState(false);
 
   const editor = useEditor({
     extensions: [
@@ -95,7 +61,6 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
 
   const setActiveChapter = useCallback((chapter: Chapter) => {
     setCurrentChapter(chapter);
-    setChapters(prev => prev.map(ch => ({ ...ch, isActive: ch.id === chapter.id })));
     if (editor) {
       editor.commands.setContent(chapter.content);
     }
@@ -124,6 +89,51 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
       setIsAIAssisting(false);
     }, 2000);
   }, [editor]);
+
+  const handleChatSubmit = useCallback(async () => {
+    if (!chatInput.trim() || !editor) return;
+
+    const userMessage = chatInput.trim();
+    setChatInput('');
+    
+    // Add user message to chat
+    const newUserMessage = { role: 'user' as const, content: userMessage, timestamp: new Date() };
+    setChatMessages(prev => [...prev, newUserMessage]);
+    
+    setIsProcessingChat(true);
+    
+    // Simulate AI processing
+    setTimeout(() => {
+      let aiResponse = '';
+      let documentModification = '';
+      
+      // Simple AI logic based on user input
+      if (userMessage.toLowerCase().includes('expand') || userMessage.toLowerCase().includes('more detail')) {
+        aiResponse = 'I\'ll expand this section with more details and examples.';
+        documentModification = '\n\n[Expanded Content: This section has been enhanced with additional details, examples, and practical applications to provide a more comprehensive understanding of the topic.]';
+      } else if (userMessage.toLowerCase().includes('rewrite') || userMessage.toLowerCase().includes('improve')) {
+        aiResponse = 'I\'ll rewrite this section to improve clarity and flow.';
+        documentModification = '\n\n[Improved Version: This section has been rewritten for better clarity, improved flow, and enhanced readability while maintaining the original meaning.]';
+      } else if (userMessage.toLowerCase().includes('summarize') || userMessage.toLowerCase().includes('condense')) {
+        aiResponse = 'I\'ll create a concise summary of this content.';
+        documentModification = '\n\n[Summary: Key points and main ideas have been condensed into a clear, focused summary.]';
+      } else {
+        aiResponse = 'I understand your request. I\'ll apply the appropriate modifications to improve your document.';
+        documentModification = '\n\n[AI Enhancement: This section has been improved based on your request to enhance the overall quality and effectiveness of your content.]';
+      }
+      
+      // Add AI response to chat
+      const newAIMessage = { role: 'ai' as const, content: aiResponse, timestamp: new Date() };
+      setChatMessages(prev => [...prev, newAIMessage]);
+      
+      // Apply modification to document
+      if (documentModification) {
+        editor.commands.insertContent(documentModification);
+      }
+      
+      setIsProcessingChat(false);
+    }, 1500);
+  }, [chatInput, editor]);
 
   const totalWords = chapters.reduce((sum, ch) => sum + ch.wordCount, 0);
   const totalPages = chapters.reduce((sum, ch) => sum + ch.estimatedPages, 0);
@@ -215,39 +225,20 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
 
           {/* Right: Action Tools */}
           <div className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => editor.chain().focus().undo().run()}
-              disabled={!editor.can().chain().focus().undo().run()}
-            >
-              <Undo className="w-4 h-4" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => editor.chain().focus().redo().run()}
-              disabled={!editor.can().chain().focus().redo().run()}
-            >
-              <Redo className="w-4 h-4" />
-            </Button>
+            <Button variant="ghost" size="sm" onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().chain().focus().undo().run()}> <Undo className="w-4 h-4" /> </Button>
+            <Button variant="ghost" size="sm" onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().chain().focus().redo().run()}> <Redo className="w-4 h-4" /> </Button>
             <Separator orientation="vertical" className="h-6" />
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={getAIAssistance}
-              disabled={isAIAssisting}
-            >
-              <Sparkles className="w-4 h-4 mr-2" />
-              AI Assist
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={saveChapter}
-            >
-              <Save className="w-4 h-4 mr-2" />
-              Save
+            <Button variant="outline" size="sm" onClick={getAIAssistance} disabled={isAIAssisting}> <Sparkles className="w-4 h-4 mr-2" /> AI Assist </Button>
+            <Button variant="outline" size="sm" onClick={saveChapter}> <Save className="w-4 h-4 mr-2" /> Save </Button>
+            <Separator orientation="vertical" className="h-6" />
+            <Button 
+              variant={showAIChat ? "default" : "outline"} 
+              size="sm" 
+              onClick={() => setShowAIChat(!showAIChat)}
+              className="ml-2"
+            > 
+              <MessageSquare className="w-4 h-4 mr-2" /> 
+              AI Chat 
             </Button>
           </div>
         </div>
@@ -296,6 +287,85 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
             />
           )}
         </div>
+
+        {/* Right AI Chat Panel */}
+        {showAIChat && (
+          <aside className="w-96 bg-card border-l border-border flex flex-col">
+            {/* Chat Header */}
+            <div className="p-4 border-b border-border flex items-center justify-between">
+              <h3 className="font-semibold text-foreground">AI Assistant</h3>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowAIChat(false)}
+                className="h-8 w-8 p-0"
+              >
+                <X className="w-4 h-4" />
+              </Button>
+            </div>
+
+            {/* Chat Messages */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              {chatMessages.map((message, index) => (
+                <div
+                  key={index}
+                  className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div
+                    className={`max-w-[80%] rounded-lg p-3 ${
+                      message.role === 'user'
+                        ? 'bg-primary text-primary-foreground'
+                        : 'bg-muted text-foreground'
+                    }`}
+                  >
+                    <p className="text-sm">{message.content}</p>
+                    <p className="text-xs opacity-70 mt-1">
+                      {message.timestamp.toLocaleTimeString()}
+                    </p>
+                  </div>
+                </div>
+              ))}
+              {isProcessingChat && (
+                <div className="flex justify-start">
+                  <div className="bg-muted text-foreground rounded-lg p-3">
+                    <div className="flex items-center gap-2">
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+                      <span className="text-sm">AI is thinking...</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Chat Input */}
+            <div className="p-4 border-t border-border">
+              <div className="flex gap-2">
+                <Input
+                  value={chatInput}
+                  onChange={(e) => setChatInput(e.target.value)}
+                  placeholder="Ask AI to help with your document..."
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      handleChatSubmit();
+                    }
+                  }}
+                  disabled={isProcessingChat}
+                />
+                <Button
+                  onClick={handleChatSubmit}
+                  disabled={!chatInput.trim() || isProcessingChat}
+                  size="sm"
+                >
+                  <Sparkles className="w-4 h-4" />
+                </Button>
+              </div>
+              <p className="text-xs text-muted-foreground mt-2">
+                Try: "expand this section", "rewrite for clarity", "summarize this content"
+              </p>
+            </div>
+          </aside>
+        )}
       </div>
     </div>
   );
