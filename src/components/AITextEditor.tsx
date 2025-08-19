@@ -4,8 +4,6 @@ import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import Highlight from '@tiptap/extension-highlight';
 import Typography from '@tiptap/extension-typography';
-import Image from '@tiptap/extension-image';
-import Mention from '@tiptap/extension-mention';
 import FloatingToolbar from './FloatingToolbar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -82,17 +80,7 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
       StarterKit,
       Placeholder.configure({ placeholder: 'Start writing your chapter content...' }),
       Highlight,
-      Typography,
-      Image.configure({
-        HTMLAttributes: {
-          class: 'max-w-full h-auto rounded-lg'
-        }
-      }),
-      Mention.configure({
-        HTMLAttributes: {
-          class: 'bg-primary/10 text-primary px-1 rounded'
-        }
-      })
+      Typography
     ],
     content: currentChapter.content,
     onUpdate: ({ editor }) => {
