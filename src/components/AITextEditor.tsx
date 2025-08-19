@@ -10,7 +10,7 @@ import { Separator } from '@/components/ui/separator';
 import { Input } from '@/components/ui/input';
 import {
   Bold, Italic, List, ListOrdered, Quote, Heading1, Heading2, Heading3,
-  Undo, Redo, Save, Sparkles, Eye, Download, Share2, Settings, Plus, MessageSquare, X
+  Undo, Redo, Save, Sparkles, Eye, Download, Share2, Settings, Plus, MessageSquare, X, ChevronLeft, Menu
 } from 'lucide-react';
 
 interface Chapter {
@@ -40,6 +40,7 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
   ]);
   const [chatInput, setChatInput] = useState('');
   const [isProcessingChat, setIsProcessingChat] = useState(false);
+  const [showChapterDrawer, setShowChapterDrawer] = useState(true);
 
   const editor = useEditor({
     extensions: [
@@ -237,47 +238,69 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
       {/* Main Content Area */}
       <div className="flex flex-1 overflow-hidden">
         {/* Left Chapter Navigation */}
-        <aside className="w-80 bg-card flex flex-col">
-          {/* Chapter List */}
-          <div className="p-6">
-            <h3 className="font-semibold text-foreground mb-4">Chapters</h3>
-            <div className="space-y-2">
-              {chapters.map((chapter) => (
-                <button
-                  key={chapter.id}
-                  onClick={() => setActiveChapter(chapter)}
-                  className={`w-full text-left p-3 rounded-lg transition-colors ${
-                    currentChapter.id === chapter.id
-                      ? 'bg-primary text-primary-foreground'
-                      : 'hover:bg-muted'
-                  }`}
-                >
-                  <div className="font-medium">{chapter.title}</div>
-                  <div className="text-sm text-muted-foreground mt-1">
-                    {chapter.wordCount} words • ~{chapter.estimatedPages} pages
-                  </div>
-                </button>
-              ))}
-            </div>
+        <aside className={`bg-card flex flex-col transition-all duration-300 ease-in-out ${showChapterDrawer ? 'w-80' : 'w-0'}`}>
+          {/* Chapter Drawer Toggle */}
+          <div className="flex justify-end p-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowChapterDrawer(!showChapterDrawer)}
+              className="h-8 w-8 p-0 hover:bg-muted"
+            >
+              {showChapterDrawer ? (
+                <ChevronLeft className="w-4 h-4" />
+              ) : (
+                <Menu className="w-4 h-4" />
+              )}
+            </Button>
           </div>
+          
+          {/* Chapter List - only show when drawer is open */}
+          {showChapterDrawer && (
+            <div className="p-6">
+              <h3 className="font-semibold text-foreground mb-4">Chapters</h3>
+              <div className="space-y-2">
+                {chapters.map((chapter) => (
+                  <button key={chapter.id} onClick={() => setActiveChapter(chapter)} className={`w-full text-left p-3 rounded-lg transition-colors ${currentChapter.id === chapter.id ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'}`}>
+                    <div className="font-medium">{chapter.title}</div>
+                    <div className="text-sm text-muted-foreground mt-1"> {chapter.wordCount} words • ~{chapter.estimatedPages} pages </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </aside>
 
-                           {/* Editor Content */}
-                   <div className="flex-1 overflow-y-auto relative">
-                     {/* Floating AI Chat Button - only show when drawer is closed */}
-                     {!showAIChat && (
-                       <div className="absolute top-4 right-4 z-40">
-                         <Button
-                           variant="outline"
-                           size="sm"
-                           onClick={() => setShowAIChat(true)}
-                           className="h-10 w-10 rounded-full p-0 shadow-lg hover:shadow-xl transition-all duration-200"
-                         >
-                           <Sparkles className="w-5 h-5" />
-                         </Button>
-                       </div>
-                     )}
+        {/* Editor Content */}
+        <div className="flex-1 overflow-y-auto relative">
+          {/* Floating Chapter Drawer Toggle - only show when drawer is closed */}
+          {!showChapterDrawer && (
+            <div className="absolute top-4 left-4 z-40">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowChapterDrawer(true)}
+                className="h-10 w-10 rounded-full p-0 shadow-lg hover:shadow-xl transition-all duration-200"
+              >
+                <Menu className="w-5 h-5" />
+              </Button>
+            </div>
+          )}
           
+          {/* Floating AI Chat Button - only show when drawer is closed */}
+          {!showAIChat && (
+            <div className="absolute top-4 right-4 z-40">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowAIChat(true)}
+                className="h-10 w-10 rounded-full p-0 shadow-lg hover:shadow-xl transition-all duration-200"
+              >
+                <Sparkles className="w-5 h-5" />
+              </Button>
+            </div>
+          )}
+
           <div className="max-w-4xl mx-auto p-8">
             <EditorContent editor={editor} className="prose prose-lg max-w-none focus:outline-none" />
           </div>
