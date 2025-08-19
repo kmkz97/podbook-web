@@ -163,7 +163,9 @@ const Settings = () => {
           </Button>
         </div>
 
-        <Separator className="mx-6 mb-6" />
+        <div className="px-6 mb-6">
+          <Separator />
+        </div>
 
         {/* Settings Navigation */}
         <div className="px-6">
