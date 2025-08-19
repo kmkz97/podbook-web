@@ -259,9 +259,9 @@ const Dashboard = () => {
                   <h3 className="font-medium text-foreground mb-2">{project.title}</h3>
                   <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{project.rss_url}</p>
                   <Button variant="outline" size="sm" className="w-full" asChild>
-                    <Link to={`/projects/${project.id}`}>
+                    <Link to={project.status === 'processing' || project.status === 'failed' ? `/processing/${project.id}` : `/projects/${project.id}`}>
                       <Eye className="h-4 w-4 mr-2" />
-                      View Project
+                      {project.status === 'processing' ? 'View Processing' : project.status === 'failed' ? 'Retry Project' : 'View Project'}
                     </Link>
                   </Button>
                 </div>
