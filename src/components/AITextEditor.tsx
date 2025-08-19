@@ -298,28 +298,12 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
         </div>
 
         {/* Chapter Header */}
-        <div className="bg-muted/30 px-8 py-4 border-b border-border">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-foreground">{currentChapter.title}</h1>
-              <p className="text-sm text-muted-foreground">
-                {currentChapter.wordCount} words • ~{currentChapter.estimatedPages} pages
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm">
-                <Eye className="w-4 h-4 mr-2" />
-                Preview
-              </Button>
-              <Button variant="outline" size="sm">
-                <Download className="w-4 h-4 mr-2" />
-                Export
-              </Button>
-              <Button variant="outline" size="sm">
-                <Share2 className="w-4 h-4 mr-2" />
-                Share
-              </Button>
-            </div>
+        <div className="px-8 py-4">
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">{currentChapter.title}</h1>
+            <p className="text-sm text-muted-foreground">
+              {currentChapter.wordCount} words • ~{currentChapter.estimatedPages} pages
+            </p>
           </div>
         </div>
 
