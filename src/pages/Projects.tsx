@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { BookOpen, Search, Filter, Download, Eye, Trash2, Plus, Calendar, Clock, Home, FileText, Settings, User, ChevronDown, LogOut } from "lucide-react";
+import { BookOpen, Search, Filter, Download, Eye, Trash2, Plus, Calendar, Clock, Home, FileText, Settings, User, ChevronDown, LogOut, CreditCard } from "lucide-react";
 
 interface Project {
   id: string;
@@ -163,19 +163,18 @@ const Projects = () => {
               </div>
               
               {/* Settings Dropdown - appears on hover and stays open */}
-              <div className="absolute bottom-full left-0 right-0 mb-2 bg-background border border-border rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto hover:opacity-100">
+              <div className="absolute bottom-full left-0 right-0 mb-1 bg-background border border-border rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto hover:opacity-100">
                 <div className="p-2">
+                  <div className="px-3 py-2 text-sm font-medium text-muted-foreground border-b border-border mb-2">
+                    Credits 2392
+                  </div>
                   <Button variant="ghost" size="sm" className="w-full justify-start">
                     <Settings className="w-4 h-4 mr-3" />
                     Settings
                   </Button>
                   <Button variant="ghost" size="sm" className="w-full justify-start">
-                    <User className="w-4 h-4 mr-3" />
-                    Profile
-                  </Button>
-                  <Button variant="ghost" size="sm" className="w-full justify-start">
-                    <Download className="w-4 h-4 mr-3" />
-                    Export Data
+                    <CreditCard className="w-4 h-4 mr-3" />
+                    Billing and Plan
                   </Button>
                   <Button variant="ghost" size="sm" className="w-full justify-start text-destructive hover:text-destructive">
                     <LogOut className="w-4 h-4 mr-3" />
