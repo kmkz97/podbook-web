@@ -35,15 +35,25 @@ const FloatingToolbar = ({ editor, onAIAssist }: FloatingToolbarProps) => {
         return;
       }
 
-      const { top, left, width } = editor.view.coordsAtPos(from);
-      const { bottom } = editor.view.coordsAtPos(to);
-      
-      setPosition({
-        x: left + width / 2,
-        y: top - 10
-      });
-      
-      setIsVisible(true);
+      try {
+        const { top, left, width } = editor.view.coordsAtPos(from);
+        const { bottom } = editor.view.coordsAtPos(to);
+        
+        // Get the editor container position for relative positioning
+        const editorElement = editor.view.dom.closest('.ProseMirror') || editor.view.dom;
+        const editorRect = editorElement.getBoundingClientRect();
+        
+        setPosition({
+          x: left + width / 2,
+          y: top
+        });
+        
+        console.log('Toolbar position updated:', { x: left + width / 2, y: top, left, width, top });
+        setIsVisible(true);
+      } catch (error) {
+        console.log('Error updating toolbar position:', error);
+        setIsVisible(false);
+      }
     };
 
     editor.on('selectionUpdate', updateToolbar);
@@ -78,8 +88,8 @@ const FloatingToolbar = ({ editor, onAIAssist }: FloatingToolbarProps) => {
       className="fixed z-50 bg-background border border-border rounded-lg shadow-lg p-2"
       style={{
         left: `${position.x}px`,
-        top: `${position.y}px`,
-        transform: 'translateX(-50%) translateY(-100%)'
+        top: `${position.y - 50}px`,
+        transform: 'translateX(-50%)'
       }}
     >
       {!showAIInput ? (
