@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import DashboardHeader from "@/components/DashboardHeader";
+import AITextEditor from "@/components/AITextEditor";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -51,6 +52,7 @@ const ProjectDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     // Simulate loading project data
@@ -120,6 +122,18 @@ const ProjectDetail = () => {
     );
   }
 
+  // If editing, show the AI text editor
+  if (isEditing) {
+    return (
+      <div className="min-h-screen bg-background">
+        <DashboardHeader />
+        <div className="mt-20">
+          <AITextEditor projectId={project.id} projectTitle={project.title} />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <DashboardHeader />
@@ -165,7 +179,7 @@ const ProjectDetail = () => {
                 <Share2 className="w-4 h-4 mr-2" />
                 Share
               </Button>
-              <Button variant="outline">
+              <Button variant="outline" onClick={() => setIsEditing(true)}>
                 <Edit3 className="w-4 h-4 mr-2" />
                 Edit
               </Button>
@@ -273,7 +287,7 @@ const ProjectDetail = () => {
                 <Share2 className="w-4 h-4 mr-2" />
                 Share Project
               </Button>
-              <Button variant="outline" className="w-full justify-start">
+              <Button variant="outline" className="w-full justify-start" onClick={() => setIsEditing(true)}>
                 <Edit3 className="w-4 h-4 mr-2" />
                 Edit Project
               </Button>
