@@ -173,6 +173,33 @@ const BookCreationWizard = () => {
     }));
   };
 
+  const calculateTotalPrice = () => {
+    const baseCostPerPage = 0.15;
+    const contentProcessingPerSource = 0.10;
+    const aiGenerationPerChapter = 0.25;
+    
+    // Calculate content sources count
+    const contentSourcesCount = [
+      contentSources.rssFeed ? 1 : 0,
+      contentSources.uploadedFiles.length > 0 ? 1 : 0,
+      contentSources.textContent ? 1 : 0,
+      contentSources.urls.length > 0 ? 1 : 0
+    ].filter(count => count > 0).length;
+    
+    // Calculate complexity multiplier
+    const complexityMultiplier = (selectedBookType === 'technical' || selectedBookType === 'academic') ? 1.5 : 1.0;
+    
+    // Calculate total
+    const baseCost = bookSpecs.targetPages[0] * baseCostPerPage;
+    const contentProcessingCost = contentSourcesCount * contentProcessingPerSource;
+    const aiGenerationCost = bookSpecs.targetChapters[0] * aiGenerationPerChapter;
+    
+    const subtotal = baseCost + contentProcessingCost + aiGenerationCost;
+    const total = subtotal * complexityMultiplier;
+    
+    return total;
+  };
+
   const processContent = async () => {
     setProcessing(true);
     // Simulate AI processing
@@ -597,21 +624,81 @@ const BookCreationWizard = () => {
             </CardContent>
           </Card>
 
-          {/* Save Options */}
+          {/* Price Calculator */}
           <Card>
             <CardHeader>
-              <CardTitle>Save Your Project</CardTitle>
-              <CardDescription>Your book structure is ready. Save it as a draft to work on later.</CardDescription>
+              <CardTitle>Price Calculator</CardTitle>
+              <CardDescription>Calculate the cost based on your content and book specifications</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
-                <div>
-                  <h4 className="font-medium">Project Summary</h4>
-                  <p className="text-sm text-muted-foreground">Your book will appear as a draft project</p>
+              {/* Content Analysis */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-4 bg-muted rounded-lg">
+                  <h4 className="font-medium mb-2">Content Sources</h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span>RSS Feed Articles:</span>
+                      <span className="font-medium">{contentSources.rssFeed ? selectedEpisodes.size : 0}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Uploaded Files:</span>
+                      <span className="font-medium">{contentSources.uploadedFiles.length}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Text Content:</span>
+                      <span className="font-medium">{contentSources.textContent ? 'Yes' : 'No'}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>URLs:</span>
+                      <span className="font-medium">{contentSources.urls.length}</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="text-right">
-                  <div className="text-2xl font-medium text-primary">{preview.totalPages} pages</div>
-                  <div className="text-sm text-muted-foreground">~{preview.totalWords.toLocaleString()} words</div>
+                
+                <div className="p-4 bg-muted rounded-lg">
+                  <h4 className="font-medium mb-2">Book Specifications</h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span>Target Pages:</span>
+                      <span className="font-medium">{bookSpecs.targetPages[0]}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Target Chapters:</span>
+                      <span className="font-medium">{bookSpecs.targetChapters[0]}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Book Type:</span>
+                      <span className="font-medium capitalize">{selectedBookType.replace('-', ' ')}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Pricing Breakdown */}
+              <div className="p-4 bg-muted rounded-lg">
+                <h4 className="font-medium mb-3">Pricing Breakdown</h4>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span>Base Cost (per page):</span>
+                    <span>$0.15</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Content Processing (per source):</span>
+                    <span>$0.10</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>AI Generation (per chapter):</span>
+                    <span>$0.25</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Complexity Multiplier:</span>
+                    <span>{selectedBookType === 'technical' || selectedBookType === 'academic' ? '1.5x' : '1.0x'}</span>
+                  </div>
+                  <Separator className="my-2" />
+                  <div className="flex justify-between font-medium">
+                    <span>Estimated Total:</span>
+                    <span className="text-primary text-lg">${calculateTotalPrice().toFixed(2)}</span>
+                  </div>
                 </div>
               </div>
               
