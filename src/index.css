@@ -239,6 +239,11 @@
   font-weight: 300;
 }
 
+/* Logo Styling */
+.logo-svg {
+  color: hsl(var(--foreground));
+}
+
 /* Custom Scrollbar Styles */
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;

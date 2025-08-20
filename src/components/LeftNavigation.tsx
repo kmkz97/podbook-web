@@ -30,7 +30,7 @@ const LeftNavigation = ({ activePage = 'dashboard' }: LeftNavigationProps) => {
       {/* Logo Section */}
       <div className="p-6">
         <div className="flex items-center gap-2">
-          <img src="/logo.svg" alt="Podbook Logo" className="w-8 h-8" style={{ color: 'hsl(var(--foreground))' }} />
+          <img src="/logo.svg" alt="Podbook Logo" className="w-8 h-8 logo-svg" />
           <h1 className="text-2xl font-medium text-foreground font-serif-headers">Podbook</h1>
         </div>
       </div>
