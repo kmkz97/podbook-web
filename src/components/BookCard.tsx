@@ -47,49 +47,44 @@ const BookCard = ({ project, showActions = true }: BookCardProps) => {
           <Button variant="outline" size="sm" className="flex-1" asChild>
             <Link to={isProcessing || isFailed ? `/processing/${project.id}` : `/projects/${project.id}`}>
               <Eye className="h-4 w-4 mr-2" />
-              {isProcessing ? 'View Processing' : isFailed ? 'Retry Project' : 'View Project'}
+              View
             </Link>
           </Button>
 
-          {/* Edit Button - Only for completed projects */}
-          {isCompleted && (
+          {/* Failed State: View + Retry */}
+          {isFailed && (
             <Button variant="outline" size="sm" className="flex-1" asChild>
-              <Link to={`/projects/${project.id}`}>
-                <Edit className="h-4 w-4 mr-2" />
-                Edit
+              <Link to={`/processing/${project.id}`}>
+                <Clock className="h-4 w-4 mr-2" />
+                Retry
               </Link>
             </Button>
           )}
 
-          {/* Download Button - Only for completed projects */}
-          {isCompleted && (
-            <Button variant="outline" size="sm" className="flex-1">
-              <Download className="h-4 w-4 mr-2" />
-              Download
-            </Button>
-          )}
-
-          {/* Processing/Failed state buttons - Ghosted */}
+          {/* Processing State: View + Edit (ghosted) + Download (ghosted) */}
           {isProcessing && (
             <>
-              <Button variant="ghost" size="sm" className="flex-1" disabled>
+              <Button variant="outline" size="sm" className="flex-1" disabled>
                 <Edit className="h-4 w-4 mr-2" />
                 Edit
               </Button>
-              <Button variant="ghost" size="sm" className="flex-1" disabled>
+              <Button variant="outline" size="sm" className="flex-1" disabled>
                 <Download className="h-4 w-4 mr-2" />
                 Download
               </Button>
             </>
           )}
 
-          {isFailed && (
+          {/* Completed State: View + Edit + Download */}
+          {isCompleted && (
             <>
-              <Button variant="ghost" size="sm" className="flex-1" disabled>
-                <Edit className="h-4 w-4 mr-2" />
-                Edit
+              <Button variant="outline" size="sm" className="flex-1" asChild>
+                <Link to={`/projects/${project.id}`}>
+                  <Edit className="h-4 w-4 mr-2" />
+                  Edit
+                </Link>
               </Button>
-              <Button variant="ghost" size="sm" className="flex-1" disabled>
+              <Button variant="outline" size="sm" className="flex-1">
                 <Download className="h-4 w-4 mr-2" />
                 Download
               </Button>
