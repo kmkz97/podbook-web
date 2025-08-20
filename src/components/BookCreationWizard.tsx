@@ -9,6 +9,7 @@ import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { 
   BookOpen, 
   FileText, 
@@ -253,10 +254,19 @@ const BookCreationWizard = () => {
         <div>
           <div className="flex items-center gap-2 mb-2">
             <Label htmlFor="author">Author Name</Label>
-            <Info className="w-4 h-4 text-muted-foreground" />
-            <span className="text-sm text-muted-foreground">
-              This will be displayed as the author of your book. Use your real name or a pen name.
-            </span>
+            <HoverCard>
+              <HoverCardTrigger asChild>
+                <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+              </HoverCardTrigger>
+              <HoverCardContent className="w-80">
+                <div className="space-y-2">
+                  <h4 className="text-sm font-medium">Author Name</h4>
+                  <p className="text-sm text-muted-foreground">
+                    This will be displayed as the author of your book. Use your real name or a pen name.
+                  </p>
+                </div>
+              </HoverCardContent>
+            </HoverCard>
           </div>
           <Input
             id="author"
@@ -270,10 +280,19 @@ const BookCreationWizard = () => {
         <div>
           <div className="flex items-center gap-2 mb-2">
             <Label htmlFor="audience">Target Audience</Label>
-            <Info className="w-4 h-4 text-muted-foreground" />
-            <span className="text-sm text-muted-foreground">
-              Describe who this book is for. Be specific: "Beginner developers learning React" or "Marketing professionals with 5+ years experience"
-            </span>
+            <HoverCard>
+              <HoverCardTrigger asChild>
+                <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+              </HoverCardTrigger>
+              <HoverCardContent className="w-80">
+                <div className="space-y-2">
+                  <h4 className="text-sm font-medium">Target Audience</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Describe who this book is for. Be specific: "Beginner developers learning React" or "Marketing professionals with 5+ years experience"
+                  </p>
+                </div>
+              </HoverCardContent>
+            </HoverCard>
           </div>
           <Input
             id="audience"
