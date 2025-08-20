@@ -1,19 +1,17 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { BookOpen, Search, Filter, Download, Eye, Trash2, Plus, Calendar, Clock } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Plus } from "lucide-react";
 import LeftNavigation from "@/components/LeftNavigation";
+import BookCard from "@/components/BookCard";
 
 interface Project {
   id: string;
   title: string;
-  rss_url: string;
   status: 'processing' | 'completed' | 'failed';
-  created_at: string;
+  edited_at?: string;
+  word_count?: number;
   pages_count?: number;
-  file_size?: string;
 }
 
 const Dashboard = () => {
@@ -21,43 +19,38 @@ const Dashboard = () => {
     {
       id: '1',
       title: 'Tech News Weekly',
-      rss_url: 'https://example.com/tech-news',
       status: 'completed',
-      created_at: '2024-01-15',
-      pages_count: 124,
-      file_size: '2.3 MB'
+      edited_at: '2024-01-15',
+      word_count: 45000,
+      pages_count: 124
     },
     {
       id: '2',
       title: 'Design Inspiration Daily',
-      rss_url: 'https://example.com/design-feed',
       status: 'processing',
-      created_at: '2024-01-20'
+      edited_at: '2024-01-20'
     },
     {
       id: '3',
       title: 'Industry Updates',
-      rss_url: 'https://example.com/industry',
       status: 'failed',
-      created_at: '2024-01-18'
+      edited_at: '2024-01-18'
     },
     {
       id: '4',
       title: 'Marketing Insights',
-      rss_url: 'https://example.com/marketing',
       status: 'completed',
-      created_at: '2024-01-10',
-      pages_count: 89,
-      file_size: '1.8 MB'
+      edited_at: '2024-01-10',
+      word_count: 32000,
+      pages_count: 89
     },
     {
       id: '5',
       title: 'Science Breakthroughs',
-      rss_url: 'https://example.com/science',
       status: 'completed',
-      created_at: '2024-01-05',
-      pages_count: 156,
-      file_size: '3.1 MB'
+      edited_at: '2024-01-05',
+      word_count: 58000,
+      pages_count: 156
     }
   ]);
 
@@ -67,19 +60,7 @@ const Dashboard = () => {
     .filter(p => p.status === 'completed')
     .reduce((sum, p) => sum + (p.pages_count || 0), 0);
 
-  const getStatusBadge = (status: string) => {
-    const variants = {
-      completed: 'default',
-      processing: 'secondary',
-      failed: 'destructive'
-    } as const;
-    
-    return (
-      <Badge variant={variants[status as keyof typeof variants] || 'secondary'}>
-        {status.charAt(0).toUpperCase() + status.slice(1)}
-      </Badge>
-    );
-  };
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -149,20 +130,7 @@ const Dashboard = () => {
             <h2 className="text-2xl font-bold text-foreground mb-4">Recent Projects</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {projects.slice(0, 3).map((project) => (
-                <div key={project.id} className="bg-card border border-border rounded-lg p-4 hover:shadow-md transition-shadow">
-                  <div className="flex items-start justify-between mb-3">
-                    <BookOpen className="h-6 w-6 text-primary mt-1" />
-                    {getStatusBadge(project.status)}
-                  </div>
-                  <h3 className="font-medium text-foreground mb-2">{project.title}</h3>
-                  <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{project.rss_url}</p>
-                  <Button variant="outline" size="sm" className="w-full" asChild>
-                    <Link to={project.status === 'processing' || project.status === 'failed' ? `/processing/${project.id}` : `/projects/${project.id}`}>
-                      <Eye className="h-4 w-4 mr-2" />
-                      {project.status === 'processing' ? 'View Processing' : project.status === 'failed' ? 'Retry Project' : 'View Project'}
-                    </Link>
-                  </Button>
-                </div>
+                <BookCard key={project.id} project={project} />
               ))}
             </div>
           </div>
