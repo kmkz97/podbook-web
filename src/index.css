@@ -1,6 +1,9 @@
 /* Import Inter font */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
+/* Import Roboto Serif font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Serif:opsz,wght@8..144,100;8..144,200;8..144,300;8..144,400;8..144,500;8..144,600;8..144,700;8..144,800;8..144,900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -228,6 +231,11 @@
 /* Settings Dropdown Padding Fix */
 .settings-dropdown {
   padding-bottom: 0.5rem;
+}
+
+/* Roboto Serif Headers */
+.font-serif-headers {
+  font-family: 'Roboto Serif', serif;
 }
 
 /* Custom Scrollbar Styles */

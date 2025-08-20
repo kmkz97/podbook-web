@@ -29,7 +29,7 @@ const LeftNavigation = ({ activePage = 'dashboard' }: LeftNavigationProps) => {
     <aside className="w-64 bg-card border-r border-border h-screen flex flex-col sticky top-0">
       {/* Logo Section */}
       <div className="p-6">
-        <h1 className="text-2xl font-medium text-foreground">Podbook</h1>
+        <h1 className="text-2xl font-medium text-foreground font-serif-headers">Podbook</h1>
       </div>
       
       {/* Navigation Content */}

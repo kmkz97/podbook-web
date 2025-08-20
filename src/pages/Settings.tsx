@@ -152,7 +152,7 @@ const Settings = () => {
       <aside className="w-64 bg-card border-r border-border flex flex-col">
         {/* Logo */}
         <div className="p-6">
-                      <h1 className="text-2xl font-medium text-foreground">Podbook</h1>
+                      <h1 className="text-2xl font-medium text-foreground font-serif-headers">Podbook</h1>
         </div>
 
         {/* Back to Dashboard Button */}

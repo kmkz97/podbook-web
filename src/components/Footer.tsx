@@ -9,7 +9,7 @@ const Footer = () => {
         <div className="grid md:grid-cols-4 gap-8">
           <div className="col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <h3 className="text-xl font-medium">Podbook</h3>
+              <h3 className="text-xl font-medium font-serif-headers">Podbook</h3>
             </div>
             <p className="text-primary-foreground/80 mb-6 max-w-md">
               Transform your favorite RSS feeds into beautiful, readable books. 
