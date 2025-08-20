@@ -17,8 +17,6 @@ interface Project {
 }
 
 const Dashboard = () => {
-  const navigate = useNavigate();
-  const { theme, toggleTheme } = useTheme();
   const [projects] = useState<Project[]>([
     {
       id: '1',
