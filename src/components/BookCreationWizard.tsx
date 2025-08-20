@@ -240,7 +240,22 @@ const BookCreationWizard = () => {
         </div>
         
         <div>
-          <Label htmlFor="description">Description</Label>
+          <div className="flex items-center gap-2 mb-2">
+            <Label htmlFor="description">Description</Label>
+            <HoverCard>
+              <HoverCardTrigger asChild>
+                <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+              </HoverCardTrigger>
+              <HoverCardContent className="w-80">
+                <div className="space-y-2">
+                  <h4 className="text-sm font-medium">Book Description</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Provide a clear, compelling summary of your book. Include the main topics, key benefits, and what readers will learn. This helps AI generate better content and structure.
+                  </p>
+                </div>
+              </HoverCardContent>
+            </HoverCard>
+          </div>
           <Textarea
             id="description"
             placeholder="Describe what your book is about"
