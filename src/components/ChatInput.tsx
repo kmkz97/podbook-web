@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Send, Upload, X, File } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -85,29 +86,20 @@ const ChatInput = ({
     <div className={`max-w-2xl mx-auto flex flex-col h-full ${className}`}>
       <form onSubmit={handleSubmit} className="relative">
         <div className="relative">
-          <textarea
+          <Input
+            type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder={placeholder || placeholderTexts[currentPlaceholderIndex]}
-            className="w-full h-10 min-h-[40px] max-h-48 text-base px-6 pr-16 py-2 border-2 border-border focus:border-primary transition-colors bg-background rounded-[14px] text-foreground placeholder:text-muted-foreground resize-none overflow-hidden"
-            style={{
-              height: '40px',
-              minHeight: '40px',
-              maxHeight: '192px'
-            }}
-            onInput={(e) => {
-              const target = e.target as HTMLTextAreaElement;
-              target.style.height = '40px';
-              target.style.height = Math.min(target.scrollHeight, 192) + 'px';
-            }}
+            className="w-full h-16 text-lg px-6 pr-16 border-2 border-border focus:border-primary transition-colors bg-background rounded-[30px] text-foreground placeholder:text-muted-foreground"
           />
           <Button
             type="submit"
             size="sm"
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 rounded-full bg-primary hover:bg-primary/90"
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 h-12 w-12 rounded-full bg-primary hover:bg-primary/90"
             disabled={!inputValue.trim()}
           >
-            <Send className="w-4 h-4" />
+            <Send className="w-5 h-5" />
           </Button>
         </div>
       </form>
