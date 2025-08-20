@@ -1,8 +1,34 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, BookOpen, Rss } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 const HeroSection = () => {
+  const [currentTextIndex, setCurrentTextIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  
+  const contentTypes = [
+    "RSS Feeds",
+    "Podcast",
+    "Seminar", 
+    "Videos",
+    "Blogs",
+    "Content",
+    "Notes"
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setCurrentTextIndex((prev) => (prev + 1) % contentTypes.length);
+        setIsTransitioning(false);
+      }, 300);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [contentTypes.length]);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
       <div className="container relative z-10 px-4 py-20 mx-auto text-center">
@@ -15,8 +41,10 @@ const HeroSection = () => {
           
           <h1 className="text-5xl md:text-7xl font-medium text-foreground mb-6 leading-tight">
             Transform
-            <span className="text-muted-foreground ml-4">
-              RSS Feeds
+            <span className={`text-muted-foreground ml-4 transition-all duration-300 ease-in-out ${
+              isTransitioning ? 'opacity-0 transform scale-95' : 'opacity-100 transform scale-100'
+            }`}>
+              {contentTypes[currentTextIndex]}
             </span>
             <br />
             into Beautiful Books
