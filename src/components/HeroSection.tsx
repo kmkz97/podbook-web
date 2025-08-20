@@ -64,18 +64,14 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/book-1.jpg)' }}>
       <div className="container relative z-10 px-4 py-20 mx-auto text-center">
         <div className="max-w-4xl mx-auto">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <Rss className="w-8 h-8 text-foreground" />
-            <ArrowRight className="w-6 h-6 text-foreground" />
-            <BookOpen className="w-8 h-8 text-foreground" />
-          </div>
+
           
-          <h1 className="text-5xl md:text-7xl font-medium text-foreground mb-6 leading-tight">
+          <h1 className="text-5xl md:text-7xl font-medium text-white mb-6 leading-tight">
             Transform
-            <span className={`text-muted-foreground ml-4 transition-all duration-500 ease-in-out ${
+            <span className={`text-white/80 ml-4 transition-all duration-500 ease-in-out ${
               isTransitioning ? 'opacity-0 transform -translate-y-4' : 'opacity-100 transform translate-y-0'
             }`}>
               {contentTypes[currentTextIndex]}
@@ -84,7 +80,7 @@ const HeroSection = () => {
             into Beautiful Books
           </h1>
           
-          <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl md:text-2xl text-white/80 mb-8 max-w-2xl mx-auto leading-relaxed">
             Turn your favorite blogs, news feeds, and content streams into professionally formatted books you can read anywhere.
           </p>
           
@@ -97,7 +93,7 @@ const HeroSection = () => {
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   placeholder={placeholderTexts[currentPlaceholderIndex]}
-                  className="w-full h-16 text-lg px-6 pr-16 border-2 border-muted-foreground/20 focus:border-primary transition-colors bg-background/50 backdrop-blur-sm"
+                  className="w-full h-16 text-lg px-6 pr-16 border-2 border-white/30 focus:border-white transition-colors bg-white/90 backdrop-blur-sm rounded-[14px] text-black placeholder:text-gray-600"
                 />
                 <Button
                   type="submit"
@@ -116,7 +112,7 @@ const HeroSection = () => {
                 variant="ghost"
                 size="sm"
                 onClick={() => handleModalAction('signup')}
-                className="text-sm text-muted-foreground hover:text-foreground"
+                className="text-sm text-white/80 hover:text-white border-white/20 hover:bg-white/10"
               >
                 <Upload className="w-4 h-4 mr-2" />
                 Upload Files
@@ -125,7 +121,7 @@ const HeroSection = () => {
                 variant="ghost"
                 size="sm"
                 onClick={() => handleModalAction('signup')}
-                className="text-sm text-muted-foreground hover:text-foreground"
+                className="text-sm text-white/80 hover:text-white border-white/20 hover:bg-white/10"
               >
                 <LinkIcon className="w-4 h-4 mr-2" />
                 Add Links
@@ -134,7 +130,7 @@ const HeroSection = () => {
                 variant="ghost"
                 size="sm"
                 onClick={() => handleModalAction('signup')}
-                className="text-sm text-muted-foreground hover:text-foreground"
+                className="text-sm text-white/80 hover:text-white border-white/20 hover:bg-white/10"
               >
                 <FileText className="w-4 h-4 mr-2" />
                 Write Prompt
