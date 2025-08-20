@@ -159,7 +159,7 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
               <Home className="w-4 h-4" />
             </Button>
             <div>
-              <h2 className="text-lg font-bold text-foreground mb-0.5">{projectTitle}</h2>
+              <h2 className="text-base font-medium text-foreground mb-0.5">{projectTitle}</h2>
             </div>
           </div>
 
