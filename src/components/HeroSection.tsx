@@ -65,6 +65,9 @@ const HeroSection = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/book-1.jpg)' }}>
+      {/* Semi-transparent black overlay */}
+      <div className="absolute inset-0 bg-black/50 z-0"></div>
+      
       <div className="container relative z-10 px-4 py-20 mx-auto text-center">
         <div className="max-w-4xl mx-auto">
 
