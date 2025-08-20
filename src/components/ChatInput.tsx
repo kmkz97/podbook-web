@@ -1,10 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Send, Upload } from "lucide-react";
+import { Send, Upload, X, File, FileText, Link as LinkIcon } from "lucide-react";
 import { useState, useEffect } from "react";
 
+interface AttachedFile {
+  id: string;
+  name: string;
+  type: 'file' | 'link' | 'text';
+  size?: number;
+  url?: string;
+}
+
 interface ChatInputProps {
-  onSubmit?: (value: string) => void;
+  onSubmit?: (value: string, files: AttachedFile[]) => void;
   placeholder?: string;
   showQuickActions?: boolean;
   className?: string;
@@ -18,6 +26,8 @@ const ChatInput = ({
 }: ChatInputProps) => {
   const [inputValue, setInputValue] = useState('');
   const [currentPlaceholderIndex, setCurrentPlaceholderIndex] = useState(0);
+  const [attachedFiles, setAttachedFiles] = useState<AttachedFile[]>([]);
+  const [showFileInput, setShowFileInput] = useState(false);
   
   const placeholderTexts = [
     "Add an RSS feed URL...",
@@ -38,15 +48,60 @@ const ChatInput = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (inputValue.trim() && onSubmit) {
-      onSubmit(inputValue.trim());
+    if ((inputValue.trim() || attachedFiles.length > 0) && onSubmit) {
+      onSubmit(inputValue.trim(), attachedFiles);
       setInputValue('');
+      setAttachedFiles([]);
     }
   };
 
   const handleQuickAction = (action: string) => {
-    // Handle quick actions - could be customized per implementation
-    console.log(`Quick action: ${action}`);
+    if (action === 'upload') {
+      setShowFileInput(true);
+    }
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      const newFiles: AttachedFile[] = Array.from(files).map((file, index) => ({
+        id: `file-${Date.now()}-${index}`,
+        name: file.name,
+        type: 'file' as const,
+        size: file.size
+      }));
+      setAttachedFiles(prev => [...prev, ...newFiles]);
+      setShowFileInput(false);
+    }
+  };
+
+  const handleAddLink = () => {
+    const url = prompt('Enter URL:');
+    if (url && url.trim()) {
+      const newLink: AttachedFile = {
+        id: `link-${Date.now()}`,
+        name: url,
+        type: 'link',
+        url: url.trim()
+      };
+      setAttachedFiles(prev => [...prev, newLink]);
+    }
+  };
+
+  const handleAddText = () => {
+    const text = prompt('Enter text content:');
+    if (text && text.trim()) {
+      const newText: AttachedFile = {
+        id: `text-${Date.now()}`,
+        name: text.length > 50 ? text.substring(0, 50) + '...' : text,
+        type: 'text'
+      };
+      setAttachedFiles(prev => [...prev, newText]);
+    }
+  };
+
+  const removeFile = (id: string) => {
+    setAttachedFiles(prev => prev.filter(file => file.id !== id));
   };
 
   return (
@@ -83,6 +138,83 @@ const ChatInput = ({
             <Upload className="w-4 h-4 mr-2" />
             Upload Files
           </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleAddLink}
+            className="text-sm text-muted-foreground hover:text-foreground border-border hover:bg-muted"
+          >
+            <LinkIcon className="w-4 h-4 mr-2" />
+            Add Link
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleAddText}
+            className="text-sm text-muted-foreground hover:text-foreground border-border hover:bg-muted"
+          >
+            <FileText className="w-4 h-4 mr-2" />
+            Add Text
+          </Button>
+        </div>
+      )}
+
+      {/* Hidden File Input */}
+      <input
+        type="file"
+        multiple
+        onChange={handleFileUpload}
+        className="hidden"
+        id="file-upload"
+        accept=".txt,.md,.pdf,.doc,.docx,.rtf"
+      />
+      {showFileInput && (
+        <div className="mt-4 text-center">
+          <label htmlFor="file-upload" className="cursor-pointer">
+            <Button variant="outline" size="sm">
+              <Upload className="w-4 h-4 mr-2" />
+              Select Files
+            </Button>
+          </label>
+        </div>
+      )}
+
+      {/* Attached Files Display */}
+      {attachedFiles.length > 0 && (
+        <div className="mt-4">
+          <div className="text-sm text-muted-foreground mb-2 text-center">
+            Attached ({attachedFiles.length}):
+          </div>
+          <div className="space-y-2 max-h-32 overflow-y-auto">
+            {attachedFiles.map((file) => (
+              <div
+                key={file.id}
+                className="flex items-center justify-between p-2 bg-muted/50 rounded-lg border border-border"
+              >
+                <div className="flex items-center gap-2 flex-1 min-w-0">
+                  {file.type === 'file' && <File className="w-4 h-4 text-muted-foreground flex-shrink-0" />}
+                  {file.type === 'link' && <LinkIcon className="w-4 h-4 text-muted-foreground flex-shrink-0" />}
+                  {file.type === 'text' && <FileText className="w-4 h-4 text-muted-foreground flex-shrink-0" />}
+                  <span className="text-sm text-foreground truncate">
+                    {file.name}
+                  </span>
+                  {file.size && (
+                    <span className="text-xs text-muted-foreground flex-shrink-0">
+                      ({(file.size / 1024).toFixed(1)} KB)
+                    </span>
+                  )}
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => removeFile(file.id)}
+                  className="h-6 w-6 p-0 hover:bg-destructive hover:text-destructive-foreground"
+                >
+                  <X className="w-3 h-3" />
+                </Button>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>
