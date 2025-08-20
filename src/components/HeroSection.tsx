@@ -41,8 +41,8 @@ const HeroSection = () => {
           
           <h1 className="text-5xl md:text-7xl font-medium text-foreground mb-6 leading-tight">
             Transform
-            <span className={`text-muted-foreground ml-4 transition-all duration-300 ease-in-out ${
-              isTransitioning ? 'opacity-0 transform scale-95' : 'opacity-100 transform scale-100'
+            <span className={`text-muted-foreground ml-4 transition-all duration-500 ease-in-out ${
+              isTransitioning ? 'opacity-0 transform -translate-y-4' : 'opacity-100 transform translate-y-0'
             }`}>
               {contentTypes[currentTextIndex]}
             </span>
