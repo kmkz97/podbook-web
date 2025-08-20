@@ -137,17 +137,19 @@ const ProjectDetail = () => {
         <LeftNavigation activePage="project-detail" />
 
         {/* Main Content Area */}
-        <main className="flex-1 p-8">
+        <main className="flex-1 p-8 relative">
+          {/* Back Button - Fixed Position */}
+          <Button 
+            variant="ghost" 
+            onClick={() => navigate(-1)} 
+            className="absolute top-8 left-8 hover:bg-muted back-button p-2 h-10 w-10 rounded-full z-10"
+          >
+            <ArrowLeft className="w-4 h-4" />
+          </Button>
+          
           <div className="max-w-6xl mx-auto">
-            {/* Common Header with Back Button */}
+            {/* Common Header */}
             <div className="mb-8">
-              <Button 
-                variant="ghost" 
-                onClick={() => navigate(-1)} 
-                className="mb-4 hover:bg-muted back-button p-2 h-10 w-10 rounded-full"
-              >
-                <ArrowLeft className="w-4 h-4" />
-              </Button>
               
               <div className="flex items-start justify-between">
                 <div>
