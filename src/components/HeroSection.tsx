@@ -13,13 +13,13 @@ const HeroSection = () => {
   const [currentPlaceholderIndex, setCurrentPlaceholderIndex] = useState(0);
   
   const contentTypes = [
-    "RSS Feeds",
-    "Podcast",
-    "Seminar", 
-    "Videos",
-    "Blogs",
-    "Content",
-    "Notes"
+    "RSS feed",
+    "podcast",
+    "seminar", 
+    "video",
+    "blog",
+    "content",
+    "note"
   ];
 
   const placeholderTexts = [
