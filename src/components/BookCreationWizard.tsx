@@ -621,8 +621,8 @@ const BookCreationWizard = () => {
                   Download Overview
                 </Button>
                 <Button className="flex-1 bg-primary hover:bg-primary/90">
-                  <BookOpen className="w-4 h-4 mr-2" />
-                  Save for Later
+                  <CreditCard className="w-4 h-4 mr-2" />
+                  Purchase & Generate
                 </Button>
               </div>
             </CardContent>
