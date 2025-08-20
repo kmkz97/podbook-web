@@ -83,7 +83,7 @@ const ChatInput = ({
   };
 
   return (
-    <div className={`max-w-2xl mx-auto ${className}`}>
+    <div className={`max-w-2xl mx-auto flex flex-col h-full ${className}`}>
       <form onSubmit={handleSubmit} className="relative">
         <div className="relative">
           <Input
@@ -129,40 +129,40 @@ const ChatInput = ({
         </div>
       )}
 
-      {/* Attached Files Display */}
-      {attachedFiles.length > 0 && (
-        <div className="mt-4">
-          <div className="text-sm text-muted-foreground mb-2 text-center">
-            Attached Files ({attachedFiles.length}):
-          </div>
-          <div className="space-y-2 max-h-32 overflow-y-auto">
-            {attachedFiles.map((file) => (
-              <div
-                key={file.id}
-                className="flex items-center justify-between p-2 bg-muted/50 rounded-lg border border-border"
-              >
-                <div className="flex items-center gap-2 flex-1 min-w-0">
-                  <File className="w-4 h-4 text-muted-foreground flex-shrink-0" />
-                  <span className="text-sm text-foreground truncate">
-                    {file.name}
-                  </span>
-                  <span className="text-xs text-muted-foreground flex-shrink-0">
-                    ({(file.size / 1024).toFixed(1)} KB)
-                  </span>
-                </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => removeFile(file.id)}
-                  className="h-6 w-6 p-0 hover:bg-destructive hover:text-destructive-foreground"
+              {/* Attached Files Display */}
+        {attachedFiles.length > 0 && (
+          <div className="mt-4 flex-1 min-h-0">
+            <div className="text-sm text-muted-foreground mb-2 text-center">
+              Attached Files ({attachedFiles.length}):
+            </div>
+            <div className="space-y-2 h-full overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-muted-foreground/30">
+              {attachedFiles.map((file) => (
+                <div
+                  key={file.id}
+                  className="flex items-center justify-between p-2 bg-muted/50 rounded-lg border border-border"
                 >
-                  <X className="w-3 h-3" />
-                </Button>
-              </div>
-            ))}
+                  <div className="flex items-center gap-2 flex-1 min-w-0">
+                    <File className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                    <span className="text-sm text-foreground truncate">
+                      {file.name}
+                    </span>
+                    <span className="text-xs text-muted-foreground flex-shrink-0">
+                      ({(file.size / 1024).toFixed(1)} KB)
+                    </span>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => removeFile(file.id)}
+                    className="h-6 w-6 p-0 hover:bg-destructive hover:text-destructive-foreground"
+                  >
+                    <X className="w-3 h-3" />
+                  </Button>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
     </div>
   );
 };
