@@ -212,6 +212,10 @@
   @apply bg-muted text-foreground;
 }
 
+.left-nav-active:hover {
+  @apply bg-muted text-foreground;
+}
+
 .left-nav-hover {
   @apply hover:bg-muted hover:text-foreground;
 }

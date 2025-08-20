@@ -49,7 +49,7 @@ const LeftNavigation = ({ activePage = 'dashboard' }: LeftNavigationProps) => {
           <div>
             <div className="space-y-2">
               <Button 
-                variant={activePage === 'dashboard' ? 'default' : 'ghost'} 
+                variant="ghost"
                 className={`w-full justify-start ${activePage === 'dashboard' ? 'left-nav-active' : 'left-nav-hover'}`} 
                 asChild
               >
@@ -59,7 +59,7 @@ const LeftNavigation = ({ activePage = 'dashboard' }: LeftNavigationProps) => {
                 </Link>
               </Button>
               <Button 
-                variant={activePage === 'projects' ? 'default' : 'ghost'} 
+                variant="ghost"
                 className={`w-full justify-start ${activePage === 'projects' ? 'left-nav-active' : 'left-nav-hover'}`} 
                 asChild
               >
