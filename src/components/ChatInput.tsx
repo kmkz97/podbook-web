@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Send, Upload, X, File } from "lucide-react";
+import { ArrowUp, Upload, X, File } from "lucide-react";
 import { useState, useEffect } from "react";
 
 interface AttachedFile {
@@ -93,14 +93,14 @@ const ChatInput = ({
             placeholder={placeholder || placeholderTexts[currentPlaceholderIndex]}
             className="w-full h-16 text-lg px-6 pr-16 border-2 border-border focus:border-primary transition-colors bg-background rounded-[30px] text-foreground placeholder:text-muted-foreground"
           />
-          <Button
-            type="submit"
-            size="sm"
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 h-12 w-12 rounded-full bg-primary hover:bg-primary/90"
-            disabled={!inputValue.trim()}
-          >
-            <Send className="w-5 h-5" />
-          </Button>
+                      <Button
+              type="submit"
+              size="sm"
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 h-12 w-12 rounded-full bg-primary hover:bg-primary/90"
+              disabled={!inputValue.trim()}
+            >
+              <ArrowUp className="w-5 h-5" />
+            </Button>
         </div>
       </form>
       
