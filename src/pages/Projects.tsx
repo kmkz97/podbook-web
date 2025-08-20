@@ -18,8 +18,6 @@ interface Project {
 }
 
 const Projects = () => {
-  const navigate = useNavigate();
-  const { theme, toggleTheme } = useTheme();
   const [searchTerm, setSearchTerm] = useState("");
   
   const [projects] = useState<Project[]>([

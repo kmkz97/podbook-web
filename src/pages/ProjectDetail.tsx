@@ -16,7 +16,8 @@ import {
   Target,
   ArrowLeft,
   Share2,
-  Edit3
+  Edit3,
+  Loader2
 } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import LeftNavigation from "@/components/LeftNavigation";
@@ -96,7 +97,7 @@ const ProjectDetail = () => {
           {/* Main Content Area */}
           <main className="flex-1 p-8">
             <div className="text-center py-12">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+              <Loader2 className="w-12 h-12 text-primary animate-spin mx-auto mb-4" />
               <p className="text-muted-foreground">Loading project details...</p>
             </div>
           </main>

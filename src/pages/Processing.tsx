@@ -14,7 +14,8 @@ import {
   FileText,
   Image,
   Layers,
-  Sparkles
+  Sparkles,
+  Loader2
 } from "lucide-react";
 import LeftNavigation from "@/components/LeftNavigation";
 
@@ -113,7 +114,7 @@ const Processing = () => {
       case 'completed':
         return <CheckCircle className="w-6 h-6 text-green-500" />;
       case 'processing':
-        return <Clock className="w-6 h-6 text-blue-500 animate-spin" />;
+        return <Loader2 className="w-6 h-6 text-blue-500 animate-spin" />;
       case 'error':
         return <AlertCircle className="w-6 h-6 text-red-500" />;
       default:
