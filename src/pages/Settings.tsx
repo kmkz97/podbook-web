@@ -153,7 +153,7 @@ const Settings = () => {
         {/* Logo */}
         <div className="p-6">
           <div className="flex items-center gap-2">
-            <img src="/logo.svg" alt="Podbook Logo" className="w-8 h-8" />
+            <img src="/logo.svg" alt="Podbook Logo" className="w-8 h-8 text-foreground" />
             <h1 className="text-2xl font-medium text-foreground font-serif-headers">Podbook</h1>
           </div>
         </div>
