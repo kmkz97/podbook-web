@@ -82,6 +82,7 @@ const BookCreationWizard = () => {
     textContent: '',
     urls: [] as string[]
   });
+  const [selectedEpisodes, setSelectedEpisodes] = useState<Set<number>>(new Set());
   const [processing, setProcessing] = useState(false);
   const [preview, setPreview] = useState<{
     chapters: Chapter[];
@@ -90,6 +91,18 @@ const BookCreationWizard = () => {
     estimatedCost: number;
   } | null>(null);
   const [showChangesSaved, setShowChangesSaved] = useState(false);
+
+  const toggleEpisodeSelection = (episodeId: number) => {
+    setSelectedEpisodes(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(episodeId)) {
+        newSet.delete(episodeId);
+      } else {
+        newSet.add(episodeId);
+      }
+      return newSet;
+    });
+  };
 
   // Show "changes saved" message periodically when step changes
   useEffect(() => {
@@ -357,25 +370,47 @@ const BookCreationWizard = () => {
             </div>
             {contentSources.rssFeed && (
               <div className="space-y-2">
-                <h4 className="font-medium">Found Episodes:</h4>
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <div key={i} className="flex items-center justify-between p-2 bg-muted rounded">
-                    <div className="flex items-center gap-2">
-                      <Rss className="w-4 h-4" />
-                      <span className="text-sm">Episode {i}: Sample Title</span>
-                      <Badge variant="secondary" className="text-xs">
-                        ~15 min
-                      </Badge>
-                    </div>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => {/* Handle episode removal */}}
-                    >
-                      Remove
-                    </Button>
-                  </div>
-                ))}
+                <div className="flex items-center justify-between">
+                  <h4 className="font-medium">Select the episodes for your book:</h4>
+                  <span className="text-sm text-muted-foreground">
+                    {selectedEpisodes.size} episode{selectedEpisodes.size !== 1 ? 's' : ''} selected
+                  </span>
+                </div>
+                <div className="max-h-60 overflow-y-auto space-y-2">
+                  {[1, 2, 3, 4, 5].map((i) => {
+                    const isSelected = selectedEpisodes.has(i);
+                    return (
+                      <div 
+                        key={i} 
+                        className={`flex items-center justify-between p-2 rounded transition-colors ${
+                          isSelected ? 'bg-primary/10 border border-primary/20' : 'bg-muted'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="checkbox"
+                            checked={isSelected}
+                            onChange={() => toggleEpisodeSelection(i)}
+                            className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary focus:ring-2"
+                          />
+                          <Rss className="w-4 h-4" />
+                          <span className="text-sm">Episode {i}: Sample Title</span>
+                          <Badge variant="secondary" className="text-xs">
+                            ~15 min
+                          </Badge>
+                        </div>
+                        <Button
+                          variant={isSelected ? "destructive" : "outline"}
+                          size="sm"
+                          onClick={() => toggleEpisodeSelection(i)}
+                          className="min-w-[80px]"
+                        >
+                          {isSelected ? 'Remove' : 'Add'}
+                        </Button>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             )}
           </CardContent>
