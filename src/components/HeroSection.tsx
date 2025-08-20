@@ -1,16 +1,14 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { ArrowRight, BookOpen, Rss, Send, Upload, Link as LinkIcon, FileText } from "lucide-react";
+import { ArrowRight, BookOpen, Rss } from "lucide-react";
 import { useState, useEffect } from "react";
+import ChatInput from "@/components/ChatInput";
 
 const HeroSection = () => {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState<'login' | 'signup'>('signup');
-  const [inputValue, setInputValue] = useState('');
-  const [currentPlaceholderIndex, setCurrentPlaceholderIndex] = useState(0);
   
   const contentTypes = [
     "RSS feed",
@@ -22,13 +20,7 @@ const HeroSection = () => {
     "note"
   ];
 
-  const placeholderTexts = [
-    "Add an RSS feed URL...",
-    "Upload files or paste content...",
-    "Write a prompt to start your book...",
-    "Paste a link to import content...",
-    "Describe what you want to create..."
-  ];
+
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -42,21 +34,9 @@ const HeroSection = () => {
     return () => clearInterval(interval);
   }, [contentTypes.length]);
 
-  // Animate placeholder text
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentPlaceholderIndex((prev) => (prev + 1) % placeholderTexts.length);
-    }, 3000);
 
-    return () => clearInterval(interval);
-  }, [placeholderTexts.length]);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (inputValue.trim()) {
-      setShowModal(true);
-    }
-  };
+
 
   const handleModalAction = (type: 'login' | 'signup') => {
     setModalType(type);
@@ -88,57 +68,18 @@ const HeroSection = () => {
           </p>
           
           {/* Chat Input Box */}
-          <div className="max-w-2xl mx-auto mb-8">
-            <form onSubmit={handleSubmit} className="relative">
-              <div className="relative">
-                <Input
-                  type="text"
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  placeholder={placeholderTexts[currentPlaceholderIndex]}
-                  className="w-full h-16 text-lg px-6 pr-16 border-2 border-white/30 focus:border-white transition-colors bg-white/90 backdrop-blur-sm rounded-[14px] text-black placeholder:text-gray-600"
-                />
-                <Button
-                  type="submit"
-                  size="sm"
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 h-12 w-12 rounded-full bg-primary hover:bg-primary/90"
-                  disabled={!inputValue.trim()}
-                >
-                  <Send className="w-5 h-5" />
-                </Button>
-              </div>
-            </form>
-            
-            {/* Quick Action Buttons */}
-            <div className="flex flex-wrap justify-center gap-3 mt-4">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => handleModalAction('signup')}
-                className="text-sm text-white/80 hover:text-white border-white/20 hover:bg-white/10"
-              >
-                <Upload className="w-4 h-4 mr-2" />
-                Upload Files
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => handleModalAction('signup')}
-                className="text-sm text-white/80 hover:text-white border-white/20 hover:bg-white/10"
-              >
-                <LinkIcon className="w-4 h-4 mr-2" />
-                Add Links
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => handleModalAction('signup')}
-                className="text-sm text-white/80 hover:text-white border-white/20 hover:bg-white/10"
-              >
-                <FileText className="w-4 h-4 mr-2" />
-                Write Prompt
-              </Button>
-            </div>
+          <div className="mb-8">
+            <ChatInput 
+              onSubmit={(value, files) => {
+                console.log('Hero chat input submitted:', value);
+                console.log('Files attached:', files);
+                setShowModal(true);
+                setModalType('signup');
+              }}
+              placeholder="Add an RSS feed, upload files, write a prompt, to start your book..."
+              showQuickActions={true}
+              className="text-white"
+            />
           </div>
         </div>
       </div>
