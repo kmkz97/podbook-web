@@ -4,8 +4,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link, useNavigate } from "react-router-dom";
+import { useTheme } from "@/contexts/ThemeContext";
 
 const SignUp = () => {
+  const { theme } = useTheme();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -38,6 +40,11 @@ const SignUp = () => {
     <div className="min-h-screen bg-background flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
+          <img 
+            src={theme === 'dark' ? '/logo-white.svg' : '/logo.svg'} 
+            alt="Podbook Logo" 
+            className="w-16 h-16 mx-auto mb-4" 
+          />
           <h1 className="text-3xl font-medium text-foreground mb-2">Create account</h1>
           <p className="text-muted-foreground">Join Podbook and start creating beautiful books</p>
         </div>

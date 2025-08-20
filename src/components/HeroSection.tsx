@@ -90,15 +90,7 @@ const HeroSection = () => {
       {/* Login/Signup Modal */}
       <Dialog open={showModal} onOpenChange={setShowModal}>
         <DialogContent className="sm:max-w-md">
-          {/* Logo Section */}
-          <div className="text-center mb-6">
-            <img 
-              src={theme === 'dark' ? '/logo-white.svg' : '/logo.svg'} 
-              alt="Podbook Logo" 
-              className="w-12 h-12 mx-auto mb-3" 
-            />
-            <h1 className="text-xl font-medium text-foreground">Podbook</h1>
-          </div>
+
           
           <DialogHeader>
             <DialogTitle className="text-2xl font-medium">
