@@ -73,14 +73,14 @@ const HeroSection = () => {
 
           
           <h1 className="text-5xl md:text-7xl font-medium text-white mb-6 leading-tight font-serif-headers">
-            Transform
+            Transform your
             <span className={`text-white/80 ml-4 transition-all duration-500 ease-in-out ${
               isTransitioning ? 'opacity-0 transform -translate-y-4' : 'opacity-100 transform translate-y-0'
             }`}>
               {contentTypes[currentTextIndex]}
             </span>
             <br />
-            into Beautiful Books
+            into complete books
           </h1>
           
           <p className="text-xl md:text-2xl text-white/80 mb-8 max-w-2xl mx-auto leading-relaxed">
