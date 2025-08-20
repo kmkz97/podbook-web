@@ -241,20 +241,22 @@
 
 /* Logo Styling */
 .logo-svg {
-  filter: brightness(0) saturate(100%);
+  color: hsl(var(--foreground));
 }
 
-.logo-svg[data-theme="dark"] {
-  filter: brightness(0) saturate(100%) invert(1);
-}
-
-/* Alternative approach using CSS variables */
-.logo-svg {
-  --logo-color: hsl(var(--foreground));
-}
-
+/* Ensure SVG inherits the text color */
 .logo-svg svg {
-  fill: var(--logo-color);
+  fill: currentColor;
+}
+
+/* Dark mode specific logo styling */
+.dark .logo-svg {
+  color: hsl(var(--foreground));
+}
+
+/* Light mode specific logo styling */
+.light .logo-svg {
+  color: hsl(var(--foreground));
 }
 
 /* Custom Scrollbar Styles */
