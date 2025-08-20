@@ -40,14 +40,12 @@ const HeroSection = () => {
           </div>
           
           <h1 className="text-5xl md:text-7xl font-medium text-foreground mb-6 leading-tight">
-            <div className="flex items-center justify-center gap-4">
-              <span>Transform</span>
-              <span className={`text-muted-foreground transition-all duration-500 ease-in-out min-w-[300px] text-center ${
-                isTransitioning ? 'opacity-0 transform -translate-y-4' : 'opacity-100 transform translate-y-0'
-              }`}>
-                {contentTypes[currentTextIndex]}
-              </span>
-            </div>
+            Transform
+            <span className={`text-muted-foreground ml-4 transition-all duration-500 ease-in-out ${
+              isTransitioning ? 'opacity-0 transform -translate-y-4' : 'opacity-100 transform translate-y-0'
+            }`}>
+              {contentTypes[currentTextIndex]}
+            </span>
             <br />
             into Beautiful Books
           </h1>
