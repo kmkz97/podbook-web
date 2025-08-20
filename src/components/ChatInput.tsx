@@ -89,25 +89,25 @@ const ChatInput = ({
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder={placeholder || placeholderTexts[currentPlaceholderIndex]}
-            className="w-full min-h-[64px] max-h-48 text-lg px-6 pr-16 py-4 border-2 border-border focus:border-primary transition-colors bg-background rounded-[14px] text-foreground placeholder:text-muted-foreground resize-none overflow-hidden"
+            className="w-full h-10 min-h-[40px] max-h-48 text-base px-6 pr-16 py-2 border-2 border-border focus:border-primary transition-colors bg-background rounded-[14px] text-foreground placeholder:text-muted-foreground resize-none overflow-hidden"
             style={{
-              height: 'auto',
-              minHeight: '64px',
+              height: '40px',
+              minHeight: '40px',
               maxHeight: '192px'
             }}
             onInput={(e) => {
               const target = e.target as HTMLTextAreaElement;
-              target.style.height = 'auto';
+              target.style.height = '40px';
               target.style.height = Math.min(target.scrollHeight, 192) + 'px';
             }}
           />
           <Button
             type="submit"
             size="sm"
-            className="absolute right-2 bottom-2 h-12 w-12 rounded-full bg-primary hover:bg-primary/90"
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 rounded-full bg-primary hover:bg-primary/90"
             disabled={!inputValue.trim()}
           >
-            <Send className="w-5 h-5" />
+            <Send className="w-4 h-4" />
           </Button>
         </div>
       </form>
