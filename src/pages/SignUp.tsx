@@ -45,8 +45,7 @@ const SignUp = () => {
             alt="Podbook Logo" 
             className="w-16 h-16 mx-auto mb-4" 
           />
-          <h1 className="text-3xl font-medium text-foreground mb-2">Create account</h1>
-          <p className="text-muted-foreground">Join Podbook and start creating beautiful books</p>
+
         </div>
         
         <Card className="border-border">

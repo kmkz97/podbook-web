@@ -35,7 +35,7 @@ const LeftNavigation = ({ activePage = 'dashboard' }: LeftNavigationProps) => {
             alt="Podbook Logo" 
             className="w-6 h-6" 
           />
-          <h1 className="text-2xl font-medium text-foreground font-serif-headers">Podbook</h1>
+          <h1 className="text-2xl font-medium text-foreground" style={{ letterSpacing: '-1px' }}>Podbook</h1>
         </div>
       </div>
       

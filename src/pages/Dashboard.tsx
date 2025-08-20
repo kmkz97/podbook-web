@@ -17,9 +17,9 @@ const Dashboard = () => {
         {/* Main Content Area */}
         <main className="flex-1 p-8 flex items-center justify-center">
           <div className="text-center max-w-4xl">
-            <h1 className="text-4xl font-medium text-foreground mb-6 font-serif-headers">
-              Hi there!
-            </h1>
+                    <h1 className="text-4xl font-medium text-foreground mb-6">
+          Hi there!
+        </h1>
             <p className="text-lg text-muted-foreground mb-8">
               Ready to create something amazing? Start a new project below.
             </p>
