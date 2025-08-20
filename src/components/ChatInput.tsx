@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Send, Upload, Link as LinkIcon, FileText } from "lucide-react";
+import { Send, Upload } from "lucide-react";
 import { useState, useEffect } from "react";
 
 interface ChatInputProps {
@@ -82,24 +82,6 @@ const ChatInput = ({
           >
             <Upload className="w-4 h-4 mr-2" />
             Upload Files
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => handleQuickAction('links')}
-            className="text-sm text-muted-foreground hover:text-foreground border-border hover:bg-muted"
-          >
-            <LinkIcon className="w-4 h-4 mr-2" />
-            Add Links
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => handleQuickAction('prompt')}
-            className="text-sm text-muted-foreground hover:text-foreground border-border hover:bg-muted"
-          >
-            <FileText className="w-4 h-4 mr-2" />
-            Write Prompt
           </Button>
         </div>
       )}
