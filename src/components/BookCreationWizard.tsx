@@ -27,7 +27,8 @@ import {
   FileImage,
   FileAudio,
   FileVideo,
-  X
+  X,
+  Info
 } from "lucide-react";
 
 interface BookType {
@@ -249,28 +250,38 @@ const BookCreationWizard = () => {
           />
         </div>
         
-        <div className="grid grid-cols-2 gap-4">
-          <div>
+        <div>
+          <div className="flex items-center gap-2 mb-2">
             <Label htmlFor="author">Author Name</Label>
-            <Input
-              id="author"
-              placeholder="Your name or pen name"
-              value={bookDetails.author}
-              onChange={(e) => setBookDetails(prev => ({ ...prev, author: e.target.value }))}
-              className="mt-1"
-            />
+            <Info className="w-4 h-4 text-muted-foreground" />
+            <span className="text-sm text-muted-foreground">
+              This will be displayed as the author of your book. Use your real name or a pen name.
+            </span>
           </div>
-          
-          <div>
+          <Input
+            id="author"
+            placeholder="Your name or pen name"
+            value={bookDetails.author}
+            onChange={(e) => setBookDetails(prev => ({ ...prev, author: e.target.value }))}
+            className="mt-1"
+          />
+        </div>
+        
+        <div>
+          <div className="flex items-center gap-2 mb-2">
             <Label htmlFor="audience">Target Audience</Label>
-            <Input
-              id="audience"
-              placeholder="e.g., Beginners, Professionals"
-              value={bookDetails.author}
-              onChange={(e) => setBookDetails(prev => ({ ...prev, audience: e.target.value }))}
-              className="mt-1"
-            />
+            <Info className="w-4 h-4 text-muted-foreground" />
+            <span className="text-sm text-muted-foreground">
+              Describe who this book is for. Be specific: "Beginner developers learning React" or "Marketing professionals with 5+ years experience"
+            </span>
           </div>
+          <Input
+            id="audience"
+            placeholder="e.g., Beginners, Professionals, Students"
+            value={bookDetails.audience}
+            onChange={(e) => setBookDetails(prev => ({ ...prev, audience: e.target.value }))}
+            className="mt-1"
+          />
         </div>
       </div>
     </div>
