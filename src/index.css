@@ -249,14 +249,19 @@
   fill: currentColor;
 }
 
-/* Dark mode specific logo styling */
-.dark .logo-svg {
+/* Dark mode specific logo styling - more specific selector */
+html.dark .logo-svg {
   color: hsl(var(--foreground));
 }
 
-/* Light mode specific logo styling */
-.light .logo-svg {
+/* Light mode specific logo styling - more specific selector */
+html:not(.dark) .logo-svg {
   color: hsl(var(--foreground));
+}
+
+/* Alternative approach: direct color application */
+.logo-svg svg path {
+  fill: currentColor;
 }
 
 /* Custom Scrollbar Styles */
