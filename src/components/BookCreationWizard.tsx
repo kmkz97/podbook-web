@@ -117,12 +117,19 @@ const BookCreationWizard = () => {
     }
   }, [currentStep]);
 
+  // Auto-process content when reaching step 5
+  useEffect(() => {
+    if (currentStep === 5 && !preview && !processing) {
+      processContent();
+    }
+  }, [currentStep, preview, processing]);
+
   const steps: WizardStep[] = [
     { id: 1, title: 'Book Type', description: 'Choose your book category', completed: !!selectedBookType },
     { id: 2, title: 'Details', description: 'Book information', completed: !!bookDetails.title && !!bookDetails.description },
     { id: 3, title: 'Specifications', description: 'Size and structure', completed: true },
     { id: 4, title: 'Content', description: 'Add your content sources', completed: true },
-    { id: 5, title: 'Preview', description: 'Review and generate', completed: !!preview },
+    { id: 5, title: 'Book Overview', description: 'Review and save', completed: !!preview },
   ];
 
   const handleNext = () => {
@@ -529,36 +536,18 @@ const BookCreationWizard = () => {
   const renderStep5 = () => (
     <div className="space-y-6">
       <div className="text-center mb-8">
-                    <h2 className="text-3xl font-medium text-foreground mb-2">Preview & Generate</h2>
-        <p className="text-muted-foreground">Review your book structure and start generation</p>
+        <h2 className="text-3xl font-medium text-foreground mb-2">Book Overview</h2>
+        <p className="text-muted-foreground">Review your book structure and save your project</p>
       </div>
       
       {!preview ? (
         <div className="text-center py-12">
-          <Button 
-            size="lg" 
-            onClick={processContent}
-            disabled={processing}
-            className="bg-primary hover:bg-primary/90"
-          >
-            {processing ? (
-              <>
-                <Clock className="w-4 h-4 mr-2 animate-spin" />
-                Processing Content...
-              </>
-            ) : (
-              <>
-                <Sparkles className="w-4 h-4 mr-2" />
-                Process Content & Generate Preview
-              </>
-            )}
-          </Button>
-          {processing && (
-            <div className="mt-4">
-              <Progress value={33} className="w-64 mx-auto" />
-              <p className="text-sm text-muted-foreground mt-2">AI is analyzing your content...</p>
-            </div>
-          )}
+          <div className="space-y-4">
+            <Clock className="w-8 h-8 mx-auto text-primary" />
+            <h3 className="text-lg font-medium">Processing Your Content</h3>
+            <p className="text-muted-foreground">AI is analyzing your content and generating your book structure...</p>
+            <Progress value={33} className="w-64 mx-auto" />
+          </div>
         </div>
       ) : (
         <div className="max-w-4xl mx-auto space-y-6">
@@ -608,32 +597,32 @@ const BookCreationWizard = () => {
             </CardContent>
           </Card>
 
-          {/* Generation Options */}
+          {/* Save Options */}
           <Card>
             <CardHeader>
-              <CardTitle>Ready to Generate</CardTitle>
-              <CardDescription>Your book is ready for creation</CardDescription>
+              <CardTitle>Save Your Project</CardTitle>
+              <CardDescription>Your book structure is ready. Save it as a draft to work on later.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
                 <div>
-                  <h4 className="font-medium">Estimated Cost</h4>
-                  <p className="text-sm text-muted-foreground">Based on content length and complexity</p>
+                  <h4 className="font-medium">Project Summary</h4>
+                  <p className="text-sm text-muted-foreground">Your book will appear as a draft project</p>
                 </div>
                 <div className="text-right">
-                  <div className="text-2xl font-medium text-primary">{preview.estimatedCost} credits</div>
-                  <div className="text-sm text-muted-foreground">≈ $2.50</div>
+                  <div className="text-2xl font-medium text-primary">{preview.totalPages} pages</div>
+                  <div className="text-sm text-muted-foreground">~{preview.totalWords.toLocaleString()} words</div>
                 </div>
               </div>
               
               <div className="flex gap-3">
                 <Button variant="outline" className="flex-1">
                   <Download className="w-4 h-4 mr-2" />
-                  Download Preview
+                  Download Overview
                 </Button>
                 <Button className="flex-1 bg-primary hover:bg-primary/90">
-                  <CreditCard className="w-4 h-4 mr-2" />
-                  Purchase & Generate
+                  <BookOpen className="w-4 h-4 mr-2" />
+                  Save for Later
                 </Button>
               </div>
             </CardContent>
@@ -703,7 +692,7 @@ const BookCreationWizard = () => {
               onClick={handleFinish}
               className="bg-primary hover:bg-primary/90"
             >
-              Finish
+              Save for Later
             </Button>
           ) : (
             <Button
