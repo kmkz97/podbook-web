@@ -30,7 +30,9 @@ const LeftNavigation = ({ activePage = 'dashboard' }: LeftNavigationProps) => {
       {/* Logo Section */}
       <div className="p-6">
         <div className="flex items-center gap-2">
-          <img src="/logo.svg" alt="Podbook Logo" className="w-8 h-8 logo-svg" />
+          <svg className="w-8 h-8 text-foreground" viewBox="0 0 83.07 83.07" xmlns="http://www.w3.org/2000/svg">
+            <path d="M46.96,83.07h-7V28.55c0-8.02,6.53-14.55,14.55-14.55s14.55,6.53,14.55,14.55-6.53,14.55-14.55,14.55h-7.55v7h7.55c11.88,0,21.55-9.67,21.55-21.55s-9.67-21.55-21.55-21.55-21.55,9.67-21.55,21.55v54.52h-7v-25.96H0v-7h25.96v-7H0v-7h25.96v-7.55C25.96,12.81,38.77,0,54.52,0s28.55,12.81,28.55,28.55-12.81,28.55-28.55,28.55h-7.55v25.96ZM46.96,36.1h7.55c4.16,0,7.55-3.39,7.55-7.55s-3.39-7.55-7.55-7.55-7.55,3.39-7.55,7.55v7.55Z"/>
+          </svg>
           <h1 className="text-2xl font-medium text-foreground font-serif-headers">Podbook</h1>
         </div>
       </div>

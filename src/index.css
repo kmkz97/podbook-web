@@ -241,7 +241,20 @@
 
 /* Logo Styling */
 .logo-svg {
-  color: hsl(var(--foreground));
+  filter: brightness(0) saturate(100%);
+}
+
+.logo-svg[data-theme="dark"] {
+  filter: brightness(0) saturate(100%) invert(1);
+}
+
+/* Alternative approach using CSS variables */
+.logo-svg {
+  --logo-color: hsl(var(--foreground));
+}
+
+.logo-svg svg {
+  fill: var(--logo-color);
 }
 
 /* Custom Scrollbar Styles */
