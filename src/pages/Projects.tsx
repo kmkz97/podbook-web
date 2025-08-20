@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { BookOpen, Search, Download, Eye, Trash2, Plus, Calendar, Clock } from "lucide-react";
+import { BookOpen, Search, Eye, Plus } from "lucide-react";
 import LeftNavigation from "@/components/LeftNavigation";
 
 interface Project {
@@ -110,120 +109,61 @@ const Projects = () => {
         </div>
 
         {/* Filters */}
-        <Card className="mb-8">
-          <CardContent className="pt-6">
-            <div className="flex flex-col sm:flex-row gap-4">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="Search projects..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-              
-
+        <div className="mb-8">
+          <div className="flex flex-col sm:flex-row gap-4">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search projects..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10"
+              />
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredProjects.map((project) => (
-            <Card key={project.id} className="gradient-card hover:shadow-elegant transition-all duration-300">
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <CardTitle className="text-lg font-bold mb-2">
-                      {project.title}
-                    </CardTitle>
-                    <CardDescription className="text-sm break-all">
-                      {project.rss_url}
-                    </CardDescription>
-                  </div>
-                  {getStatusBadge(project.status)}
-                </div>
-              </CardHeader>
-              
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="flex items-center text-sm text-muted-foreground space-x-4">
-                    <div className="flex items-center">
-                      <Calendar className="h-4 w-4 mr-1" />
-                      {new Date(project.created_at).toLocaleDateString()}
-                    </div>
-                    {project.pages_count && (
-                      <div className="flex items-center">
-                        <BookOpen className="h-4 w-4 mr-1" />
-                        {project.pages_count} pages
-                      </div>
-                    )}
-                    {project.file_size && (
-                      <div className="text-xs">
-                        {project.file_size}
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="flex flex-wrap gap-2">
-                    <Button variant="outline" size="sm" asChild>
-                      <Link to={`/projects/${project.id}`}>
-                        <Eye className="h-4 w-4 mr-1" />
-                        View
-                      </Link>
-                    </Button>
-                    
-                    {project.status === 'completed' && (
-                      <Button variant="outline" size="sm">
-                        <Download className="h-4 w-4 mr-1" />
-                        Download
-                      </Button>
-                    )}
-                    
-                    {project.status === 'processing' && (
-                      <Button variant="outline" size="sm" asChild>
-                        <Link to={`/processing/${project.id}`}>
-                          <Clock className="h-4 w-4 mr-1" />
-                          Track Progress
-                        </Link>
-                      </Button>
-                    )}
-                    
-                    <Button variant="outline" size="sm" className="text-destructive hover:text-destructive">
-                      <Trash2 className="h-4 w-4 mr-1" />
-                      Delete
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <div key={project.id} className="bg-card border border-border rounded-lg p-4 hover:shadow-md transition-shadow">
+              <div className="flex items-start justify-between mb-3">
+                <BookOpen className="h-6 w-6 text-primary mt-1" />
+                {getStatusBadge(project.status)}
+              </div>
+              <h3 className="font-medium text-foreground mb-2">{project.title}</h3>
+              <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{project.rss_url}</p>
+              <Button variant="outline" size="sm" className="w-full" asChild>
+                <Link to={project.status === 'processing' || project.status === 'failed' ? `/processing/${project.id}` : `/projects/${project.id}`}>
+                  <Eye className="h-4 w-4 mr-2" />
+                  {project.status === 'processing' ? 'View Processing' : project.status === 'failed' ? 'Retry Project' : 'View Project'}
+                </Link>
+              </Button>
+            </div>
           ))}
         </div>
 
         {filteredProjects.length === 0 && (
-          <Card className="text-center py-12">
-            <CardContent>
-              <BookOpen className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <h3 className="text-lg font-medium text-foreground mb-2">
-                No projects found
-              </h3>
-              <p className="text-muted-foreground mb-6">
-                {searchTerm || statusFilter !== "all" 
-                  ? "Try adjusting your search or filter criteria."
-                  : "Create your first RSS-to-book project to get started."
-                }
-              </p>
-              {!searchTerm && statusFilter === "all" && (
-                <Button asChild className="gradient-primary">
-                  <Link to="/new-project">
-                    <Plus className="h-5 w-5 mr-2" />
-                    Create Your First Project
-                  </Link>
-                </Button>
-              )}
-            </CardContent>
-          </Card>
+          <div className="text-center py-12">
+            <BookOpen className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+            <h3 className="text-lg font-medium text-foreground mb-2">
+              No projects found
+            </h3>
+            <p className="text-muted-foreground mb-6">
+              {searchTerm 
+                ? "Try adjusting your search criteria."
+                : "Create your first RSS-to-book project to get started."
+              }
+            </p>
+            {!searchTerm && (
+              <Button asChild className="gradient-primary">
+                <Link to="/new-project">
+                  <Plus className="h-5 w-5 mr-2" />
+                  Create Your First Project
+                </Link>
+              </Button>
+            )}
+            </div>
         )}
         </main>
       </div>
