@@ -26,14 +26,14 @@ const LeftNavigation = ({ activePage = 'dashboard' }: LeftNavigationProps) => {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <aside className="w-64 bg-card border-r border-border min-h-screen flex flex-col">
+    <aside className="w-64 bg-card border-r border-border h-screen flex flex-col sticky top-0">
       {/* Logo Section */}
       <div className="p-6">
         <h1 className="text-2xl font-bold text-foreground">Podbook</h1>
       </div>
       
       {/* Navigation Content */}
-      <div className="flex-1 p-6">
+      <div className="flex-1 p-6 overflow-y-auto">
         <nav className="space-y-6">
           {/* Create Book Button */}
           <div>
@@ -93,7 +93,7 @@ const LeftNavigation = ({ activePage = 'dashboard' }: LeftNavigationProps) => {
       </div>
 
       {/* User Section - Sticky Bottom */}
-      <div className="p-6 border-t border-border">
+      <div className="p-6 border-t border-border mt-auto">
         <div className="group relative">
           <div className="flex items-center space-x-3 p-3 rounded-lg cursor-pointer hover:bg-muted transition-colors">
             <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
