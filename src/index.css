@@ -236,6 +236,7 @@
 /* Roboto Serif Headers */
 .font-serif-headers {
   font-family: 'Roboto Serif', serif;
+  font-weight: 300;
 }
 
 /* Custom Scrollbar Styles */
