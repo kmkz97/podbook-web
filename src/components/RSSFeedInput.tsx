@@ -31,7 +31,7 @@ const RSSFeedInput = () => {
     <section className="py-20 bg-background">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+          <h2 className="text-3xl md:text-4xl font-medium text-foreground mb-4">
             Convert Your First RSS Feed
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -95,7 +95,7 @@ const RSSFeedInput = () => {
                 <div className="w-24 h-32 bg-muted rounded-lg mx-auto mb-4 flex items-center justify-center">
                   <BookOpen className="w-8 h-8 text-foreground" />
                 </div>
-                <h3 className="font-semibold text-foreground mb-2">Your Book Title</h3>
+                <h3 className="font-medium text-foreground mb-2">Your Book Title</h3>
                 <p className="text-sm text-muted-foreground mb-4">
                   Generated from your RSS feed
                 </p>

@@ -152,7 +152,7 @@ const Settings = () => {
       <aside className="w-64 bg-card border-r border-border flex flex-col">
         {/* Logo */}
         <div className="p-6">
-          <h1 className="text-2xl font-bold text-foreground">Podbook</h1>
+                      <h1 className="text-2xl font-medium text-foreground">Podbook</h1>
         </div>
 
         {/* Back to Dashboard Button */}
@@ -197,7 +197,7 @@ const Settings = () => {
         <div className="p-8">
           <div className="max-w-4xl">
             <div className="mb-8">
-              <h1 className="text-3xl font-bold text-foreground mb-2">
+              <h1 className="text-3xl font-medium text-foreground mb-2">
                 {activeSection === 'account' ? 'Account Settings' : 'Billing and Plan'}
               </h1>
               <p className="text-muted-foreground">

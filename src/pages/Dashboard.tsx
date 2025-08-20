@@ -70,7 +70,7 @@ const Dashboard = () => {
         {/* Main Content Area */}
         <main className="flex-1 p-8">
           <div className="mb-8">
-            <h1 className="text-4xl font-bold text-foreground mb-2">
+            <h1 className="text-4xl font-medium text-foreground mb-2">
               Welcome back!
             </h1>
             <p className="text-lg text-muted-foreground">
@@ -87,7 +87,7 @@ const Dashboard = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-foreground">{projects.length}</div>
+                <div className="text-2xl font-medium text-foreground">{projects.length}</div>
               </CardContent>
             </Card>
 
@@ -98,7 +98,7 @@ const Dashboard = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-success">{completedProjects}</div>
+                <div className="text-2xl font-medium text-success">{completedProjects}</div>
               </CardContent>
             </Card>
 
@@ -109,7 +109,7 @@ const Dashboard = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-warning">{processingProjects}</div>
+                <div className="text-2xl font-medium text-warning">{processingProjects}</div>
               </CardContent>
             </Card>
 
@@ -120,14 +120,14 @@ const Dashboard = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-primary">{totalPages}</div>
+                <div className="text-2xl font-medium text-primary">{totalPages}</div>
               </CardContent>
             </Card>
           </div>
 
           {/* Recent Projects */}
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-foreground mb-4">Recent Projects</h2>
+            <h2 className="text-2xl font-medium text-foreground mb-4">Recent Projects</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {projects.slice(0, 3).map((project) => (
                 <BookCard key={project.id} project={project} />

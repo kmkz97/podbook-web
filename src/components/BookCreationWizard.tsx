@@ -176,7 +176,7 @@ const BookCreationWizard = () => {
   const renderStep1 = () => (
     <div className="space-y-6">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-foreground mb-2">What type of book are you creating?</h2>
+                    <h2 className="text-3xl font-medium text-foreground mb-2">What type of book are you creating?</h2>
         <p className="text-muted-foreground">Choose the category that best describes your project</p>
       </div>
       
@@ -195,7 +195,7 @@ const BookCreationWizard = () => {
               <div className="w-16 h-16 mx-auto mb-4 bg-muted rounded-lg flex items-center justify-center">
                 <type.icon className="w-8 h-8 text-foreground" />
               </div>
-              <h3 className="font-semibold text-lg mb-2">{type.name}</h3>
+                              <h3 className="font-medium text-lg mb-2">{type.name}</h3>
               <p className="text-sm text-muted-foreground mb-2">{type.description}</p>
               <Badge variant="secondary" className="text-xs">{type.category}</Badge>
             </CardContent>
@@ -208,7 +208,7 @@ const BookCreationWizard = () => {
   const renderStep2 = () => (
     <div className="space-y-6">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-foreground mb-2">Tell us about your book</h2>
+                    <h2 className="text-3xl font-medium text-foreground mb-2">Tell us about your book</h2>
         <p className="text-muted-foreground">Provide the essential details for your project</p>
       </div>
       
@@ -266,7 +266,7 @@ const BookCreationWizard = () => {
   const renderStep3 = () => (
     <div className="space-y-6">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-foreground mb-2">Book Specifications</h2>
+                    <h2 className="text-3xl font-medium text-foreground mb-2">Book Specifications</h2>
         <p className="text-muted-foreground">Set your target size and structure</p>
       </div>
       
@@ -331,7 +331,7 @@ const BookCreationWizard = () => {
   const renderStep4 = () => (
     <div className="space-y-6">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-foreground mb-2">Add Your Content</h2>
+                    <h2 className="text-3xl font-medium text-foreground mb-2">Add Your Content</h2>
         <p className="text-muted-foreground">Choose how you want to provide content for your book</p>
       </div>
       
@@ -439,7 +439,7 @@ const BookCreationWizard = () => {
   const renderStep5 = () => (
     <div className="space-y-6">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-foreground mb-2">Preview & Generate</h2>
+                    <h2 className="text-3xl font-medium text-foreground mb-2">Preview & Generate</h2>
         <p className="text-muted-foreground">Review your book structure and start generation</p>
       </div>
       
@@ -480,15 +480,15 @@ const BookCreationWizard = () => {
             <CardContent>
               <div className="grid grid-cols-3 gap-4 text-center">
                 <div>
-                  <div className="text-2xl font-bold text-primary">{preview.totalPages}</div>
+                  <div className="text-2xl font-medium text-primary">{preview.totalPages}</div>
                   <div className="text-sm text-muted-foreground">Total Pages</div>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-primary">{preview.totalWords.toLocaleString()}</div>
+                  <div className="text-2xl font-medium text-primary">{preview.totalWords.toLocaleString()}</div>
                   <div className="text-sm text-muted-foreground">Word Count</div>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-primary">{preview.chapters.length}</div>
+                  <div className="text-2xl font-medium text-primary">{preview.chapters.length}</div>
                   <div className="text-sm text-muted-foreground">Chapters</div>
                 </div>
               </div>
@@ -531,7 +531,7 @@ const BookCreationWizard = () => {
                   <p className="text-sm text-muted-foreground">Based on content length and complexity</p>
                 </div>
                 <div className="text-right">
-                  <div className="text-2xl font-bold text-primary">{preview.estimatedCost} credits</div>
+                  <div className="text-2xl font-medium text-primary">{preview.estimatedCost} credits</div>
                   <div className="text-sm text-muted-foreground">≈ $2.50</div>
                 </div>
               </div>
@@ -569,7 +569,7 @@ const BookCreationWizard = () => {
       <div className="max-w-6xl mx-auto px-4">
         {/* Header with Close Button */}
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-2xl font-bold text-foreground">Create New Book</h1>
+                      <h1 className="text-2xl font-medium text-foreground">Create New Book</h1>
           <div className="flex items-center gap-3">
             {showChangesSaved && (
               <span className="text-sm text-muted-foreground animate-in fade-in duration-300">

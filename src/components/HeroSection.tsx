@@ -13,7 +13,7 @@ const HeroSection = () => {
             <BookOpen className="w-8 h-8 text-foreground" />
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 leading-tight">
+          <h1 className="text-5xl md:text-7xl font-medium text-foreground mb-6 leading-tight">
             Transform
             <span className="text-muted-foreground ml-4">
               RSS Feeds
@@ -27,7 +27,7 @@ const HeroSection = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button size="lg" variant="default" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg font-semibold shadow-medium" asChild>
+                          <Button size="lg" variant="default" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg font-medium shadow-medium" asChild>
               <Link to="/start">
                 Start Now
                 <ArrowRight className="ml-2 w-5 h-5" />

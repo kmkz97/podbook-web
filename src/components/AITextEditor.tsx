@@ -308,7 +308,7 @@ const AITextEditor = ({ projectId, projectTitle }: AITextEditorProps) => {
           <aside className="w-96 bg-card border-l border-border flex flex-col">
             {/* Chat Header */}
             <div className="p-4 border-b border-border flex items-center justify-between">
-              <h3 className="font-semibold text-foreground">AI Assistant</h3>
+                              <h3 className="font-medium text-foreground">AI Assistant</h3>
               <Button
                 variant="ghost"
                 size="sm"

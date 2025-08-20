@@ -7,7 +7,7 @@ const Start = () => {
     <div className="min-h-screen bg-background flex items-center justify-center px-4">
       <div className="w-full max-w-2xl text-center">
         <div className="mb-12">
-          <h1 className="text-5xl font-bold text-foreground mb-6">
+          <h1 className="text-5xl font-medium text-foreground mb-6">
             Ready to create your first book?
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
@@ -19,7 +19,7 @@ const Start = () => {
         <div className="grid md:grid-cols-2 gap-8 mb-12">
           <Card className="border-border bg-background">
             <CardHeader>
-              <CardTitle className="text-2xl font-semibold text-foreground">Free Account</CardTitle>
+              <CardTitle className="text-2xl font-medium text-foreground">Free Account</CardTitle>
               <CardDescription className="text-muted-foreground">
                 Perfect for getting started
               </CardDescription>
@@ -43,7 +43,7 @@ const Start = () => {
           
           <Card className="border-border bg-background">
             <CardHeader>
-              <CardTitle className="text-2xl font-semibold text-foreground">Pro Account</CardTitle>
+              <CardTitle className="text-2xl font-medium text-foreground">Pro Account</CardTitle>
               <CardDescription className="text-muted-foreground">
                 For power users and creators
               </CardDescription>

@@ -27,13 +27,13 @@ const Login = () => {
     <div className="min-h-screen bg-background flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Welcome back</h1>
+          <h1 className="text-3xl font-medium text-foreground mb-2">Welcome back</h1>
           <p className="text-muted-foreground">Sign in to your Podbook account</p>
         </div>
         
         <Card className="border-border">
           <CardHeader>
-            <CardTitle className="text-2xl font-semibold text-foreground">Login</CardTitle>
+            <CardTitle className="text-2xl font-medium text-foreground">Login</CardTitle>
             <CardDescription className="text-muted-foreground">
               Enter your credentials to access your dashboard
             </CardDescription>

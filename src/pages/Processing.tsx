@@ -159,7 +159,7 @@ const Processing = () => {
               <div className="mb-8">
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <h1 className="text-3xl font-bold text-foreground mb-2">
+                    <h1 className="text-3xl font-medium text-foreground mb-2">
                       Processing: {projectInfo.title}
                     </h1>
                     <p className="text-muted-foreground">
@@ -173,15 +173,15 @@ const Processing = () => {
                 
                 <div className="grid grid-cols-3 gap-4 mb-6">
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-foreground">{projectInfo.articlesFound}</div>
+                    <div className="text-2xl font-medium text-foreground">{projectInfo.articlesFound}</div>
                     <div className="text-sm text-muted-foreground">Articles Found</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-foreground">~{projectInfo.estimatedPages}</div>
+                    <div className="text-2xl font-medium text-foreground">~{projectInfo.estimatedPages}</div>
                     <div className="text-sm text-muted-foreground">Estimated Pages</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-foreground">{progress}%</div>
+                    <div className="text-2xl font-medium text-foreground">{progress}%</div>
                     <div className="text-sm text-muted-foreground">Complete</div>
                   </div>
                 </div>

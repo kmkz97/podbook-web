@@ -9,7 +9,7 @@ const Header = () => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-bold text-foreground">Podbook</h1>
+            <h1 className="text-2xl font-medium text-foreground">Podbook</h1>
           </div>
 
           <div className="flex items-center gap-4">

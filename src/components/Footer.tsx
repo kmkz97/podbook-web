@@ -9,7 +9,7 @@ const Footer = () => {
         <div className="grid md:grid-cols-4 gap-8">
           <div className="col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <h3 className="text-xl font-bold">Podbook</h3>
+              <h3 className="text-xl font-medium">Podbook</h3>
             </div>
             <p className="text-primary-foreground/80 mb-6 max-w-md">
               Transform your favorite RSS feeds into beautiful, readable books. 
@@ -29,7 +29,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4">Product</h4>
+            <h4 className="font-medium mb-4">Product</h4>
             <ul className="space-y-2 text-primary-foreground/80">
               <li><a href="#" className="hover:text-primary-foreground transition-colors">Features</a></li>
               <li><a href="#" className="hover:text-primary-foreground transition-colors">Pricing</a></li>
@@ -39,7 +39,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4">Company</h4>
+            <h4 className="font-medium mb-4">Company</h4>
             <ul className="space-y-2 text-primary-foreground/80">
               <li><a href="#" className="hover:text-primary-foreground transition-colors">About</a></li>
               <li><a href="#" className="hover:text-primary-foreground transition-colors">Blog</a></li>

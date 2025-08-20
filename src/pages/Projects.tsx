@@ -73,7 +73,7 @@ const Projects = () => {
         <main className="flex-1 p-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-foreground mb-2">
+            <h1 className="text-4xl font-medium text-foreground mb-2">
               My Projects
             </h1>
             <p className="text-lg text-muted-foreground">

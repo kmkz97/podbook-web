@@ -152,7 +152,7 @@ const ProjectDetail = () => {
               
               <div className="flex items-start justify-between">
                 <div>
-                  <h1 className="text-3xl font-bold text-foreground mb-2">
+                  <h1 className="text-3xl font-medium text-foreground mb-2">
                     {project.title}
                   </h1>
                   <p className="text-lg text-muted-foreground max-w-3xl">
@@ -181,7 +181,7 @@ const ProjectDetail = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-foreground">{project.pages_count}</div>
+                  <div className="text-2xl font-medium text-foreground">{project.pages_count}</div>
                 </CardContent>
               </Card>
               
@@ -192,7 +192,7 @@ const ProjectDetail = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-foreground">{project.word_count.toLocaleString()}</div>
+                  <div className="text-2xl font-medium text-foreground">{project.word_count.toLocaleString()}</div>
                 </CardContent>
               </Card>
               
@@ -203,7 +203,7 @@ const ProjectDetail = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-foreground">{project.chapters_count}</div>
+                  <div className="text-2xl font-medium text-foreground">{project.chapters_count}</div>
                 </CardContent>
               </Card>
               
@@ -214,7 +214,7 @@ const ProjectDetail = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-foreground">{project.file_size}</div>
+                  <div className="text-2xl font-medium text-foreground">{project.file_size}</div>
                 </CardContent>
               </Card>
             </div>
@@ -315,7 +315,7 @@ const ProjectDetail = () => {
                   </CardHeader>
                   <CardContent>
                     <div className="text-center">
-                      <div className="text-3xl font-bold text-foreground mb-2">
+                      <div className="text-3xl font-medium text-foreground mb-2">
                         ${project.estimated_cost}
                       </div>
                       <p className="text-sm text-muted-foreground">
