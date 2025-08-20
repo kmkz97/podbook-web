@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { BookOpen, Eye, Edit, Download, Clock } from "lucide-react";
 import StatusChip from "./StatusChip";
@@ -16,12 +16,24 @@ interface BookCardProps {
 }
 
 const BookCard = ({ project, showActions = true }: BookCardProps) => {
+  const navigate = useNavigate();
   const isCompleted = project.status === 'completed';
   const isProcessing = project.status === 'processing';
   const isFailed = project.status === 'failed';
 
+  const handleCardClick = () => {
+    if (isProcessing || isFailed) {
+      navigate(`/processing/${project.id}`);
+    } else {
+      navigate(`/projects/${project.id}`);
+    }
+  };
+
   return (
-    <div className="bg-card border border-border rounded-lg p-4 hover:shadow-md transition-shadow">
+    <div 
+      className="bg-card border border-border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer" 
+      onClick={handleCardClick}
+    >
       <div className="flex items-start justify-between mb-3">
         <BookOpen className="h-6 w-6 text-primary mt-1" />
         <StatusChip status={project.status} />
@@ -42,7 +54,7 @@ const BookCard = ({ project, showActions = true }: BookCardProps) => {
       </div>
 
       {showActions && (
-        <div className="flex gap-2">
+        <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
           {/* View Button - Always enabled */}
           <Button variant="outline" size="sm" className="flex-1" asChild>
             <Link to={isProcessing || isFailed ? `/processing/${project.id}` : `/projects/${project.id}`}>
