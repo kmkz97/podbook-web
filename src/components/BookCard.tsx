@@ -29,28 +29,22 @@ const BookCard = ({ project, showActions = true }: BookCardProps) => {
       
       <h3 className="font-medium text-foreground mb-2">{project.title}</h3>
       
-      <div className="space-y-2 mb-4">
+      <div className="flex items-center gap-4 mb-4 text-xs text-muted-foreground">
         {project.edited_at && (
-          <div className="text-xs text-muted-foreground">
-            Edited: {new Date(project.edited_at).toLocaleDateString()}
-          </div>
+          <span>Edited: {new Date(project.edited_at).toLocaleDateString()}</span>
         )}
         {project.word_count && (
-          <div className="text-xs text-muted-foreground">
-            {project.word_count.toLocaleString()} words
-          </div>
+          <span>{project.word_count.toLocaleString()} words</span>
         )}
         {project.pages_count && (
-          <div className="text-xs text-muted-foreground">
-            ~{project.pages_count} pages
-          </div>
+          <span>~{project.pages_count} pages</span>
         )}
       </div>
 
       {showActions && (
-        <div className="space-y-2">
+        <div className="flex gap-2">
           {/* View Button - Always enabled */}
-          <Button variant="outline" size="sm" className="w-full" asChild>
+          <Button variant="outline" size="sm" className="flex-1" asChild>
             <Link to={isProcessing || isFailed ? `/processing/${project.id}` : `/projects/${project.id}`}>
               <Eye className="h-4 w-4 mr-2" />
               {isProcessing ? 'View Processing' : isFailed ? 'Retry Project' : 'View Project'}
@@ -59,7 +53,7 @@ const BookCard = ({ project, showActions = true }: BookCardProps) => {
 
           {/* Edit Button - Only for completed projects */}
           {isCompleted && (
-            <Button variant="outline" size="sm" className="w-full" asChild>
+            <Button variant="outline" size="sm" className="flex-1" asChild>
               <Link to={`/projects/${project.id}`}>
                 <Edit className="h-4 w-4 mr-2" />
                 Edit
@@ -69,7 +63,7 @@ const BookCard = ({ project, showActions = true }: BookCardProps) => {
 
           {/* Download Button - Only for completed projects */}
           {isCompleted && (
-            <Button variant="outline" size="sm" className="w-full">
+            <Button variant="outline" size="sm" className="flex-1">
               <Download className="h-4 w-4 mr-2" />
               Download
             </Button>
@@ -78,11 +72,11 @@ const BookCard = ({ project, showActions = true }: BookCardProps) => {
           {/* Processing/Failed state buttons - Ghosted */}
           {isProcessing && (
             <>
-              <Button variant="ghost" size="sm" className="w-full" disabled>
+              <Button variant="ghost" size="sm" className="flex-1" disabled>
                 <Edit className="h-4 w-4 mr-2" />
                 Edit
               </Button>
-              <Button variant="ghost" size="sm" className="w-full" disabled>
+              <Button variant="ghost" size="sm" className="flex-1" disabled>
                 <Download className="h-4 w-4 mr-2" />
                 Download
               </Button>
@@ -91,11 +85,11 @@ const BookCard = ({ project, showActions = true }: BookCardProps) => {
 
           {isFailed && (
             <>
-              <Button variant="ghost" size="sm" className="w-full" disabled>
+              <Button variant="ghost" size="sm" className="flex-1" disabled>
                 <Edit className="h-4 w-4 mr-2" />
                 Edit
               </Button>
-              <Button variant="ghost" size="sm" className="w-full" disabled>
+              <Button variant="ghost" size="sm" className="flex-1" disabled>
                 <Download className="h-4 w-4 mr-2" />
                 Download
               </Button>
