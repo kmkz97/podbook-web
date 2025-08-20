@@ -376,7 +376,7 @@ const BookCreationWizard = () => {
                     {selectedEpisodes.size} episode{selectedEpisodes.size !== 1 ? 's' : ''} selected
                   </span>
                 </div>
-                <div className="max-h-60 overflow-y-auto space-y-2">
+                <div className="max-h-60 overflow-y-auto space-y-2 custom-scrollbar">
                   {[1, 2, 3, 4, 5].map((i) => {
                     const isSelected = selectedEpisodes.has(i);
                     return (
@@ -387,12 +387,6 @@ const BookCreationWizard = () => {
                         }`}
                       >
                         <div className="flex items-center gap-2">
-                          <input
-                            type="checkbox"
-                            checked={isSelected}
-                            onChange={() => toggleEpisodeSelection(i)}
-                            className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary focus:ring-2"
-                          />
                           <Rss className="w-4 h-4" />
                           <span className="text-sm">Episode {i}: Sample Title</span>
                           <Badge variant="secondary" className="text-xs">
@@ -400,7 +394,7 @@ const BookCreationWizard = () => {
                           </Badge>
                         </div>
                         <Button
-                          variant={isSelected ? "destructive" : "outline"}
+                          variant="ghost"
                           size="sm"
                           onClick={() => toggleEpisodeSelection(i)}
                           className="min-w-[80px]"

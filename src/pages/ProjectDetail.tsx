@@ -144,10 +144,9 @@ const ProjectDetail = () => {
               <Button 
                 variant="ghost" 
                 onClick={() => navigate(-1)} 
-                className="mb-4 hover:bg-muted back-button"
+                className="mb-4 hover:bg-muted back-button p-2 h-10 w-10 rounded-full"
               >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back
+                <ArrowLeft className="w-4 h-4" />
               </Button>
               
               <div className="flex items-start justify-between">
