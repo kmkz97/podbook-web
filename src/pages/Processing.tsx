@@ -28,7 +28,6 @@ interface ProcessingStep {
 
 const Processing = () => {
   const { id } = useParams();
-  const { theme, toggleTheme } = useTheme();
   const [progress, setProgress] = useState(15);
   const [currentStep, setCurrentStep] = useState(1);
   
