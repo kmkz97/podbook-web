@@ -15,7 +15,8 @@ import {
   Image,
   Layers,
   Sparkles,
-  Loader2
+  Loader2,
+  ArrowLeft
 } from "lucide-react";
 import LeftNavigation from "@/components/LeftNavigation";
 
@@ -143,34 +144,46 @@ const Processing = () => {
         {/* Main Content Area */}
         <main className="flex-1 p-8">
           <div className="max-w-4xl mx-auto">
-            {/* Project Header */}
+            {/* Common Header with Back Button */}
             <div className="mb-8">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <h1 className="text-3xl font-bold text-foreground mb-2">
-                    Processing: {projectInfo.title}
-                  </h1>
-                  <p className="text-muted-foreground">
-                    RSS Feed: {projectInfo.rssUrl}
-                  </p>
-                </div>
-                <Badge variant="secondary" className="text-sm">
-                  {projectInfo.format} Format
-                </Badge>
-              </div>
+              <Button 
+                variant="ghost" 
+                onClick={() => window.history.back()} 
+                className="mb-4 hover:bg-muted back-button"
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back
+              </Button>
               
-              <div className="grid grid-cols-3 gap-4 mb-6">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-foreground">{projectInfo.articlesFound}</div>
-                  <div className="text-sm text-muted-foreground">Articles Found</div>
+              {/* Project Header */}
+              <div className="mb-8">
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <h1 className="text-3xl font-bold text-foreground mb-2">
+                      Processing: {projectInfo.title}
+                    </h1>
+                    <p className="text-muted-foreground">
+                      RSS Feed: {projectInfo.rssUrl}
+                    </p>
+                  </div>
+                  <Badge variant="secondary" className="text-sm">
+                    {projectInfo.format} Format
+                  </Badge>
                 </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-foreground">~{projectInfo.estimatedPages}</div>
-                  <div className="text-sm text-muted-foreground">Estimated Pages</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-foreground">{progress}%</div>
-                  <div className="text-sm text-muted-foreground">Complete</div>
+                
+                <div className="grid grid-cols-3 gap-4 mb-6">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-foreground">{projectInfo.articlesFound}</div>
+                    <div className="text-sm text-muted-foreground">Articles Found</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-foreground">~{projectInfo.estimatedPages}</div>
+                    <div className="text-sm text-muted-foreground">Estimated Pages</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-foreground">{progress}%</div>
+                    <div className="text-sm text-muted-foreground">Complete</div>
+                  </div>
                 </div>
               </div>
             </div>
