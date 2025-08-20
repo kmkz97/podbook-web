@@ -330,7 +330,22 @@ const BookCreationWizard = () => {
       
       <div className="max-w-2xl mx-auto space-y-8">
         <div>
-          <Label className="text-base font-medium">Target Book Size</Label>
+          <div className="flex items-center gap-2 mb-2">
+            <Label className="text-base font-medium">Target Pages</Label>
+            <HoverCard>
+              <HoverCardTrigger asChild>
+                <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+              </HoverCardTrigger>
+              <HoverCardContent className="w-80">
+                <div className="space-y-2">
+                  <h4 className="text-sm font-medium">Target Pages</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Set your desired book length. The AI will try to get close to this number, but the final page count may vary based on content and formatting.
+                  </p>
+                </div>
+              </HoverCardContent>
+            </HoverCard>
+          </div>
           <div className="mt-2 space-y-2">
             <Slider
               value={bookSpecs.targetPages}
@@ -349,7 +364,22 @@ const BookCreationWizard = () => {
         </div>
         
         <div>
-          <Label className="text-base font-medium">Number of Chapters</Label>
+          <div className="flex items-center gap-2 mb-2">
+            <Label className="text-base font-medium">Target Chapters</Label>
+            <HoverCard>
+              <HoverCardTrigger asChild>
+                <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+              </HoverCardTrigger>
+              <HoverCardContent className="w-80">
+                <div className="space-y-2">
+                  <h4 className="text-sm font-medium">Target Chapters</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Set your desired number of chapters. The AI will try to get close to this number, but the final chapter count may vary based on content structure and flow.
+                  </p>
+                </div>
+              </HoverCardContent>
+            </HoverCard>
+          </div>
           <div className="mt-2 space-y-2">
             <Slider
               value={bookSpecs.targetChapters}
@@ -367,21 +397,7 @@ const BookCreationWizard = () => {
           </div>
         </div>
         
-        <div>
-          <Label className="text-base font-medium">Output Format</Label>
-          <div className="mt-2 flex gap-2">
-            {['pdf', 'epub', 'mobi'].map((format) => (
-              <Button
-                key={format}
-                variant={bookSpecs.format === format ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setBookSpecs(prev => ({ ...prev, format }))}
-              >
-                {format.toUpperCase()}
-              </Button>
-            ))}
-          </div>
-        </div>
+
       </div>
     </div>
   );
