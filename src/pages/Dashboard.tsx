@@ -23,7 +23,10 @@ const Dashboard = () => {
             </p>
             
             <ChatInput 
-              onSubmit={(value, files) => console.log('Chat input submitted:', value, 'Files:', files)}
+              onSubmit={(value, files) => {
+                console.log('Chat input submitted:', value);
+                console.log('Files attached:', files);
+              }}
               placeholder="Add an RSS feed, upload files, write a prompt, to start your book..."
               showQuickActions={true}
             />

@@ -1,14 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Send, Upload, X, File, FileText, Link as LinkIcon } from "lucide-react";
+import { Send, Upload, X, File } from "lucide-react";
 import { useState, useEffect } from "react";
 
 interface AttachedFile {
   id: string;
   name: string;
-  type: 'file' | 'link' | 'text';
-  size?: number;
-  url?: string;
+  size: number;
+  type: string;
 }
 
 interface ChatInputProps {
@@ -27,7 +26,6 @@ const ChatInput = ({
   const [inputValue, setInputValue] = useState('');
   const [currentPlaceholderIndex, setCurrentPlaceholderIndex] = useState(0);
   const [attachedFiles, setAttachedFiles] = useState<AttachedFile[]>([]);
-  const [showFileInput, setShowFileInput] = useState(false);
   
   const placeholderTexts = [
     "Add an RSS feed URL...",
@@ -57,7 +55,11 @@ const ChatInput = ({
 
   const handleQuickAction = (action: string) => {
     if (action === 'upload') {
-      setShowFileInput(true);
+      // Trigger file input click
+      const fileInput = document.getElementById('file-upload') as HTMLInputElement;
+      if (fileInput) {
+        fileInput.click();
+      }
     }
   };
 
@@ -67,37 +69,13 @@ const ChatInput = ({
       const newFiles: AttachedFile[] = Array.from(files).map((file, index) => ({
         id: `file-${Date.now()}-${index}`,
         name: file.name,
-        type: 'file' as const,
-        size: file.size
+        size: file.size,
+        type: file.type
       }));
       setAttachedFiles(prev => [...prev, ...newFiles]);
-      setShowFileInput(false);
     }
-  };
-
-  const handleAddLink = () => {
-    const url = prompt('Enter URL:');
-    if (url && url.trim()) {
-      const newLink: AttachedFile = {
-        id: `link-${Date.now()}`,
-        name: url,
-        type: 'link',
-        url: url.trim()
-      };
-      setAttachedFiles(prev => [...prev, newLink]);
-    }
-  };
-
-  const handleAddText = () => {
-    const text = prompt('Enter text content:');
-    if (text && text.trim()) {
-      const newText: AttachedFile = {
-        id: `text-${Date.now()}`,
-        name: text.length > 50 ? text.substring(0, 50) + '...' : text,
-        type: 'text'
-      };
-      setAttachedFiles(prev => [...prev, newText]);
-    }
+    // Reset the input value so the same file can be selected again
+    e.target.value = '';
   };
 
   const removeFile = (id: string) => {
@@ -126,6 +104,16 @@ const ChatInput = ({
         </div>
       </form>
       
+      {/* Hidden File Input */}
+      <input
+        type="file"
+        multiple
+        onChange={handleFileUpload}
+        className="hidden"
+        id="file-upload"
+        accept=".txt,.md,.pdf,.doc,.docx,.rtf,.mp3,.mp4,.wav,.jpg,.jpeg,.png,.gif"
+      />
+      
       {/* Quick Action Buttons */}
       {showQuickActions && (
         <div className="flex flex-wrap justify-center gap-3 mt-4">
@@ -138,44 +126,6 @@ const ChatInput = ({
             <Upload className="w-4 h-4 mr-2" />
             Upload Files
           </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleAddLink}
-            className="text-sm text-muted-foreground hover:text-foreground border-border hover:bg-muted"
-          >
-            <LinkIcon className="w-4 h-4 mr-2" />
-            Add Link
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleAddText}
-            className="text-sm text-muted-foreground hover:text-foreground border-border hover:bg-muted"
-          >
-            <FileText className="w-4 h-4 mr-2" />
-            Add Text
-          </Button>
-        </div>
-      )}
-
-      {/* Hidden File Input */}
-      <input
-        type="file"
-        multiple
-        onChange={handleFileUpload}
-        className="hidden"
-        id="file-upload"
-        accept=".txt,.md,.pdf,.doc,.docx,.rtf"
-      />
-      {showFileInput && (
-        <div className="mt-4 text-center">
-          <label htmlFor="file-upload" className="cursor-pointer">
-            <Button variant="outline" size="sm">
-              <Upload className="w-4 h-4 mr-2" />
-              Select Files
-            </Button>
-          </label>
         </div>
       )}
 
@@ -183,7 +133,7 @@ const ChatInput = ({
       {attachedFiles.length > 0 && (
         <div className="mt-4">
           <div className="text-sm text-muted-foreground mb-2 text-center">
-            Attached ({attachedFiles.length}):
+            Attached Files ({attachedFiles.length}):
           </div>
           <div className="space-y-2 max-h-32 overflow-y-auto">
             {attachedFiles.map((file) => (
@@ -192,17 +142,13 @@ const ChatInput = ({
                 className="flex items-center justify-between p-2 bg-muted/50 rounded-lg border border-border"
               >
                 <div className="flex items-center gap-2 flex-1 min-w-0">
-                  {file.type === 'file' && <File className="w-4 h-4 text-muted-foreground flex-shrink-0" />}
-                  {file.type === 'link' && <LinkIcon className="w-4 h-4 text-muted-foreground flex-shrink-0" />}
-                  {file.type === 'text' && <FileText className="w-4 h-4 text-muted-foreground flex-shrink-0" />}
+                  <File className="w-4 h-4 text-muted-foreground flex-shrink-0" />
                   <span className="text-sm text-foreground truncate">
                     {file.name}
                   </span>
-                  {file.size && (
-                    <span className="text-xs text-muted-foreground flex-shrink-0">
-                      ({(file.size / 1024).toFixed(1)} KB)
-                    </span>
-                  )}
+                  <span className="text-xs text-muted-foreground flex-shrink-0">
+                    ({(file.size / 1024).toFixed(1)} KB)
+                  </span>
                 </div>
                 <Button
                   variant="ghost"
