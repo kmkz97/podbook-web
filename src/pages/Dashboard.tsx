@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
 import { Plus } from "lucide-react";
 import LeftNavigation from "@/components/LeftNavigation";
 import BookCard from "@/components/BookCard";
@@ -54,11 +54,7 @@ const Dashboard = () => {
     }
   ]);
 
-  const completedProjects = projects.filter(p => p.status === 'completed').length;
-  const processingProjects = projects.filter(p => p.status === 'processing').length;
-  const totalPages = projects
-    .filter(p => p.status === 'completed')
-    .reduce((sum, p) => sum + (p.pages_count || 0), 0);
+
 
 
 
@@ -78,52 +74,7 @@ const Dashboard = () => {
             </p>
           </div>
 
-          {/* Stats Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
-                  Total Projects
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-medium text-foreground">{projects.length}</div>
-              </CardContent>
-            </Card>
 
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
-                  Completed
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-medium text-success">{completedProjects}</div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
-                  In Progress
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-medium text-warning">{processingProjects}</div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
-                  Total Pages
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-medium text-primary">{totalPages}</div>
-              </CardContent>
-            </Card>
-          </div>
 
           {/* Recent Projects */}
           <div className="mb-8">

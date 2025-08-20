@@ -14,7 +14,7 @@ const Header = () => {
             <img 
               src={theme === 'dark' ? '/logo-white.svg' : '/logo.svg'} 
               alt="Podbook Logo" 
-              className="w-8 h-8" 
+              className="w-6 h-6" 
             />
             <h1 className="text-2xl font-medium text-foreground font-serif-headers">Podbook</h1>
           </div>
