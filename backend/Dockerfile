@@ -1,8 +1,8 @@
 # Multi-stage Dockerfile for Podbook Backend
 FROM node:18-alpine AS base
 
-# Install dependencies for native modules
-RUN apk add --no-cache python3 make g++
+# Install dependencies for native modules and OpenSSL
+RUN apk add --no-cache python3 make g++ openssl
 
 WORKDIR /app
 
@@ -15,6 +15,9 @@ RUN npm ci
 
 # Development stage
 FROM base AS development
+
+ENV PRISMA_QUERY_ENGINE_LIBRARY="/app/node_modules/.prisma/client/libquery_engine-linux-musl-arm64-openssl-1.1.x.so.node" \
+    LD_LIBRARY_PATH="/app/node_modules/.prisma/client:$LD_LIBRARY_PATH"
 
 # Copy source code
 COPY . .
@@ -44,7 +47,10 @@ RUN npm run build
 FROM node:18-alpine AS production
 
 # Install dumb-init for proper signal handling
-RUN apk add --no-cache dumb-init
+RUN apk add --no-cache dumb-init openssl
+
+ENV PRISMA_QUERY_ENGINE_LIBRARY="/app/node_modules/.prisma/client/libquery_engine-linux-musl-arm64-openssl-1.1.x.so.node" \
+    LD_LIBRARY_PATH="/app/node_modules/.prisma/client:$LD_LIBRARY_PATH"
 
 WORKDIR /app
 

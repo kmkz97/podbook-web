@@ -7,12 +7,16 @@ module.exports.register = async function(req, res) {
   try {
     const { name, email, password } = req.body;
 
+    // Log incoming request
+    console.log('Registration attempt:', { email, name });
+
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({
       where: { email }
     });
 
     if (existingUser) {
+      console.log('User already exists:', email);
       return res.status(400).json({ error: 'User already exists' });
     }
 
@@ -28,6 +32,8 @@ module.exports.register = async function(req, res) {
         password: hashedPassword
       }
     });
+
+    console.log('User created:', user.id);
 
     // Generate JWT token
     const token = jwt.sign(
@@ -47,7 +53,15 @@ module.exports.register = async function(req, res) {
       }
     });
   } catch (error) {
-    res.status(500).json({ error: 'Server error' });
+    console.error('Registration error:', {
+      message: error.message,
+      stack: error.stack,
+      timestamp: new Date().toISOString()
+    });
+    res.status(500).json({ 
+      error: 'Server error',
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 };
 

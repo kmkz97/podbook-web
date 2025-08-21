@@ -11,7 +11,7 @@ services:
       - ./uploads:/app/uploads
     environment:
       - NODE_ENV=development
-      - DATABASE_URL=postgresql://podbook_user:podbook_password@postgres:5432/podbook
+      - DATABASE_URL=${DATABASE_URL}
       - REDIS_URL=redis://redis:6379
     command: npm run dev
     ports:
