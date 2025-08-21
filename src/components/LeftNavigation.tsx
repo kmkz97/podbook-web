@@ -106,8 +106,20 @@ const LeftNavigation = ({ activePage = 'dashboard' }: LeftNavigationProps) => {
         <div className="p-6 border-t border-border mt-auto">
           <div className="group relative">
             <div className="flex items-center space-x-3 p-3 rounded-lg cursor-pointer hover:bg-muted transition-colors">
-              <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center shadow-sm border-2 border-primary/20 overflow-hidden">
-                <User className="w-4 h-4 text-primary-foreground" />
+              <div 
+                style={{ 
+                  width: '40px', 
+                  height: '40px',
+                  backgroundColor: 'hsl(var(--primary))',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+                  border: '2px solid hsl(var(--primary) / 0.2)'
+                }}
+              >
+                <User className="w-5 h-5 text-primary-foreground" />
               </div>
               <div className="flex-1">
                 <p className="text-sm font-medium">{user.name}</p>
