@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   BookOpen,
   Home,
@@ -24,6 +25,7 @@ interface LeftNavigationProps {
 const LeftNavigation = ({ activePage = 'dashboard' }: LeftNavigationProps) => {
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
+  const { user, logout, isAuthenticated } = useAuth();
 
   return (
     <aside className="w-64 bg-card border-r border-border h-screen flex flex-col sticky top-0">
@@ -100,45 +102,66 @@ const LeftNavigation = ({ activePage = 'dashboard' }: LeftNavigationProps) => {
       </div>
 
       {/* User Section - Sticky Bottom */}
-      <div className="p-6 border-t border-border mt-auto">
-        <div className="group relative">
-          <div className="flex items-center space-x-3 p-3 rounded-lg cursor-pointer hover:bg-muted transition-colors">
-            <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-              <User className="w-4 h-4 text-primary-foreground" />
-            </div>
-            <div className="flex-1">
-              <p className="text-sm font-medium">John Doe</p>
-              <p className="text-xs text-muted-foreground">Pro Account</p>
-            </div>
-            <ChevronDown className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
-          </div>
-
-          {/* Settings Dropdown - appears on hover and stays open */}
-          <div className="absolute bottom-full left-0 right-0 mb-0 bg-background border border-border rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto hover:opacity-100">
-            <div className="p-2">
-              <div className="px-3 py-2 text-sm font-medium text-muted-foreground border-b border-border mb-2 settings-dropdown">
-                Credits 2392
+      {isAuthenticated && user ? (
+        <div className="p-6 border-t border-border mt-auto">
+          <div className="group relative">
+            <div className="flex items-center space-x-3 p-3 rounded-lg cursor-pointer hover:bg-muted transition-colors">
+              <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center shadow-sm border-2 border-primary/20 overflow-hidden">
+                <User className="w-4 h-4 text-primary-foreground" />
               </div>
-              <Button variant="ghost" size="sm" className="w-full justify-start" onClick={() => navigate('/settings')}>
-                <Settings className="w-4 h-4 mr-3" />
-                Settings
-              </Button>
-              <Button variant="ghost" size="sm" className="w-full justify-start" onClick={() => navigate('/settings')}>
-                <CreditCard className="w-4 h-4 mr-3" />
-                Billing and Plan
-              </Button>
-              <Button variant="ghost" size="sm" className="w-full justify-start" onClick={toggleTheme}>
-                {theme === 'dark' ? <Sun className="w-4 h-4 mr-3" /> : <Moon className="w-4 h-4 mr-3" />}
-                {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-              </Button>
-              <Button variant="ghost" size="sm" className="w-full justify-start">
-                <LogOut className="w-4 h-4 mr-3" />
-                Logout
-              </Button>
+              <div className="flex-1">
+                <p className="text-sm font-medium">{user.name}</p>
+                <p className="text-xs text-muted-foreground">{user.email}</p>
+              </div>
+              <ChevronDown className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+            </div>
+
+            {/* Settings Dropdown - appears on hover and stays open */}
+            <div className="absolute bottom-full left-0 right-0 mb-0 bg-background border border-border rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto hover:opacity-100">
+              <div className="p-2">
+                <div className="px-3 py-2 text-sm font-medium text-muted-foreground border-b border-border mb-2 settings-dropdown">
+                  Credits 2392
+                </div>
+                <Button variant="ghost" size="sm" className="w-full justify-start" onClick={() => navigate('/settings')}>
+                  <Settings className="w-4 h-4 mr-3" />
+                  Settings
+                </Button>
+                <Button variant="ghost" size="sm" className="w-full justify-start" onClick={() => navigate('/settings')}>
+                  <CreditCard className="w-4 h-4 mr-3" />
+                  Billing and Plan
+                </Button>
+                <Button variant="ghost" size="sm" className="w-full justify-start" onClick={toggleTheme}>
+                  {theme === 'dark' ? <Sun className="w-4 h-4 mr-3" /> : <Moon className="w-4 h-4 mr-3" />}
+                  {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="w-full justify-start"
+                  onClick={async () => {
+                    await logout();
+                    navigate('/login');
+                  }}
+                >
+                  <LogOut className="w-4 h-4 mr-3" />
+                  Logout
+                </Button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="p-6 border-t border-border mt-auto">
+          <div className="text-center">
+            <Button variant="outline" className="w-full" asChild>
+              <Link to="/login">
+                <User className="w-4 h-4 mr-3" />
+                Sign In
+              </Link>
+            </Button>
+          </div>
+        </div>
+      )}
     </aside>
   );
 };

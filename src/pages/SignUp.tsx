@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useAuth } from "@/contexts/AuthContext";
 
 const SignUp = () => {
   const { theme } = useTheme();
+  const { register, isAuthenticated, isLoading: authLoading } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -16,6 +18,24 @@ const SignUp = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/dashboard');
+    }
+  }, [isAuthenticated, navigate]);
+
+  if (authLoading || isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -28,12 +48,23 @@ const SignUp = () => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Simulate signup process
-    setTimeout(() => {
+    // Validate passwords match
+    if (formData.password !== formData.confirmPassword) {
+      alert('Passwords do not match');
       setIsLoading(false);
-      // For demo purposes, just redirect to dashboard
+      return;
+    }
+    
+    try {
+      await register(formData.name, formData.email, formData.password);
+      console.log('Registration successful');
       navigate("/dashboard");
-    }, 1000);
+    } catch (error) {
+      console.error('Registration failed:', error);
+      alert('Registration failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
