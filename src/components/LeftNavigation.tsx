@@ -107,25 +107,19 @@ const LeftNavigation = ({ activePage = 'dashboard' }: LeftNavigationProps) => {
           <div className="group relative">
             <div className="flex items-center space-x-3 p-3 rounded-lg cursor-pointer hover:bg-muted transition-colors">
               <div 
+                className="flex items-center justify-center"
                 style={{ 
                   width: '40px', 
-                  height: '40px',
-                  backgroundColor: 'hsl(var(--primary))',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
-                  border: '2px solid hsl(var(--primary) / 0.2)'
+                  height: '40px'
                 }}
               >
-                <User className="w-5 h-5 text-primary-foreground" />
+                <User className="w-5 h-5 text-foreground" />
               </div>
               <div className="flex-1">
                 <p className="text-sm font-medium">{user.name}</p>
                 <p className="text-xs text-muted-foreground">{user.email}</p>
               </div>
-              <ChevronDown className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+              <ChevronDown className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition-colors" />
             </div>
 
             {/* Settings Dropdown - appears on hover and stays open */}
