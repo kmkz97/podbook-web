@@ -15,7 +15,8 @@ import {
   ExternalLink,
   Download,
   X,
-  Sparkles
+  Sparkles,
+  ArrowLeft
 } from 'lucide-react';
 import LeftNavigation from "@/components/LeftNavigation";
 
@@ -120,25 +121,7 @@ const OrderProcessing = () => {
     }, 1000);
   };
 
-  const getStepStatus = (step: string) => {
-    if (!order) return 'pending';
-    
-    const stepOrder = ['content-analysis', 'ai-generation', 'human-review', 'final-formatting'];
-    const currentIndex = stepOrder.indexOf(order.currentStep);
-    const stepIndex = stepOrder.indexOf(step);
-    
-    if (stepIndex < currentIndex) return 'completed';
-    if (stepIndex === currentIndex) return 'current';
-    return 'pending';
-  };
 
-  const getStepIcon = (step: string) => {
-    const status = getStepStatus(step);
-    
-    if (status === 'completed') return <CheckCircle className="w-5 h-5 text-green-600" />;
-    if (status === 'current') return <Clock className="w-5 h-5 text-blue-600" />;
-    return <Clock className="w-5 h-5 text-muted-foreground" />;
-  };
 
   const getStepTitle = (step: string) => {
     switch (step) {
@@ -189,8 +172,19 @@ const OrderProcessing = () => {
         <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
         <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <h1 className="text-3xl font-bold text-foreground">Order Processing</h1>
+          <div className="flex items-center gap-4 mb-4">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => navigate('/dashboard')}
+              className="flex items-center gap-2"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to Library
+            </Button>
+            <div className="flex-1">
+              <h1 className="text-3xl font-bold text-foreground">Order Processing</h1>
+            </div>
             <Badge variant={order.status === 'completed' ? 'default' : 'secondary'}>
               {order.status === 'completed' ? 'Completed' : 'Processing'}
             </Badge>
@@ -214,23 +208,15 @@ const OrderProcessing = () => {
                   {['content-analysis', 'ai-generation', 'human-review', 'final-formatting'].map((step, index) => (
                     <div key={step} className="flex items-start gap-4">
                       <div className="flex-shrink-0 mt-1">
-                        {getStepIcon(step)}
+                        <div className="w-8 h-8 rounded-full bg-primary/10 border-2 border-primary flex items-center justify-center text-sm font-semibold text-primary">
+                          {index + 1}
+                        </div>
                       </div>
                       <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-2">
-                          <h3 className="font-semibold">{getStepTitle(step)}</h3>
-                          {getStepStatus(step) === 'current' && (
-                            <Badge variant="secondary" className="text-xs">Current</Badge>
-                          )}
-                        </div>
-                        <p className="text-sm text-muted-foreground mb-2">
+                        <h3 className="font-semibold mb-2">{getStepTitle(step)}</h3>
+                        <p className="text-sm text-muted-foreground">
                           {getStepDescription(step)}
                         </p>
-                        {getStepStatus(step) === 'current' && (
-                          <div className="w-full bg-muted rounded-full h-2">
-                            <div className="bg-primary h-2 rounded-full animate-pulse" style={{ width: '60%' }}></div>
-                          </div>
-                        )}
                       </div>
                     </div>
                   ))}
