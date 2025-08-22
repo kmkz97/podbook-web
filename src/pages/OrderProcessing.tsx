@@ -165,33 +165,33 @@ const OrderProcessing = () => {
     );
   }
 
-  return (
+    return (
     <div className="min-h-screen bg-background flex">
       <LeftNavigation activePage="projects" />
-      <div className="flex-1 py-8">
-        <div className="max-w-6xl mx-auto px-4">
-        {/* Header */}
-        <div className="mb-8">
-          {/* Back button */}
-          <Button
-            onClick={() => navigate('/dashboard')}
-            className="absolute top-8 left-8 hover:bg-muted back-button p-2 h-10 w-10 rounded-full z-10"
-          >
-            <ArrowLeft className="w-4 h-4" />
-          </Button>
-          
-          <div className="text-center mb-4">
-            <h1 className="text-3xl font-bold text-foreground">Order Processing</h1>
-            <div className="flex justify-center mt-2">
-              <Badge variant={order.status === 'completed' ? 'default' : 'secondary'}>
-                {order.status === 'completed' ? 'Completed' : 'Processing'}
-              </Badge>
+      <div className="flex-1 p-8 relative">
+        {/* Back Button - Fixed Position */}
+        <Button
+          onClick={() => navigate('/dashboard')}
+          className="absolute top-8 left-8 hover:bg-muted back-button p-2 h-10 w-10 rounded-full z-10"
+        >
+          <ArrowLeft className="w-4 h-4" />
+        </Button>
+        
+        <div className="max-w-6xl mx-auto">
+          {/* Header */}
+          <div className="mb-8">
+            <div className="text-center mb-4">
+              <h1 className="text-3xl font-bold text-foreground">Order Processing</h1>
+              <div className="flex justify-center mt-2">
+                <Badge variant={order.status === 'completed' ? 'default' : 'secondary'}>
+                  {order.status === 'completed' ? 'Completed' : 'Processing'}
+                </Badge>
+              </div>
             </div>
+            <p className="text-center text-muted-foreground">
+              Order #{order.orderNumber} • Created {order.createdAt} • Estimated completion: {order.estimatedCompletion}
+            </p>
           </div>
-          <p className="text-center text-muted-foreground">
-            Order #{order.orderNumber} • Created {order.createdAt} • Estimated completion: {order.estimatedCompletion}
-          </p>
-        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content - Processing Steps */}
