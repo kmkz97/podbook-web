@@ -81,7 +81,6 @@ const BookCreationWizard = () => {
   const [contentSources, setContentSources] = useState({
     rssFeed: '',
     uploadedFiles: [] as File[],
-    textContent: '',
     urls: [] as string[]
   });
   const [selectedEpisodes, setSelectedEpisodes] = useState<Set<number>>(new Set());
@@ -195,7 +194,6 @@ const BookCreationWizard = () => {
     const contentSourcesCount = [
       contentSources.rssFeed ? 1 : 0,
       contentSources.uploadedFiles.length > 0 ? 1 : 0,
-      contentSources.textContent ? 1 : 0,
       contentSources.urls.length > 0 ? 1 : 0
     ].filter(count => count > 0).length;
     
@@ -637,10 +635,6 @@ const BookCreationWizard = () => {
                     <div className="flex justify-between">
                       <span>Uploaded Files:</span>
                       <span className="font-medium">{contentSources.uploadedFiles.length}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Text Content:</span>
-                      <span className="font-medium">{contentSources.textContent ? 'Yes' : 'No'}</span>
                     </div>
                     <div className="flex justify-between">
                       <span>URLs:</span>
