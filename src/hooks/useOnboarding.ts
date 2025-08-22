@@ -22,14 +22,26 @@ export const useOnboarding = () => {
   const { user } = useAuth();
 
   useEffect(() => {
-    if (user) {
-      checkOnboardingStatus();
-    } else {
-      setIsLoading(false);
-    }
+    // Temporarily disabled onboarding check while backend connection issues are resolved
+    // if (user) {
+    //   checkOnboardingStatus();
+    // } else {
+    //   setIsLoading(false);
+    // }
+    
+    // Set default values to prevent blocking
+    setIsOnboardingComplete(true);
+    setIsLoading(false);
   }, [user]);
 
   const checkOnboardingStatus = async () => {
+    // Temporarily disabled while backend connection issues are resolved
+    console.log('Onboarding check disabled - setting default values');
+    setIsOnboardingComplete(true);
+    setIsLoading(false);
+    
+    // Original code commented out:
+    /*
     try {
       const response = await fetch(`${API_BASE_URL}/onboarding/get`, {
         headers: {
@@ -54,7 +66,7 @@ export const useOnboarding = () => {
           setOnboardingData(null);
         }
       } else if (response.status === 404) {
-        // No onboarding data exists for this user
+        // No onboarding record found (404)
         console.log('No onboarding record found (404)');
         setIsOnboardingComplete(false);
         setOnboardingData(null);
@@ -68,9 +80,18 @@ export const useOnboarding = () => {
     } finally {
       setIsLoading(false);
     }
+    */
   };
 
   const completeOnboarding = async (data: OnboardingData) => {
+    // Temporarily disabled while backend connection issues are resolved
+    console.log('Onboarding completion disabled - setting local state only');
+    setOnboardingData(data);
+    setIsOnboardingComplete(true);
+    return { data, success: true };
+    
+    // Original code commented out:
+    /*
     try {
       const response = await fetch(`${API_BASE_URL}/onboarding/complete`, {
         method: 'POST',
@@ -93,9 +114,17 @@ export const useOnboarding = () => {
       console.error('Error completing onboarding:', error);
       throw error;
     }
+    */
   };
 
   const saveOnboardingProgress = async (data: Partial<OnboardingData>) => {
+    // Temporarily disabled while backend connection issues are resolved
+    console.log('Onboarding save disabled - setting local state only');
+    setOnboardingData(prev => ({ ...prev, ...data }));
+    return { data, success: true };
+    
+    // Original code commented out:
+    /*
     try {
       const response = await fetch(`${API_BASE_URL}/onboarding/save`, {
         method: 'POST',
@@ -117,9 +146,16 @@ export const useOnboarding = () => {
       console.error('Error saving onboarding progress:', error);
       throw error;
     }
+    */
   };
 
   const skipOnboarding = async () => {
+    // Temporarily disabled while backend connection issues are resolved
+    console.log('Onboarding skip disabled - setting local state only');
+    setIsOnboardingComplete(true);
+    
+    // Original code commented out:
+    /*
     try {
       const response = await fetch(`${API_BASE_URL}/onboarding/complete`, {
         method: 'POST',
@@ -136,6 +172,7 @@ export const useOnboarding = () => {
     } catch (error) {
       console.error('Error skipping onboarding:', error);
     }
+    */
   };
 
   const resetOnboarding = async () => {

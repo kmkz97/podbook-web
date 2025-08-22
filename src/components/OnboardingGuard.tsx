@@ -18,8 +18,20 @@ const OnboardingGuard: React.FC<OnboardingGuardProps> = ({
   // Show loading state while checking auth and onboarding status
   if (isLoading || (user && isOnboardingComplete === null)) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900">
+        <div className="relative">
+          {/* Podbook Logo */}
+          <img 
+            src="/logo-white.svg" 
+            alt="Podbook" 
+            className="w-24 h-24 mb-8"
+          />
+          {/* White Spinner */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="animate-spin rounded-full h-32 w-32 border-4 border-white border-t-transparent"></div>
+          </div>
+        </div>
+        <p className="text-white text-lg mt-4 font-medium">Loading...</p>
       </div>
     );
   }
