@@ -685,16 +685,14 @@ const BookCreationWizard = () => {
                   <div className="flex-1">
                     <h4 className="font-medium text-green-900 mb-2">Purchase in confidence!</h4>
                     <p className="text-sm text-green-700 mb-3">
-                      If you are not completely satisfied with your book, you have 1 week to review it in view-only mode on our site and request a refund (minus processing fees). Downloading the book waives your refund eligibility.
+                      If you are not completely satisfied with your book, you have 1 week to review it in view-only mode on our site and request a refund (minus processing fees). Downloading the book waives your refund eligibility.{' '}
+                      <button 
+                        className="text-green-800 underline hover:text-green-900 font-medium"
+                        onClick={() => window.open('/money-back-guarantee', '_blank')}
+                      >
+                        Learn more
+                      </button>.
                     </p>
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="text-green-700 border-green-300 hover:bg-green-100"
-                      onClick={() => window.open('/money-back-guarantee', '_blank')}
-                    >
-                      Learn More
-                    </Button>
                   </div>
                 </div>
               </div>
