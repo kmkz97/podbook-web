@@ -50,6 +50,12 @@ const OrderProcessing = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   useEffect(() => {
+    // TODO: In production, this modal should only appear once after:
+    // 1. Order is successfully created in the backend
+    // 2. Stripe payment is completed successfully
+    // 3. User is redirected to this page for the first time
+    // 
+    // For demo purposes, we show it whenever order data loads
     // Try to load order data from localStorage first (for demo orders)
     const storedOrder = localStorage.getItem('currentOrder');
     
@@ -326,7 +332,7 @@ const OrderProcessing = () => {
         </div>
       </div>
 
-      {/* Success Modal */}
+      {/* Success Modal - Should only appear once after order created/Stripe payment successful */}
       {showSuccessModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-card border border-border rounded-lg p-8 max-w-md mx-4 relative shadow-lg">
