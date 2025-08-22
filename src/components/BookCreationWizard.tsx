@@ -702,7 +702,32 @@ const BookCreationWizard = () => {
               </div>
               
               <div className="flex gap-3">
-                <Button className="w-full bg-primary hover:bg-primary/90">
+                <Button 
+                  className="w-full bg-primary hover:bg-primary/90"
+                  onClick={() => {
+                    // TODO: In production, this would integrate with Stripe
+                    // For demo purposes, create a mock order and navigate to processing
+                    const orderId = 'order-' + Date.now();
+                    
+                    // Store order data in localStorage for demo purposes
+                    const orderData = {
+                      id: orderId,
+                      bookTitle: bookDetails.title,
+                      bookType: selectedBookType,
+                      targetPages: bookSpecs.targetPages[0],
+                      contentSources: contentSources,
+                      pricing: {
+                        subtotal: calculateTotalPrice(),
+                        processingFee: 0.20,
+                        total: calculateTotalPrice() + 0.20
+                      }
+                    };
+                    localStorage.setItem('currentOrder', JSON.stringify(orderData));
+                    
+                    // Navigate to order processing page
+                    navigate(`/order-processing/${orderId}`);
+                  }}
+                >
                   <CreditCard className="w-4 h-4 mr-2" />
                   Purchase & Generate
                 </Button>

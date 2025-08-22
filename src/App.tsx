@@ -20,6 +20,7 @@ import ApiTest from "./components/ApiTest";
 import Onboarding from "./pages/Onboarding";
 import OnboardingGuard from "./components/OnboardingGuard";
 import MoneyBackGuarantee from "./pages/MoneyBackGuarantee";
+import OrderProcessing from "./pages/OrderProcessing";
 
 const queryClient = new QueryClient();
 
@@ -68,6 +69,7 @@ const App = () => (
               } />
               <Route path="/onboarding" element={<Onboarding />} />
               <Route path="/money-back-guarantee" element={<MoneyBackGuarantee />} />
+              <Route path="/order-processing/:orderId" element={<OrderProcessing />} />
               <Route path="/api-test" element={<ApiTest />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

@@ -1,0 +1,355 @@
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
+import { 
+  Clock, 
+  CheckCircle, 
+  FileText, 
+  Upload, 
+  Rss, 
+  User, 
+  MessageCircle,
+  ExternalLink,
+  Download
+} from 'lucide-react';
+
+interface OrderDetails {
+  id: string;
+  orderNumber: string;
+  status: 'processing' | 'review' | 'completed';
+  createdAt: string;
+  estimatedCompletion: string;
+  bookTitle: string;
+  bookType: string;
+  targetPages: number;
+  contentSources: {
+    rssFeed?: string;
+    uploadedFiles: string[];
+    totalFiles: number;
+  };
+  pricing: {
+    subtotal: number;
+    processingFee: number;
+    total: number;
+  };
+  currentStep: 'content-analysis' | 'ai-generation' | 'human-review' | 'final-formatting';
+}
+
+const OrderProcessing = () => {
+  const { orderId } = useParams();
+  const navigate = useNavigate();
+  const [order, setOrder] = useState<OrderDetails | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Try to load order data from localStorage first (for demo orders)
+    const storedOrder = localStorage.getItem('currentOrder');
+    
+    if (storedOrder) {
+      try {
+        const parsedOrder = JSON.parse(storedOrder);
+        const orderData: OrderDetails = {
+          id: orderId || parsedOrder.id,
+          orderNumber: 'ORD-' + Date.now().toString().slice(-6),
+          status: 'processing',
+          createdAt: new Date().toLocaleDateString(),
+          estimatedCompletion: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toLocaleDateString(),
+          bookTitle: parsedOrder.bookTitle || 'Untitled Book',
+          bookType: parsedOrder.bookType ? parsedOrder.bookType.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase()) : 'General',
+          targetPages: parsedOrder.targetPages || 150,
+          contentSources: {
+            rssFeed: parsedOrder.contentSources?.rssFeed,
+            uploadedFiles: parsedOrder.contentSources?.uploadedFiles || [],
+            totalFiles: parsedOrder.contentSources?.uploadedFiles?.length || 0
+          },
+          pricing: {
+            subtotal: parsedOrder.pricing?.subtotal || 0,
+            processingFee: parsedOrder.pricing?.processingFee || 0.20,
+            total: parsedOrder.pricing?.total || 0
+          },
+          currentStep: 'ai-generation'
+        };
+        setOrder(orderData);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error parsing stored order:', error);
+        // Fall back to demo data
+        loadDemoOrder();
+      }
+    } else {
+      // Load demo order data
+      loadDemoOrder();
+    }
+  }, [orderId]);
+
+  const loadDemoOrder = () => {
+    setTimeout(() => {
+      setOrder({
+        id: orderId || 'demo-order-123',
+        orderNumber: 'ORD-2024-001',
+        status: 'processing',
+        createdAt: new Date().toLocaleDateString(),
+        estimatedCompletion: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toLocaleDateString(),
+        bookTitle: 'AI-Powered Content Transformation Guide',
+        bookType: 'Educational',
+        targetPages: 150,
+        contentSources: {
+          rssFeed: 'https://example.com/feed',
+          uploadedFiles: ['audio-interview.mp3', 'presentation-slides.pdf'],
+          totalFiles: 2
+        },
+        pricing: {
+          subtotal: 22.50,
+          processingFee: 0.20,
+          total: 22.70
+        },
+        currentStep: 'ai-generation'
+      });
+      setLoading(false);
+    }, 1000);
+  };
+
+  const getStepStatus = (step: string) => {
+    if (!order) return 'pending';
+    
+    const stepOrder = ['content-analysis', 'ai-generation', 'human-review', 'final-formatting'];
+    const currentIndex = stepOrder.indexOf(order.currentStep);
+    const stepIndex = stepOrder.indexOf(step);
+    
+    if (stepIndex < currentIndex) return 'completed';
+    if (stepIndex === currentIndex) return 'current';
+    return 'pending';
+  };
+
+  const getStepIcon = (step: string) => {
+    const status = getStepStatus(step);
+    
+    if (status === 'completed') return <CheckCircle className="w-5 h-5 text-green-600" />;
+    if (status === 'current') return <Clock className="w-5 h-5 text-blue-600" />;
+    return <Clock className="w-5 h-5 text-muted-foreground" />;
+  };
+
+  const getStepTitle = (step: string) => {
+    switch (step) {
+      case 'content-analysis': return 'Content Analysis';
+      case 'ai-generation': return 'AI Content Generation';
+      case 'human-review': return 'Human Review & Quality Check';
+      case 'final-formatting': return 'Final Formatting & Export';
+      default: return step;
+    }
+  };
+
+  const getStepDescription = (step: string) => {
+    switch (step) {
+      case 'content-analysis': return 'Analyzing your content sources and extracting key information';
+      case 'ai-generation': return 'AI is generating your book content based on the analysis';
+      case 'human-review': return 'Our team is reviewing and refining the AI-generated content';
+      case 'final-formatting': return 'Final formatting and preparing your book for download';
+      default: return '';
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <Clock className="w-12 h-12 mx-auto mb-4 text-primary animate-spin" />
+          <h2 className="text-xl font-semibold">Loading your order...</h2>
+        </div>
+      </div>
+    );
+  }
+
+  if (!order) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold mb-4">Order not found</h2>
+          <Button onClick={() => navigate('/dashboard')}>Return to Dashboard</Button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background py-8">
+      <div className="max-w-6xl mx-auto px-4">
+        {/* Header */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <h1 className="text-3xl font-bold text-foreground">Order Processing</h1>
+            <Badge variant={order.status === 'completed' ? 'default' : 'secondary'}>
+              {order.status === 'completed' ? 'Completed' : 'Processing'}
+            </Badge>
+          </div>
+          <p className="text-muted-foreground">
+            Order #{order.orderNumber} • Created {order.createdAt} • Estimated completion: {order.estimatedCompletion}
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Content - Processing Steps */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Processing Steps */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Processing Steps</CardTitle>
+                <CardDescription>Your book is being created through these stages</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-6">
+                  {['content-analysis', 'ai-generation', 'human-review', 'final-formatting'].map((step, index) => (
+                    <div key={step} className="flex items-start gap-4">
+                      <div className="flex-shrink-0 mt-1">
+                        {getStepIcon(step)}
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <h3 className="font-semibold">{getStepTitle(step)}</h3>
+                          {getStepStatus(step) === 'current' && (
+                            <Badge variant="secondary" className="text-xs">Current</Badge>
+                          )}
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-2">
+                          {getStepDescription(step)}
+                        </p>
+                        {getStepStatus(step) === 'current' && (
+                          <div className="w-full bg-muted rounded-full h-2">
+                            <div className="bg-primary h-2 rounded-full animate-pulse" style={{ width: '60%' }}></div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Human Review Notice */}
+            <Card className="border-blue-200 bg-blue-50">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-blue-800">
+                  <User className="w-5 h-5" />
+                  Human Review Included
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-blue-700 mb-4">
+                  Every book goes through our expert review process to ensure quality, accuracy, and readability. 
+                  This step typically takes 1-2 business days and includes:
+                </p>
+                <ul className="text-blue-700 text-sm space-y-2 ml-4">
+                  <li>• Content accuracy verification</li>
+                  <li>• Grammar and style review</li>
+                  <li>• Formatting consistency check</li>
+                  <li>• Final quality assurance</li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Sidebar - Order Summary */}
+          <div className="space-y-6">
+            {/* Order Summary */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Order Summary</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <h4 className="font-medium mb-2">{order.bookTitle}</h4>
+                  <div className="text-sm text-muted-foreground space-y-1">
+                    <p>Type: {order.bookType}</p>
+                    <p>Target Pages: {order.targetPages}</p>
+                  </div>
+                </div>
+                
+                <Separator />
+                
+                <div>
+                  <h4 className="font-medium mb-2">Content Sources</h4>
+                  <div className="text-sm text-muted-foreground space-y-2">
+                    {order.contentSources.rssFeed && (
+                      <div className="flex items-center gap-2">
+                        <Rss className="w-4 h-4" />
+                        <span>RSS Feed</span>
+                      </div>
+                    )}
+                    {order.contentSources.uploadedFiles.length > 0 && (
+                      <div className="flex items-center gap-2">
+                        <Upload className="w-4 h-4" />
+                        <span>{order.contentSources.totalFiles} File(s)</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                
+                <Separator />
+                
+                <div>
+                  <h4 className="font-medium mb-2">Pricing</h4>
+                  <div className="text-sm space-y-1">
+                    <div className="flex justify-between">
+                      <span>Subtotal:</span>
+                      <span>${order.pricing.subtotal.toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Processing:</span>
+                      <span>${order.pricing.processingFee.toFixed(2)}</span>
+                    </div>
+                    <Separator className="my-2" />
+                    <div className="flex justify-between font-medium">
+                      <span>Total:</span>
+                      <span>${order.pricing.total.toFixed(2)}</span>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Support */}
+            <Card className="border-green-200 bg-green-50">
+              <CardHeader>
+                <CardTitle className="text-green-800">Have questions about your order?</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-green-700 text-sm mb-4">
+                  Our support team is here to help with any questions about your order or the processing timeline.
+                </p>
+                <Button 
+                  className="w-full bg-green-600 hover:bg-green-700 text-white"
+                  onClick={() => window.open('mailto:support@podbook.com?subject=Order%20Question%20-%20' + order.orderNumber, '_blank')}
+                >
+                  <MessageCircle className="w-4 h-4 mr-2" />
+                  Contact Support
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Actions */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Actions</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <Button variant="outline" className="w-full" onClick={() => navigate('/dashboard')}>
+                  <FileText className="w-4 h-4 mr-2" />
+                  View All Orders
+                </Button>
+                <Button variant="outline" className="w-full" onClick={() => navigate('/new-project')}>
+                  <Upload className="w-4 h-4 mr-2" />
+                  Create New Book
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default OrderProcessing;
