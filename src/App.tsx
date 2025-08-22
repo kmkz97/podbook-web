@@ -17,6 +17,8 @@ import Start from "./pages/Start";
 import ProjectDetail from "./pages/ProjectDetail";
 import Settings from "./pages/Settings";
 import ApiTest from "./components/ApiTest";
+import Onboarding from "./pages/Onboarding";
+import OnboardingGuard from "./components/OnboardingGuard";
 
 const queryClient = new QueryClient();
 
@@ -33,12 +35,37 @@ const App = () => (
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/start" element={<Start />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/projects/:id" element={<ProjectDetail />} />
-              <Route path="/new-project" element={<NewProject />} />
-              <Route path="/processing/:id" element={<Processing />} />
-              <Route path="/settings" element={<Settings />} />
+              <Route path="/dashboard" element={
+                <OnboardingGuard>
+                  <Dashboard />
+                </OnboardingGuard>
+              } />
+              <Route path="/projects" element={
+                <OnboardingGuard>
+                  <Projects />
+                </OnboardingGuard>
+              } />
+              <Route path="/projects/:id" element={
+                <OnboardingGuard>
+                  <ProjectDetail />
+                </OnboardingGuard>
+              } />
+              <Route path="/new-project" element={
+                <OnboardingGuard>
+                  <NewProject />
+                </OnboardingGuard>
+              } />
+              <Route path="/processing/:id" element={
+                <OnboardingGuard>
+                  <Processing />
+                </OnboardingGuard>
+              } />
+              <Route path="/settings" element={
+                <OnboardingGuard>
+                  <Settings />
+                </OnboardingGuard>
+              } />
+              <Route path="/onboarding" element={<Onboarding />} />
               <Route path="/api-test" element={<ApiTest />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

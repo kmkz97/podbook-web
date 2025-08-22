@@ -6,10 +6,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useAuth } from "@/contexts/AuthContext";
+import { useOnboarding } from "@/hooks/useOnboarding";
 
 const Login = () => {
   const { theme } = useTheme();
   const { login, isAuthenticated, isLoading: authLoading } = useAuth();
+  const { isOnboardingComplete } = useOnboarding();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -40,7 +42,13 @@ const Login = () => {
     try {
       await login(email, password);
       console.log('Login successful');
-      navigate("/dashboard");
+      
+      // Redirect to onboarding if not completed, otherwise to dashboard
+      if (!isOnboardingComplete) {
+        navigate("/onboarding");
+      } else {
+        navigate("/dashboard");
+      }
     } catch (error) {
       console.error('Login failed:', error);
       alert('Login failed. Please check your credentials.');

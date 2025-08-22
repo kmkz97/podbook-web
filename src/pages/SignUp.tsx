@@ -58,7 +58,7 @@ const SignUp = () => {
     try {
       await register(formData.name, formData.email, formData.password);
       console.log('Registration successful');
-      navigate("/dashboard");
+      navigate("/onboarding");
     } catch (error) {
       console.error('Registration failed:', error);
       alert('Registration failed. Please try again.');
