@@ -80,8 +80,7 @@ const BookCreationWizard = () => {
   });
   const [contentSources, setContentSources] = useState({
     rssFeed: '',
-    uploadedFiles: [] as File[],
-    urls: [] as string[]
+    uploadedFiles: [] as File[]
   });
   const [selectedEpisodes, setSelectedEpisodes] = useState<Set<number>>(new Set());
   const [processing, setProcessing] = useState(false);
@@ -193,8 +192,7 @@ const BookCreationWizard = () => {
     // Calculate content sources count
     const contentSourcesCount = [
       contentSources.rssFeed ? 1 : 0,
-      contentSources.uploadedFiles.length > 0 ? 1 : 0,
-      contentSources.urls.length > 0 ? 1 : 0
+      contentSources.uploadedFiles.length > 0 ? 1 : 0
     ].filter(count => count > 0).length;
     
     // Calculate complexity multiplier
@@ -636,10 +634,6 @@ const BookCreationWizard = () => {
                       <span>Uploaded Files:</span>
                       <span className="font-medium">{contentSources.uploadedFiles.length}</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span>URLs:</span>
-                      <span className="font-medium">{contentSources.urls.length}</span>
-                    </div>
                   </div>
                 </div>
                 
@@ -682,12 +676,31 @@ const BookCreationWizard = () => {
                 </div>
               </div>
               
+              {/* Money-Back Guarantee */}
+              <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                <div className="flex items-start gap-3">
+                  <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <CheckCircle className="w-4 h-4 text-green-600" />
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="font-medium text-green-900 mb-2">Purchase in confidence!</h4>
+                    <p className="text-sm text-green-700 mb-3">
+                      If you are not completely satisfied with your book, you have 1 week to review it in view-only mode on our site and request a refund (minus processing fees). Downloading the book waives your refund eligibility.
+                    </p>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="text-green-700 border-green-300 hover:bg-green-100"
+                      onClick={() => window.open('/money-back-guarantee', '_blank')}
+                    >
+                      Learn More
+                    </Button>
+                  </div>
+                </div>
+              </div>
+              
               <div className="flex gap-3">
-                <Button variant="outline" className="flex-1">
-                  <Download className="w-4 h-4 mr-2" />
-                  Download Overview
-                </Button>
-                <Button className="flex-1 bg-primary hover:bg-primary/90">
+                <Button className="w-full bg-primary hover:bg-primary/90">
                   <CreditCard className="w-4 h-4 mr-2" />
                   Purchase & Generate
                 </Button>
