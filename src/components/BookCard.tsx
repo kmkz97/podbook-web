@@ -27,6 +27,8 @@ const BookCard = ({ project, showActions = true }: BookCardProps) => {
       navigate(`/order-processing/${project.id}`);
     } else if (isProcessing || isFailed) {
       navigate(`/processing/${project.id}`);
+    } else if (isCompleted) {
+      navigate(`/book-completed/${project.id}`);
     } else {
       navigate(`/projects/${project.id}`);
     }
@@ -63,7 +65,8 @@ const BookCard = ({ project, showActions = true }: BookCardProps) => {
             <Link to={
               project.id === 'order-demo' 
                 ? `/order-processing/${project.id}` 
-                : (isProcessing || isFailed ? `/processing/${project.id}` : `/projects/${project.id}`)
+                : (isProcessing || isFailed ? `/processing/${project.id}` : 
+                   isCompleted ? `/book-completed/${project.id}` : `/projects/${project.id}`)
             }>
               <Eye className="h-4 w-4 mr-2" />
               View

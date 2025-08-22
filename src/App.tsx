@@ -21,6 +21,8 @@ import Onboarding from "./pages/Onboarding";
 import OnboardingGuard from "./components/OnboardingGuard";
 import MoneyBackGuarantee from "./pages/MoneyBackGuarantee";
 import OrderProcessing from "./pages/OrderProcessing";
+import BookCompleted from "./pages/BookCompleted";
+import BookReview from "./pages/BookReview";
 
 const queryClient = new QueryClient();
 
@@ -70,6 +72,8 @@ const App = () => (
               <Route path="/onboarding" element={<Onboarding />} />
               <Route path="/money-back-guarantee" element={<MoneyBackGuarantee />} />
               <Route path="/order-processing/:orderId" element={<OrderProcessing />} />
+              <Route path="/book-completed/:id" element={<BookCompleted />} />
+              <Route path="/book-review/:id" element={<BookReview />} />
               <Route path="/api-test" element={<ApiTest />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
