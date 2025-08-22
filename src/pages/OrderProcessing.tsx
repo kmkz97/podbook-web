@@ -385,20 +385,20 @@ const OrderProcessing = () => {
             .animated-border-modal {
               animation: 2s gradient-angle infinite linear;
               border: 2px solid transparent;
-              background-image: var(--theme-bg),
-                conic-gradient(
-                  from var(--gradient-angle),
-                  var(--theme-color-1) 0%,
-                  var(--theme-color-2) 37%,
-                  var(--theme-color-3) 30%,
-                  var(--theme-color-2) 33%,
-                  var(--theme-color-1) 40%,
-                  var(--theme-color-1) 50%,
-                  var(--theme-color-2) 77%,
-                  var(--theme-color-3) 80%,
-                  var(--theme-color-2) 83%,
-                  var(--theme-color-1) 90%
-                );
+              background: var(--theme-bg);
+              background-image: conic-gradient(
+                from var(--gradient-angle),
+                var(--theme-color-1) 0%,
+                var(--theme-color-2) 37%,
+                var(--theme-color-3) 30%,
+                var(--theme-color-2) 33%,
+                var(--theme-color-1) 40%,
+                var(--theme-color-1) 50%,
+                var(--theme-color-2) 77%,
+                var(--theme-color-3) 80%,
+                var(--theme-color-2) 83%,
+                var(--theme-color-1) 90%
+              );
               background-clip: padding-box, border-box;
               background-origin: padding-box, border-box;
             }
