@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, CheckCircle, Clock, Download, AlertTriangle } from 'lucide-react';
+import { CheckCircle, Download, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -8,14 +8,15 @@ const MoneyBackGuarantee = () => {
   return (
     <div className="min-h-screen bg-background py-8">
       <div className="max-w-4xl mx-auto px-4">
-        {/* Header */}
+        {/* Top Navigation */}
         <div className="mb-8">
-          <Button variant="ghost" asChild className="mb-4">
-            <Link to="/new-project">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Book Creation
-            </Link>
-          </Button>
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-3">
+              <img src="/logo.svg" alt="Podbook" className="w-8 h-8" />
+              <span className="text-xl font-bold text-foreground">Podbook</span>
+            </div>
+          </div>
+          
           <h1 className="text-4xl font-bold text-foreground mb-4">Money-Back Guarantee</h1>
           <p className="text-xl text-muted-foreground">
             We stand behind our work. If you're not completely satisfied, we'll make it right.
