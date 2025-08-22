@@ -3,8 +3,11 @@ import { Link } from 'react-router-dom';
 import { CheckCircle, Download, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { useTheme } from '@/contexts/ThemeContext';
 
 const MoneyBackGuarantee = () => {
+  const { theme } = useTheme();
+  
   return (
     <div className="min-h-screen bg-background py-8">
       <div className="max-w-4xl mx-auto px-4">
@@ -12,7 +15,11 @@ const MoneyBackGuarantee = () => {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-3">
-              <img src="/logo.svg" alt="Podbook" className="w-8 h-8" />
+              <img 
+                src={theme === 'dark' ? '/logo-white.svg' : '/logo.svg'} 
+                alt="Podbook Logo" 
+                className="w-8 h-8" 
+              />
               <span className="text-xl font-bold text-foreground">Podbook</span>
             </div>
           </div>
