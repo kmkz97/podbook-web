@@ -14,7 +14,8 @@ import {
   MessageCircle,
   ExternalLink,
   Download,
-  X
+  X,
+  Sparkles
 } from 'lucide-react';
 import LeftNavigation from "@/components/LeftNavigation";
 
@@ -346,42 +347,106 @@ const OrderProcessing = () => {
 
       {/* Success Modal with Fireworks */}
       {showSuccessModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-8 max-w-md mx-4 relative">
-            {/* Close button */}
-            <button
-              onClick={() => setShowSuccessModal(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-            >
-              <X className="w-5 h-5" />
-            </button>
-            
-            {/* Fireworks animation */}
-            <div className="text-center mb-6">
-              <div className="text-6xl mb-4">🎆</div>
-              <div className="text-4xl mb-2">🎇</div>
-              <div className="text-5xl">✨</div>
-            </div>
-            
-            {/* Success message */}
-            <h2 className="text-2xl font-bold text-center mb-4 text-green-600 dark:text-green-400">
-              Order Placed Successfully!
-            </h2>
-            <p className="text-center text-gray-600 dark:text-gray-300 mb-6">
-              Your book is now being processed. We'll keep you updated on the progress.
-            </p>
-            
-            {/* Action buttons */}
-            <div className="flex gap-3">
-              <Button 
-                onClick={() => setShowSuccessModal(false)}
-                className="flex-1"
-              >
-                Continue
-              </Button>
+        <>
+          {/* Particle explosion effect */}
+          <div className="fixed inset-0 z-40 pointer-events-none">
+            <div className="pyro">
+              <div className="before"></div>
+              <div className="after"></div>
             </div>
           </div>
-        </div>
+          
+          {/* Modal overlay */}
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+            <div className="bg-card border border-border rounded-lg p-8 max-w-md mx-4 relative shadow-lg">
+              {/* Close button */}
+              <button
+                onClick={() => setShowSuccessModal(false)}
+                className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              
+              {/* Sparkles icon */}
+              <div className="text-center mb-6">
+                <div className="w-20 h-20 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
+                  <Sparkles className="w-12 h-12 text-primary" />
+                </div>
+              </div>
+              
+              {/* Success message */}
+              <h2 className="text-2xl font-bold text-center mb-4 text-foreground">
+                Order Placed Successfully!
+              </h2>
+              <p className="text-center text-muted-foreground mb-6">
+                Your book is now being processed. We'll keep you updated on the progress.
+              </p>
+              
+              {/* Action buttons */}
+              <div className="flex gap-3">
+                <Button 
+                  onClick={() => setShowSuccessModal(false)}
+                  className="flex-1"
+                >
+                  Continue
+                </Button>
+              </div>
+            </div>
+          </div>
+          
+          {/* CSS for particle explosion effect */}
+          <style jsx>{`
+            .pyro > .before, .pyro > .after {
+              position: absolute;
+              width: 5px;
+              height: 5px;
+              border-radius: 50%;
+              box-shadow: 0 0 #fff;
+              animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+            }
+            
+            .pyro > .after {
+              animation-delay: 1.25s, 1.25s, 1.25s;
+              animation-duration: 1.25s, 1.25s, 6.25s;
+            }
+            
+            @keyframes bang {
+              to {
+                box-shadow: -120px -218px #ff0000, 248px -16px #ff6d00, 190px 150px #ff00ff, -113px -44px #faff00, -109px -227px #ff009d, -50px -47px #00ff00, -234px -113px #ff0000, 72px -91px #ff6d00, -149px -37px #ff00ff, -234px -26px #faff00, 54px -201px #ff009d, 126px -31px #00ff00, -18px -235px #ff0000, -130px -91px #ff6d00, -27px -137px #ff00ff, 80px -6px #faff00, -37px -235px #ff009d, 115px -200px #00ff00, -42px -91px #ff0000, 216px -16px #ff6d00, 167px -150px #ff00ff, -130px -44px #faff00, -109px -227px #ff009d, -50px -47px #00ff00, -234px -113px #ff0000, 72px -91px #ff6d00, -149px -37px #ff00ff, -234px -26px #faff00, 54px -201px #ff009d, 126px -31px #00ff00, -18px -235px #ff0000, -130px -91px #ff6d00, -27px -137px #ff00ff, 80px -6px #faff00, -37px -235px #ff009d, 115px -200px #00ff00, -42px -91px #ff0000, 216px -16px #ff6d00, 167px -150px #ff00ff, -130px -44px #faff00, -109px -227px #ff009d, -50px -47px #00ff00, -234px -113px #ff0000, 72px -91px #ff6d00, -149px -37px #ff00ff, -234px -26px #faff00, 54px -201px #ff009d, 126px -31px #00ff00, -18px -235px #ff0000, -130px -91px #ff6d00, -27px -137px #ff00ff, 80px -6px #faff00, -37px -235px #ff009d, 115px -200px #00ff00, -42px -91px #ff0000, 216px -16px #ff6d00, 167px -150px #ff00ff, -130px -44px #faff00, -109px -227px #ff009d, -50px -47px #00ff00;
+              }
+            }
+            
+            @keyframes gravity {
+              to {
+                transform: translateY(200px);
+                opacity: 0;
+              }
+            }
+            
+            @keyframes position {
+              0%, 19.9% {
+                margin-top: 10%;
+                margin-left: 40%;
+              }
+              20%, 39.9% {
+                margin-top: 40%;
+                margin-left: 30%;
+              }
+              40%, 59.9% {  
+                margin-top: 20%;
+                margin-left: 70%
+              }
+              60%, 79.9% {  
+                margin-top: 30%;
+                margin-left: 20%;
+              }
+              80%, 99.9% {  
+                margin-top: 30%;
+                margin-left: 80%;
+              }
+            }
+          `}</style>
+        </>
       )}
     </div>
   );
