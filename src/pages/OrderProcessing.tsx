@@ -331,102 +331,44 @@ const OrderProcessing = () => {
         </div>
       </div>
 
-      {/* Success Modal with Animated Border */}
+      {/* Success Modal */}
       {showSuccessModal && (
-        <>
-          {/* Modal overlay */}
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-            <div className="animated-border-modal bg-card rounded-lg p-8 max-w-md mx-4 relative shadow-lg">
-              {/* Close button */}
-              <button
-                onClick={() => setShowSuccessModal(false)}
-                className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
-              
-              {/* Sparkles icon */}
-              <div className="text-center mb-6">
-                <div className="w-20 h-20 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
-                  <Sparkles className="w-12 h-12 text-primary" />
-                </div>
-              </div>
-              
-              {/* Success message */}
-              <h2 className="text-2xl font-bold text-center mb-4 text-foreground">
-                Order Placed Successfully!
-              </h2>
-              <p className="text-center text-muted-foreground mb-6">
-                Your book is now being processed. We'll keep you updated on the progress.
-              </p>
-              
-              {/* Action buttons */}
-              <div className="flex gap-3">
-                <Button 
-                  onClick={() => setShowSuccessModal(false)}
-                  className="flex-1"
-                >
-                  Continue
-                </Button>
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-card border border-border rounded-lg p-8 max-w-md mx-4 relative shadow-lg">
+            {/* Close button */}
+            <button
+              onClick={() => setShowSuccessModal(false)}
+              className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            
+            {/* Sparkles icon */}
+            <div className="text-center mb-6">
+              <div className="w-20 h-20 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
+                <Sparkles className="w-12 h-12 text-primary" />
               </div>
             </div>
+            
+            {/* Success message */}
+            <h2 className="text-2xl font-bold text-center mb-4 text-foreground">
+              Order Placed Successfully!
+            </h2>
+            <p className="text-center text-muted-foreground mb-6">
+              Your book is now being processed. We'll keep you updated on the progress.
+            </p>
+            
+            {/* Action buttons */}
+            <div className="flex gap-3">
+              <Button 
+                onClick={() => setShowSuccessModal(false)}
+                className="flex-1"
+              >
+                Continue
+              </Button>
+            </div>
           </div>
-          
-          {/* CSS for animated gradient border */}
-          <style jsx>{`
-            @property --gradient-angle {
-              syntax: "<angle>";
-              initial-value: 0turn;
-              inherits: false;
-            }
-
-            .animated-border-modal {
-              animation: 2s gradient-angle infinite linear;
-              border: 2px solid transparent;
-              background-image: linear-gradient(var(--theme-bg), var(--theme-bg)),
-                conic-gradient(
-                  from var(--gradient-angle),
-                  var(--theme-color-1) 0%,
-                  var(--theme-color-2) 15%,
-                  var(--theme-color-3) 25%,
-                  var(--theme-color-2) 35%,
-                  var(--theme-color-1) 45%,
-                  var(--theme-color-2) 55%,
-                  var(--theme-color-3) 65%,
-                  var(--theme-color-2) 75%,
-                  var(--theme-color-1) 85%,
-                  var(--theme-color-2) 95%,
-                  var(--theme-color-1) 100%
-                );
-              background-clip: padding-box, border-box;
-              background-origin: padding-box, border-box;
-            }
-
-            /* Light theme colors */
-            .animated-border-modal {
-              --theme-bg: #ffffff;
-              --theme-color-1: #000000;
-              --theme-color-2: #404040;
-              --theme-color-3: #808080;
-            }
-
-            /* Dark theme colors */
-            @media (prefers-color-scheme: dark) {
-              .animated-border-modal {
-                --theme-bg: #000000;
-                --theme-color-1: #ffffff;
-                --theme-color-2: #c0c0c0;
-                --theme-color-3: #808080;
-              }
-            }
-
-            @keyframes gradient-angle {
-              to {
-                --gradient-angle: 1turn;
-              }
-            }
-          `}</style>
-        </>
+        </div>
       )}
     </div>
   );
