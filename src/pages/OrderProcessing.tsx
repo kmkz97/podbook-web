@@ -385,7 +385,7 @@ const OrderProcessing = () => {
             .animated-border-modal {
               animation: 2s gradient-angle infinite linear;
               border: 2px solid transparent;
-              background: var(--theme-bg);
+              background-color: var(--theme-bg);
               background-image: conic-gradient(
                 from var(--gradient-angle),
                 var(--theme-color-1) 0%,
