@@ -599,14 +599,18 @@ const BookCreationWizard = () => {
               <CardTitle>Book Overview</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 gap-4 text-center">
+              <div className="grid grid-cols-3 gap-4 text-center">
                 <div>
                   <div className="text-2xl font-medium text-primary">{preview.totalPages}</div>
-                  <div className="text-sm text-muted-foreground">Total Pages</div>
+                  <div className="text-sm text-muted-foreground">Approximate Total Pages</div>
                 </div>
                 <div>
                   <div className="text-2xl font-medium text-primary">{preview.totalWords.toLocaleString()}</div>
-                  <div className="text-sm text-muted-foreground">Word Count</div>
+                  <div className="text-sm text-muted-foreground">Approximate Word Count</div>
+                </div>
+                <div>
+                  <div className="text-2xl font-medium text-primary">2-4</div>
+                  <div className="text-sm text-muted-foreground">Estimated Turnaround (Business Days)</div>
                 </div>
               </div>
             </CardContent>
