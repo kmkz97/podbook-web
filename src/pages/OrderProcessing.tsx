@@ -404,18 +404,18 @@ const OrderProcessing = () => {
             /* Light theme colors */
             .animated-border-modal {
               --theme-bg: #ffffff;
-              --theme-color-1: #e5e7eb;
-              --theme-color-2: #d1d5db;
-              --theme-color-3: #f3f4f6;
+              --theme-color-1: #000000;
+              --theme-color-2: #404040;
+              --theme-color-3: #808080;
             }
 
             /* Dark theme colors */
             @media (prefers-color-scheme: dark) {
               .animated-border-modal {
                 --theme-bg: #000000;
-                --theme-color-1: #6b7280;
-                --theme-color-2: #9ca3af;
-                --theme-color-3: #d1d5db;
+                --theme-color-1: #ffffff;
+                --theme-color-2: #c0c0c0;
+                --theme-color-3: #808080;
               }
             }
 
