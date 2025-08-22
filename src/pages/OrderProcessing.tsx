@@ -172,24 +172,23 @@ const OrderProcessing = () => {
         <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
         <div className="mb-8">
-          <div className="flex items-center gap-4 mb-4">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => navigate('/dashboard')}
-              className="flex items-center gap-2"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Back to Library
-            </Button>
-            <div className="flex-1">
-              <h1 className="text-3xl font-bold text-foreground">Order Processing</h1>
+          {/* Back button */}
+          <Button
+            onClick={() => navigate('/dashboard')}
+            className="absolute top-8 left-8 hover:bg-muted back-button p-2 h-10 w-10 rounded-full z-10"
+          >
+            <ArrowLeft className="w-4 h-4" />
+          </Button>
+          
+          <div className="text-center mb-4">
+            <h1 className="text-3xl font-bold text-foreground">Order Processing</h1>
+            <div className="flex justify-center mt-2">
+              <Badge variant={order.status === 'completed' ? 'default' : 'secondary'}>
+                {order.status === 'completed' ? 'Completed' : 'Processing'}
+              </Badge>
             </div>
-            <Badge variant={order.status === 'completed' ? 'default' : 'secondary'}>
-              {order.status === 'completed' ? 'Completed' : 'Processing'}
-            </Badge>
           </div>
-          <p className="text-muted-foreground">
+          <p className="text-center text-muted-foreground">
             Order #{order.orderNumber} • Created {order.createdAt} • Estimated completion: {order.estimatedCompletion}
           </p>
         </div>
