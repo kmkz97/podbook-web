@@ -20,7 +20,7 @@ export const authMiddleware = (req: AuthRequest, res: Response, next: NextFuncti
     const decoded = jwt.verify(token, process.env['JWT_SECRET'] || 'fallback-secret') as any;
     
     req.user = {
-      userId: decoded.userId,
+      userId: decoded.id,
       email: decoded.email
     };
     

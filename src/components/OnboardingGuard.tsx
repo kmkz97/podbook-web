@@ -15,8 +15,8 @@ const OnboardingGuard: React.FC<OnboardingGuardProps> = ({
   const { isOnboardingComplete, isLoading } = useOnboarding();
   const { user } = useAuth();
 
-  // Show loading state while checking onboarding status
-  if (isLoading) {
+  // Show loading state while checking auth and onboarding status
+  if (isLoading || (user && isOnboardingComplete === null)) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
@@ -29,12 +29,13 @@ const OnboardingGuard: React.FC<OnboardingGuardProps> = ({
     return <>{children}</>;
   }
 
-  // If onboarding is not complete, redirect to onboarding
-  if (!isOnboardingComplete) {
+  // Only redirect to onboarding if we're certain onboarding is not complete
+  if (isOnboardingComplete === false) {
+    console.log('redirecting to onboarding');
     return <Navigate to={redirectTo} replace />;
   }
 
-  // If onboarding is complete, render the protected content
+  // If onboarding is complete or status is unknown, render the protected content
   return <>{children}</>;
 };
 

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { authAPI, usersAPI, projectsAPI } from '@/services/api';
+import { authAPI, usersAPI, projectAPI } from '@/services/api';
 
 const ApiTest = () => {
   const [testResults, setTestResults] = useState<string[]>([]);

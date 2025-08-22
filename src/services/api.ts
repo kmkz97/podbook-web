@@ -65,20 +65,50 @@ export const usersAPI = {
   },
 };
 
-// Projects API
-export const projectsAPI = {
-  getAllProjects: async () => {
-    return apiRequest('/projects');
+// Project API
+export const projectAPI = {
+  // Create or update project data
+  saveProject: async (data: any) => {
+    const url = data.id ? `/project/${data.id}` : '/project/save';
+    const method = data.id ? 'PUT' : 'POST';
+    
+    return apiRequest(url, {
+      method,
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+      },
+    });
   },
 
-  getProjectById: async (id: string) => {
-    return apiRequest(`/projects/${id}`);
+  // Get project by ID
+  getProject: async (projectId: string) => {
+    return apiRequest(`/project/${projectId}`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+      },
+    });
   },
 
-  createProject: async (projectData: { title: string; description?: string; rssFeed?: string; textContent?: string }) => {
-    return apiRequest('/projects', {
+  // Complete project setup
+  completeProject: async (projectId: string, data: any) => {
+    return apiRequest(`/project/${projectId}/complete`, {
       method: 'POST',
-      body: JSON.stringify(projectData),
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+      },
+    });
+  },
+
+  // List user's projects
+  listProjects: async () => {
+    return apiRequest('/project', {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+      },
     });
   },
 };
@@ -122,7 +152,7 @@ export const aiAPI = {
 export default {
   auth: authAPI,
   users: usersAPI,
-  projects: projectsAPI,
+  project: projectAPI,
   content: contentAPI,
   ai: aiAPI,
 };
