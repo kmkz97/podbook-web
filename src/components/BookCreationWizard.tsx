@@ -40,13 +40,7 @@ interface BookType {
   category: string;
 }
 
-interface Chapter {
-  id: string;
-  title: string;
-  description: string;
-  wordCount: number;
-  estimatedPages: number;
-}
+
 
 interface WizardStep {
   id: number;
@@ -85,7 +79,6 @@ const BookCreationWizard = () => {
   const [selectedEpisodes, setSelectedEpisodes] = useState<Set<number>>(new Set());
   const [processing, setProcessing] = useState(false);
   const [preview, setPreview] = useState<{
-    chapters: Chapter[];
     totalWords: number;
     totalPages: number;
     estimatedCost: number;
@@ -185,47 +178,63 @@ const BookCreationWizard = () => {
   };
 
   const calculateTotalPrice = () => {
-    const baseCostPerPage = 0.15;
-    const contentProcessingPerSource = 0.10;
-    const aiGenerationPerChapter = 0.25;
+    // Target pricing: $500-1000 for 100-300 pages
+    // This means approximately $2-3.33 per page
+    const targetPricePerPage = 2.5; // Middle of the range
     
-    // Calculate content sources count
-    const contentSourcesCount = [
-      contentSources.rssFeed ? 1 : 0,
-      contentSources.uploadedFiles.length > 0 ? 1 : 0
-    ].filter(count => count > 0).length;
+    // Base calculation based on target pages
+    let basePrice = bookSpecs.targetPages[0] * targetPricePerPage;
     
-    // Calculate complexity multiplier
-    const complexityMultiplier = (selectedBookType === 'technical' || selectedBookType === 'academic') ? 1.5 : 1.0;
+    // Adjust for book type complexity
+    const complexityMultiplier = (selectedBookType === 'technical' || selectedBookType === 'academic') ? 1.3 : 1.0;
+    if (selectedBookType === 'creative') complexityMultiplier = 0.9; // Creative content is easier to generate
+    
+    // Content source processing fee
+    const contentProcessingFee = 25; // Fixed fee for processing content sources
     
     // Calculate total
-    const baseCost = bookSpecs.targetPages[0] * baseCostPerPage;
-    const contentProcessingCost = contentSourcesCount * contentProcessingPerSource;
-    const aiGenerationCost = bookSpecs.targetChapters[0] * aiGenerationPerChapter;
+    const subtotal = (basePrice * complexityMultiplier) + contentProcessingFee;
     
-    const subtotal = baseCost + contentProcessingCost + aiGenerationCost;
-    const total = subtotal * complexityMultiplier;
+    return Math.round(subtotal); // Round to nearest dollar
+  };
+
+  const calculateEpisodesNeeded = () => {
+    // Average speaking rate: 130 words per minute
+    // 60 minutes = 7,800 words
+    // Target: 100-300 pages = approximately 25,000 - 75,000 words
+    const targetWords = bookSpecs.targetPages[0] * 250; // Assume 250 words per page
     
-    return total;
+    // Calculate minutes needed
+    const minutesNeeded = targetWords / 130; // 130 words per minute
+    
+    // Convert to episodes (assuming average episode length of 45 minutes)
+    const averageEpisodeLength = 45; // minutes
+    const episodesNeeded = Math.ceil(minutesNeeded / averageEpisodeLength);
+    
+    return Math.max(1, episodesNeeded); // Minimum 1 episode
+  };
+
+  const calculateContentHours = () => {
+    const targetWords = bookSpecs.targetPages[0] * 250;
+    const minutesNeeded = targetWords / 130;
+    const hoursNeeded = minutesNeeded / 60;
+    
+    return Math.round(hoursNeeded * 10) / 10; // Round to 1 decimal place
   };
 
   const processContent = async () => {
     setProcessing(true);
     // Simulate AI processing
     setTimeout(() => {
-      const mockChapters: Chapter[] = [
-        { id: '1', title: 'Introduction', description: 'Overview and context setting', wordCount: 1200, estimatedPages: 4 },
-        { id: '2', title: 'Getting Started', description: 'Basic concepts and setup', wordCount: 1800, estimatedPages: 6 },
-        { id: '3', title: 'Core Concepts', description: 'Main ideas and principles', wordCount: 2400, estimatedPages: 8 },
-        { id: '4', title: 'Advanced Topics', description: 'Complex scenarios and solutions', wordCount: 2000, estimatedPages: 7 },
-        { id: '5', title: 'Conclusion', description: 'Summary and next steps', wordCount: 800, estimatedPages: 3 },
-      ];
+      // Calculate estimated content based on target pages
+      const targetWords = bookSpecs.targetPages[0] * 250; // 250 words per page
+      const estimatedPages = bookSpecs.targetPages[0];
       
       setPreview({
-        chapters: mockChapters,
-        totalWords: mockChapters.reduce((sum, ch) => sum + ch.wordCount, 0),
-        totalPages: mockChapters.reduce((sum, ch) => sum + ch.estimatedPages, 0),
-        estimatedCost: 25
+        chapters: [], // No more chapter structure
+        totalWords: targetWords,
+        totalPages: estimatedPages,
+        estimatedCost: calculateTotalPrice()
       });
       setProcessing(false);
     }, 3000);
@@ -652,6 +661,14 @@ const BookCreationWizard = () => {
                       <span>Book Type:</span>
                       <span className="font-medium capitalize">{selectedBookType.replace('-', ' ')}</span>
                     </div>
+                    <div className="flex justify-between">
+                      <span>Content Hours:</span>
+                      <span className="font-medium">{calculateContentHours()} hours</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Recommended Episodes:</span>
+                      <span className="font-medium">{calculateEpisodesNeeded()} episodes</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -661,21 +678,42 @@ const BookCreationWizard = () => {
                 <h4 className="font-medium mb-3">Pricing Breakdown</h4>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span>Base Cost (per page):</span>
-                    <span>$0.15</span>
+                    <span>Base Price (per page):</span>
+                    <span>$2.50</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span>Content Processing (per source):</span>
-                    <span>$0.10</span>
+                    <span>Content Processing Fee:</span>
+                    <span>$25.00</span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span>Complexity Multiplier:</span>
-                    <span>{selectedBookType === 'technical' || selectedBookType === 'academic' ? '1.5x' : '1.0x'}</span>
+                    <span>
+                      {selectedBookType === 'technical' || selectedBookType === 'academic' ? '1.3x' : 
+                       selectedBookType === 'creative' ? '0.9x' : '1.0x'}
+                    </span>
                   </div>
                   <Separator className="my-2" />
                   <div className="flex justify-between font-medium">
                     <span>Estimated Total:</span>
-                    <span className="text-primary text-lg">${calculateTotalPrice().toFixed(2)}</span>
+                    <span className="text-primary text-lg">${calculateTotalPrice().toFixed(0)}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Content Requirements */}
+              <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <h4 className="font-medium mb-3 text-blue-800">Content Requirements</h4>
+                <div className="space-y-2 text-sm text-blue-700">
+                  <div className="flex justify-between">
+                    <span>Estimated Content Hours:</span>
+                    <span className="font-medium">{calculateContentHours()} hours</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Recommended Episodes:</span>
+                    <span className="font-medium">{calculateEpisodesNeeded()} episodes</span>
+                  </div>
+                  <div className="text-xs mt-2">
+                    Based on 130 words/minute speaking rate • 45-minute average episode length
                   </div>
                 </div>
               </div>
