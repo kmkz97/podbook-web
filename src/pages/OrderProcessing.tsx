@@ -387,15 +387,16 @@ const OrderProcessing = () => {
                 conic-gradient(
                   from var(--gradient-angle),
                   var(--theme-color-1) 0%,
-                  var(--theme-color-2) 37%,
-                  var(--theme-color-3) 30%,
-                  var(--theme-color-2) 33%,
-                  var(--theme-color-1) 40%,
-                  var(--theme-color-1) 50%,
-                  var(--theme-color-2) 77%,
-                  var(--theme-color-3) 80%,
-                  var(--theme-color-2) 83%,
-                  var(--theme-color-1) 90%
+                  var(--theme-color-2) 15%,
+                  var(--theme-color-3) 25%,
+                  var(--theme-color-2) 35%,
+                  var(--theme-color-1) 45%,
+                  var(--theme-color-2) 55%,
+                  var(--theme-color-3) 65%,
+                  var(--theme-color-2) 75%,
+                  var(--theme-color-1) 85%,
+                  var(--theme-color-2) 95%,
+                  var(--theme-color-1) 100%
                 );
               background-clip: padding-box, border-box;
               background-origin: padding-box, border-box;
