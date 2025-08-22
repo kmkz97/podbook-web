@@ -159,10 +159,23 @@ const BookCreationWizard = () => {
   const handleFileUpload = (files: FileList | null) => {
     if (files) {
       const newFiles = Array.from(files);
-      setContentSources(prev => ({
-        ...prev,
-        uploadedFiles: [...prev.uploadedFiles, ...newFiles]
-      }));
+      // Filter to only allow audio and video files
+      const validFiles = newFiles.filter(file => 
+        file.type.startsWith('audio/') || file.type.startsWith('video/')
+      );
+      
+      if (validFiles.length !== newFiles.length) {
+        // Some files were rejected
+        const rejectedCount = newFiles.length - validFiles.length;
+        alert(`${rejectedCount} file(s) were rejected. Only audio and video files are allowed.`);
+      }
+      
+      if (validFiles.length > 0) {
+        setContentSources(prev => ({
+          ...prev,
+          uploadedFiles: [...prev.uploadedFiles, ...validFiles]
+        }));
+      }
     }
   };
 
@@ -512,12 +525,12 @@ const BookCreationWizard = () => {
               <Upload className="w-5 h-5 text-primary" />
               File Upload
             </CardTitle>
-            <CardDescription>Upload documents, images, audio, or video files</CardDescription>
+            <CardDescription>Upload audio and video files only</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="border-2 border-dashed border-muted rounded-lg p-8 text-center">
               <Upload className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
-              <p className="text-muted-foreground mb-2">Drag and drop files here, or click to browse</p>
+              <p className="text-muted-foreground mb-2">Drag and drop audio/video files here, or click to browse</p>
               <Button variant="outline" onClick={() => document.getElementById('file-upload')?.click()}>
                 Choose Files
               </Button>
@@ -525,7 +538,7 @@ const BookCreationWizard = () => {
                 id="file-upload"
                 type="file"
                 multiple
-                accept="*/*"
+                accept="audio/*,video/*"
                 className="hidden"
                 onChange={(e) => handleFileUpload(e.target.files)}
               />
@@ -537,7 +550,13 @@ const BookCreationWizard = () => {
                 {contentSources.uploadedFiles.map((file, index) => (
                   <div key={index} className="flex items-center justify-between p-2 bg-muted rounded">
                     <div className="flex items-center gap-2">
-                      <FileText className="w-4 h-4" />
+                      {file.type.startsWith('audio/') ? (
+                        <FileAudio className="w-4 h-4 text-blue-500" />
+                      ) : file.type.startsWith('video/') ? (
+                        <FileVideo className="w-4 h-4 text-purple-500" />
+                      ) : (
+                        <FileText className="w-4 h-4" />
+                      )}
                       <span className="text-sm">{file.name}</span>
                       <Badge variant="secondary" className="text-xs">
                         {(file.size / 1024 / 1024).toFixed(2)} MB
@@ -584,7 +603,7 @@ const BookCreationWizard = () => {
               <CardTitle>Book Overview</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-3 gap-4 text-center">
+              <div className="grid grid-cols-2 gap-4 text-center">
                 <div>
                   <div className="text-2xl font-medium text-primary">{preview.totalPages}</div>
                   <div className="text-sm text-muted-foreground">Total Pages</div>
@@ -593,36 +612,11 @@ const BookCreationWizard = () => {
                   <div className="text-2xl font-medium text-primary">{preview.totalWords.toLocaleString()}</div>
                   <div className="text-sm text-muted-foreground">Word Count</div>
                 </div>
-                <div>
-                  <div className="text-2xl font-medium text-primary">{preview.chapters.length}</div>
-                  <div className="text-sm text-muted-foreground">Chapters</div>
-                </div>
               </div>
             </CardContent>
           </Card>
 
-          {/* Chapter List */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Chapter Structure</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {preview.chapters.map((chapter, index) => (
-                  <div key={chapter.id} className="flex items-center justify-between p-3 bg-muted rounded-lg">
-                    <div>
-                      <h4 className="font-medium">Chapter {index + 1}: {chapter.title}</h4>
-                      <p className="text-sm text-muted-foreground">{chapter.description}</p>
-                    </div>
-                    <div className="text-right text-sm">
-                      <div className="font-medium">{chapter.wordCount.toLocaleString()} words</div>
-                      <div className="text-muted-foreground">~{chapter.estimatedPages} pages</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+
 
           {/* Price Calculator */}
           <Card>
@@ -663,10 +657,6 @@ const BookCreationWizard = () => {
                       <span className="font-medium">{bookSpecs.targetPages[0]}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span>Target Chapters:</span>
-                      <span className="font-medium">{bookSpecs.targetChapters[0]}</span>
-                    </div>
-                    <div className="flex justify-between">
                       <span>Book Type:</span>
                       <span className="font-medium capitalize">{selectedBookType.replace('-', ' ')}</span>
                     </div>
@@ -685,10 +675,6 @@ const BookCreationWizard = () => {
                   <div className="flex justify-between text-sm">
                     <span>Content Processing (per source):</span>
                     <span>$0.10</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span>AI Generation (per chapter):</span>
-                    <span>$0.25</span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span>Complexity Multiplier:</span>
