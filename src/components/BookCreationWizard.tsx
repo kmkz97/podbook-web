@@ -765,14 +765,19 @@ const BookCreationWizard = () => {
 
         {/* Navigation */}
         <div className="flex justify-between">
-          <Button
-            variant="outline"
-            onClick={handlePrevious}
-            disabled={currentStep === 1}
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Previous
-          </Button>
+          {/* Only show Previous button if not on first step */}
+          {currentStep > 1 && (
+            <Button
+              variant="outline"
+              onClick={handlePrevious}
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Previous
+            </Button>
+          )}
+          
+          {/* Show empty div on first step to maintain layout */}
+          {currentStep === 1 && <div></div>}
           
           {currentStep === steps.length ? (
             <Button
