@@ -183,11 +183,6 @@ const OrderProcessing = () => {
           <div className="mb-8">
             <div className="text-center mb-4">
               <h1 className="text-3xl font-bold text-foreground">Order Processing</h1>
-              <div className="flex justify-center mt-2">
-                <Badge variant={order.status === 'completed' ? 'default' : 'secondary'}>
-                  {order.status === 'completed' ? 'Completed' : 'Processing'}
-                </Badge>
-              </div>
             </div>
             <p className="text-center text-muted-foreground">
               Order #{order.orderNumber} • Created {order.createdAt} • Estimated completion: {order.estimatedCompletion}
