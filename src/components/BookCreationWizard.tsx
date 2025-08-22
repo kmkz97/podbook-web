@@ -233,10 +233,10 @@ const BookCreationWizard = () => {
         {bookTypes.map((type) => (
           <Card 
             key={type.id}
-            className={`cursor-pointer transition-colors bg-background ${
+            className={`cursor-pointer transition-all bg-background ${
               selectedBookType === type.id 
                 ? 'ring-2 ring-primary bg-primary/5' 
-                : 'hover:bg-muted/50'
+                : 'hover:bg-muted/50 hover:scale-105'
             }`}
             onClick={() => setSelectedBookType(type.id)}
           >
