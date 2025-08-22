@@ -170,8 +170,9 @@ const OrderProcessing = () => {
       <LeftNavigation activePage="projects" />
       <div className="flex-1 p-8 relative">
         {/* Back Button - Fixed Position */}
-        <Button
-          onClick={() => navigate('/dashboard')}
+        <Button 
+          variant="ghost" 
+          onClick={() => navigate('/projects')} 
           className="absolute top-8 left-8 hover:bg-muted back-button p-2 h-10 w-10 rounded-full z-10"
         >
           <ArrowLeft className="w-4 h-4" />
