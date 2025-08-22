@@ -28,9 +28,10 @@ interface OnboardingFlowProps {
   onGoToDashboard: () => void;
   onScheduleCall: () => void;
   onScheduleCallAndNavigate: () => void;
+  saveOnboardingProgress: (data: Partial<OnboardingData>) => Promise<any>;
 }
 
-const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ onComplete, onSkip, onStartBook, onGoToDashboard, onScheduleCall, onScheduleCallAndNavigate }) => {
+const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ onComplete, onSkip, onStartBook, onGoToDashboard, onScheduleCall, onScheduleCallAndNavigate, saveOnboardingProgress }) => {
   const { theme } = useTheme();
   const [currentStep, setCurrentStep] = useState(0);
   const [data, setData] = useState<OnboardingData>({
@@ -138,9 +139,17 @@ const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ onComplete, onSkip, onS
     }
   ];
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (currentStep < steps.length - 1) {
-      setCurrentStep(currentStep + 1);
+      // Save current step data before moving to next
+      try {
+        await saveOnboardingProgress(data);
+        setCurrentStep(currentStep + 1);
+      } catch (error) {
+        console.error('Error saving onboarding progress:', error);
+        // Still move to next step even if save fails
+        setCurrentStep(currentStep + 1);
+      }
     }
     // Don't call onComplete here anymore - let user choose action on last screen
   };

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
 
 export interface OnboardingData {
   writingExperience: string;
@@ -16,60 +17,111 @@ export const useOnboarding = () => {
   const [isOnboardingComplete, setIsOnboardingComplete] = useState(false);
   const [onboardingData, setOnboardingData] = useState<OnboardingData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { user } = useAuth();
 
   useEffect(() => {
-    // Check if onboarding is complete from localStorage or user profile
-    const checkOnboardingStatus = () => {
-      try {
-        const stored = localStorage.getItem('onboarding-complete');
-        if (stored) {
-          setIsOnboardingComplete(true);
-          const data = localStorage.getItem('onboarding-data');
-          if (data) {
-            setOnboardingData(JSON.parse(data));
-          }
-        }
-      } catch (error) {
-        console.error('Error checking onboarding status:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+    if (user) {
+      checkOnboardingStatus();
+    } else {
+      setIsLoading(false);
+    }
+  }, [user]);
 
-    checkOnboardingStatus();
-  }, []);
-
-  const completeOnboarding = (data: OnboardingData) => {
+  const checkOnboardingStatus = async () => {
     try {
-      // Store onboarding data
-      localStorage.setItem('onboarding-data', JSON.stringify(data));
-      localStorage.setItem('onboarding-complete', 'true');
-      
-      // Update state
-      setOnboardingData(data);
-      setIsOnboardingComplete(true);
+      const response = await fetch('/api/onboarding/get', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        },
+      });
 
-      // Here you would typically also save to your backend
-      // saveOnboardingDataToBackend(data);
-      
+      if (response.ok) {
+        const result = await response.json();
+        if (result.data && result.data.isCompleted) {
+          setIsOnboardingComplete(true);
+          setOnboardingData(result.data);
+        }
+      }
     } catch (error) {
-      console.error('Error completing onboarding:', error);
+      console.error('Error checking onboarding status:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const skipOnboarding = () => {
+  const completeOnboarding = async (data: OnboardingData) => {
     try {
-      localStorage.setItem('onboarding-complete', 'true');
-      setIsOnboardingComplete(true);
+      const response = await fetch('/api/onboarding/complete', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        setOnboardingData(result.data);
+        setIsOnboardingComplete(true);
+        return result;
+      } else {
+        throw new Error('Failed to complete onboarding');
+      }
+    } catch (error) {
+      console.error('Error completing onboarding:', error);
+      throw error;
+    }
+  };
+
+  const saveOnboardingProgress = async (data: Partial<OnboardingData>) => {
+    try {
+      const response = await fetch('/api/onboarding/save', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        setOnboardingData(result.data);
+        return result;
+      } else {
+        throw new Error('Failed to save onboarding progress');
+      }
+    } catch (error) {
+      console.error('Error saving onboarding progress:', error);
+      throw error;
+    }
+  };
+
+  const skipOnboarding = async () => {
+    try {
+      const response = await fetch('/api/onboarding/complete', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ isCompleted: true }),
+      });
+
+      if (response.ok) {
+        setIsOnboardingComplete(true);
+      }
     } catch (error) {
       console.error('Error skipping onboarding:', error);
     }
   };
 
-  const resetOnboarding = () => {
+  const resetOnboarding = async () => {
     try {
-      localStorage.removeItem('onboarding-complete');
-      localStorage.removeItem('onboarding-data');
+      // For now, we'll just reset the local state
+      // In a production app, you might want to add a reset endpoint
       setIsOnboardingComplete(false);
       setOnboardingData(null);
     } catch (error) {
@@ -82,6 +134,7 @@ export const useOnboarding = () => {
     onboardingData,
     isLoading,
     completeOnboarding,
+    saveOnboardingProgress,
     skipOnboarding,
     resetOnboarding,
   };

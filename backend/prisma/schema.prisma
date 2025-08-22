@@ -37,8 +37,38 @@ model User {
   // Relations
   projects    Project[]
   apiKeys    ApiKey[]
+  onboarding Onboarding?
   
   @@map("users")
+}
+
+model Onboarding {
+  id        String   @id @default(cuid())
+  
+  // Onboarding responses
+  writingExperience String?
+  bookPurpose       String?
+  targetAudience    String?
+  bookLength        String?
+  contentSources    String[] // Array of selected content sources
+  customContentSource String?
+  timeline          String?
+  successMetrics    String[] // Array of selected success metrics
+  customSuccessMetric String?
+  
+  // Completion status
+  isCompleted       Boolean @default(false)
+  completedAt       DateTime?
+  
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  userId    String @unique
+  user      User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("onboarding")
 }
 
 model Project {

@@ -9,6 +9,7 @@ const userRoutes = require('./routes/users');
 const projectRoutes = require('./routes/projects');
 const contentRoutes = require('./routes/content');
 const aiRoutes = require('./routes/ai');
+const onboardingRoutes = require('./routes/onboarding');
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/content', contentRoutes);
 app.use('/api/ai', aiRoutes);
+app.use('/api/onboarding', onboardingRoutes);
 
 // Health check
 app.get('/health', (req, res) => {

@@ -6,7 +6,7 @@ import { useAuth } from '@/contexts/AuthContext';
 
 const Onboarding: React.FC = () => {
   const navigate = useNavigate();
-  const { onboardingData, completeOnboarding, skipOnboarding } = useOnboarding();
+  const { onboardingData, completeOnboarding, skipOnboarding, saveOnboardingProgress } = useOnboarding();
   const { user } = useAuth();
 
   const handleComplete = async (data: OnboardingData) => {
@@ -61,6 +61,7 @@ const Onboarding: React.FC = () => {
         onGoToDashboard={handleGoToDashboard}
         onScheduleCall={handleScheduleCall}
         onScheduleCallAndNavigate={handleScheduleCallAndNavigate}
+        saveOnboardingProgress={saveOnboardingProgress}
       />
     </div>
   );
