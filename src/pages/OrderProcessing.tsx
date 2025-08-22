@@ -412,7 +412,7 @@ const OrderProcessing = () => {
             /* Dark theme colors */
             @media (prefers-color-scheme: dark) {
               .animated-border-modal {
-                --theme-bg: #1f2937;
+                --theme-bg: #000000;
                 --theme-color-1: #6b7280;
                 --theme-color-2: #9ca3af;
                 --theme-color-3: #d1d5db;
