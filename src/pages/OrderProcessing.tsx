@@ -385,7 +385,7 @@ const OrderProcessing = () => {
             .animated-border-modal {
               animation: 2s gradient-angle infinite linear;
               border: 2px solid transparent;
-              background-image: linear-gradient(var(--theme-bg-1), var(--theme-bg-2)),
+              background-image: var(--theme-bg),
                 conic-gradient(
                   from var(--gradient-angle),
                   var(--theme-color-1) 0%,
@@ -411,39 +411,35 @@ const OrderProcessing = () => {
 
             /* Light theme colors */
             .animated-border-modal {
-              --theme-bg-1: #f8f9fa;
-              --theme-bg-2: #e9ecef;
-              --theme-color-1: #6c757d;
-              --theme-color-2: #ffc107;
-              --theme-color-3: #fff3cd;
+              --theme-bg: #ffffff;
+              --theme-color-1: #e5e7eb;
+              --theme-color-2: #d1d5db;
+              --theme-color-3: #f3f4f6;
             }
 
             /* Dark theme colors */
             @media (prefers-color-scheme: dark) {
               .animated-border-modal {
-                --theme-bg-1: #2d230f;
-                --theme-bg-2: #584827;
-                --theme-color-1: #584827;
-                --theme-color-2: #c7a03c;
-                --theme-color-3: #f9de90;
+                --theme-bg: #1f2937;
+                --theme-color-1: #6b7280;
+                --theme-color-2: #9ca3af;
+                --theme-color-3: #d1d5db;
               }
             }
 
             /* CSS custom properties for theme switching */
             .animated-border-modal[data-theme="dark"] {
-              --theme-bg-1: #2d230f;
-              --theme-bg-2: #584827;
-              --theme-color-1: #584827;
-              --theme-color-2: #c7a03c;
-              --theme-color-3: #f9de90;
+              --theme-bg: #1f2937;
+              --theme-color-1: #6b7280;
+              --theme-color-2: #9ca3af;
+              --theme-color-3: #d1d5db;
             }
 
             .animated-border-modal[data-theme="light"] {
-              --theme-bg-1: #f8f9fa;
-              --theme-bg-2: #e9ecef;
-              --theme-color-1: #6c757d;
-              --theme-color-2: #ffc107;
-              --theme-color-3: #fff3cd;
+              --theme-bg: #ffffff;
+              --theme-color-1: #e5e7eb;
+              --theme-color-2: #d1d5db;
+              --theme-color-3: #f3f4f6;
             }
           `}</style>
         </>
