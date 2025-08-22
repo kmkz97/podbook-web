@@ -331,20 +331,12 @@ const OrderProcessing = () => {
         </div>
       </div>
 
-      {/* Success Modal with Fireworks */}
+      {/* Success Modal with Animated Border */}
       {showSuccessModal && (
         <>
-          {/* Particle explosion effect */}
-          <div className="fixed inset-0 z-40 pointer-events-none">
-            <div className="pyro">
-              <div className="before"></div>
-              <div className="after"></div>
-            </div>
-          </div>
-          
           {/* Modal overlay */}
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-            <div className="bg-card border border-border rounded-lg p-8 max-w-md mx-4 relative shadow-lg">
+            <div className="animated-border-modal bg-card rounded-lg p-8 max-w-md mx-4 relative shadow-lg">
               {/* Close button */}
               <button
                 onClick={() => setShowSuccessModal(false)}
@@ -380,55 +372,38 @@ const OrderProcessing = () => {
             </div>
           </div>
           
-          {/* CSS for particle explosion effect */}
+          {/* CSS for animated gradient border */}
           <style jsx>{`
-            .pyro > .before, .pyro > .after {
-              position: absolute;
-              width: 5px;
-              height: 5px;
-              border-radius: 50%;
-              box-shadow: 0 0 #fff;
-              animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+            @property --gradient-angle {
+              syntax: "<angle>";
+              initial-value: 0turn;
+              inherits: false;
             }
-            
-            .pyro > .after {
-              animation-delay: 1.25s, 1.25s, 1.25s;
-              animation-duration: 1.25s, 1.25s, 6.25s;
+
+            .animated-border-modal {
+              animation: 2s gradient-angle infinite linear;
+              border: 2px solid transparent;
+              background-image: linear-gradient(#584827, #2d230f),
+                conic-gradient(
+                  from var(--gradient-angle),
+                  #584827 0%,
+                  #c7a03c 37%,
+                  #f9de90 30%,
+                  #c7a03c 33%,
+                  #584827 40%,
+                  #584827 50%,
+                  #c7a03c 77%,
+                  #f9de90 80%,
+                  #c7a03c 83%,
+                  #584827 90%
+                );
+              background-clip: padding-box, border-box;
+              background-origin: padding-box, border-box;
             }
-            
-            @keyframes bang {
+
+            @keyframes gradient-angle {
               to {
-                box-shadow: -120px -218px #ff0000, 248px -16px #ff6d00, 190px 150px #ff00ff, -113px -44px #faff00, -109px -227px #ff009d, -50px -47px #00ff00, -234px -113px #ff0000, 72px -91px #ff6d00, -149px -37px #ff00ff, -234px -26px #faff00, 54px -201px #ff009d, 126px -31px #00ff00, -18px -235px #ff0000, -130px -91px #ff6d00, -27px -137px #ff00ff, 80px -6px #faff00, -37px -235px #ff009d, 115px -200px #00ff00, -42px -91px #ff0000, 216px -16px #ff6d00, 167px -150px #ff00ff, -130px -44px #faff00, -109px -227px #ff009d, -50px -47px #00ff00, -234px -113px #ff0000, 72px -91px #ff6d00, -149px -37px #ff00ff, -234px -26px #faff00, 54px -201px #ff009d, 126px -31px #00ff00, -18px -235px #ff0000, -130px -91px #ff6d00, -27px -137px #ff00ff, 80px -6px #faff00, -37px -235px #ff009d, 115px -200px #00ff00, -42px -91px #ff0000, 216px -16px #ff6d00, 167px -150px #ff00ff, -130px -44px #faff00, -109px -227px #ff009d, -50px -47px #00ff00, -234px -113px #ff0000, 72px -91px #ff6d00, -149px -37px #ff00ff, -234px -26px #faff00, 54px -201px #ff009d, 126px -31px #00ff00, -18px -235px #ff0000, -130px -91px #ff6d00, -27px -137px #ff00ff, 80px -6px #faff00, -37px -235px #ff009d, 115px -200px #00ff00, -42px -91px #ff0000, 216px -16px #ff6d00, 167px -150px #ff00ff, -130px -44px #faff00, -109px -227px #ff009d, -50px -47px #00ff00;
-              }
-            }
-            
-            @keyframes gravity {
-              to {
-                transform: translateY(200px);
-                opacity: 0;
-              }
-            }
-            
-            @keyframes position {
-              0%, 19.9% {
-                margin-top: 10%;
-                margin-left: 40%;
-              }
-              20%, 39.9% {
-                margin-top: 40%;
-                margin-left: 30%;
-              }
-              40%, 59.9% {  
-                margin-top: 20%;
-                margin-left: 70%
-              }
-              60%, 79.9% {  
-                margin-top: 30%;
-                margin-left: 20%;
-              }
-              80%, 99.9% {  
-                margin-top: 30%;
-                margin-left: 80%;
+                --gradient-angle: 1turn;
               }
             }
           `}</style>
