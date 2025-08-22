@@ -19,6 +19,7 @@ import {
   ArrowLeft
 } from 'lucide-react';
 import LeftNavigation from "@/components/LeftNavigation";
+import { useTheme } from "@/contexts/ThemeContext";
 
 interface OrderDetails {
   id: string;
@@ -45,6 +46,7 @@ interface OrderDetails {
 const OrderProcessing = () => {
   const { orderId } = useParams();
   const navigate = useNavigate();
+  const { theme } = useTheme();
   const [order, setOrder] = useState<OrderDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -336,7 +338,7 @@ const OrderProcessing = () => {
         <>
           {/* Modal overlay */}
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-            <div className="animated-border-modal bg-card rounded-lg p-8 max-w-md mx-4 relative shadow-lg">
+            <div className="animated-border-modal bg-card rounded-lg p-8 max-w-md mx-4 relative shadow-lg" data-theme={theme}>
               {/* Close button */}
               <button
                 onClick={() => setShowSuccessModal(false)}
@@ -383,19 +385,19 @@ const OrderProcessing = () => {
             .animated-border-modal {
               animation: 2s gradient-angle infinite linear;
               border: 2px solid transparent;
-              background-image: linear-gradient(#584827, #2d230f),
+              background-image: linear-gradient(var(--theme-bg-1), var(--theme-bg-2)),
                 conic-gradient(
                   from var(--gradient-angle),
-                  #584827 0%,
-                  #c7a03c 37%,
-                  #f9de90 30%,
-                  #c7a03c 33%,
-                  #584827 40%,
-                  #584827 50%,
-                  #c7a03c 77%,
-                  #f9de90 80%,
-                  #c7a03c 83%,
-                  #584827 90%
+                  var(--theme-color-1) 0%,
+                  var(--theme-color-2) 37%,
+                  var(--theme-color-3) 30%,
+                  var(--theme-color-2) 33%,
+                  var(--theme-color-1) 40%,
+                  var(--theme-color-1) 50%,
+                  var(--theme-color-2) 77%,
+                  var(--theme-color-3) 80%,
+                  var(--theme-color-2) 83%,
+                  var(--theme-color-1) 90%
                 );
               background-clip: padding-box, border-box;
               background-origin: padding-box, border-box;
@@ -405,6 +407,43 @@ const OrderProcessing = () => {
               to {
                 --gradient-angle: 1turn;
               }
+            }
+
+            /* Light theme colors */
+            .animated-border-modal {
+              --theme-bg-1: #f8f9fa;
+              --theme-bg-2: #e9ecef;
+              --theme-color-1: #6c757d;
+              --theme-color-2: #ffc107;
+              --theme-color-3: #fff3cd;
+            }
+
+            /* Dark theme colors */
+            @media (prefers-color-scheme: dark) {
+              .animated-border-modal {
+                --theme-bg-1: #2d230f;
+                --theme-bg-2: #584827;
+                --theme-color-1: #584827;
+                --theme-color-2: #c7a03c;
+                --theme-color-3: #f9de90;
+              }
+            }
+
+            /* CSS custom properties for theme switching */
+            .animated-border-modal[data-theme="dark"] {
+              --theme-bg-1: #2d230f;
+              --theme-bg-2: #584827;
+              --theme-color-1: #584827;
+              --theme-color-2: #c7a03c;
+              --theme-color-3: #f9de90;
+            }
+
+            .animated-border-modal[data-theme="light"] {
+              --theme-bg-1: #f8f9fa;
+              --theme-bg-2: #e9ecef;
+              --theme-color-1: #6c757d;
+              --theme-color-2: #ffc107;
+              --theme-color-3: #fff3cd;
             }
           `}</style>
         </>
