@@ -55,6 +55,12 @@ const Projects = () => {
       edited_at: '2024-01-05',
       word_count: 58000,
       pages_count: 156
+    },
+    {
+      id: 'order-demo',
+      title: 'AI-Powered Content Transformation Guide',
+      status: 'processing',
+      edited_at: new Date().toISOString().split('T')[0]
     }
   ]);
 

@@ -22,7 +22,10 @@ const BookCard = ({ project, showActions = true }: BookCardProps) => {
   const isFailed = project.status === 'failed';
 
   const handleCardClick = () => {
-    if (isProcessing || isFailed) {
+    // Special case for order demo project
+    if (project.id === 'order-demo') {
+      navigate(`/order-processing/${project.id}`);
+    } else if (isProcessing || isFailed) {
       navigate(`/processing/${project.id}`);
     } else {
       navigate(`/projects/${project.id}`);
@@ -57,7 +60,11 @@ const BookCard = ({ project, showActions = true }: BookCardProps) => {
         <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
           {/* View Button - Always enabled */}
           <Button variant="outline" size="sm" className="flex-1" asChild>
-            <Link to={isProcessing || isFailed ? `/processing/${project.id}` : `/projects/${project.id}`}>
+            <Link to={
+              project.id === 'order-demo' 
+                ? `/order-processing/${project.id}` 
+                : (isProcessing || isFailed ? `/processing/${project.id}` : `/projects/${project.id}`)
+            }>
               <Eye className="h-4 w-4 mr-2" />
               View
             </Link>
