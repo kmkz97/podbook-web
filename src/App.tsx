@@ -19,6 +19,7 @@ import Settings from "./pages/Settings";
 import ApiTest from "./components/ApiTest";
 import Onboarding from "./pages/Onboarding";
 import OnboardingGuard from "./components/OnboardingGuard";
+import MoneyBackGuarantee from "./pages/MoneyBackGuarantee";
 
 const queryClient = new QueryClient();
 
@@ -66,6 +67,7 @@ const App = () => (
                 </OnboardingGuard>
               } />
               <Route path="/onboarding" element={<Onboarding />} />
+              <Route path="/money-back-guarantee" element={<MoneyBackGuarantee />} />
               <Route path="/api-test" element={<ApiTest />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
