@@ -13,8 +13,10 @@ import {
   User, 
   MessageCircle,
   ExternalLink,
-  Download
+  Download,
+  X
 } from 'lucide-react';
+import LeftNavigation from "@/components/LeftNavigation";
 
 interface OrderDetails {
   id: string;
@@ -43,6 +45,7 @@ const OrderProcessing = () => {
   const navigate = useNavigate();
   const [order, setOrder] = useState<OrderDetails | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   useEffect(() => {
     // Try to load order data from localStorage first (for demo orders)
@@ -74,6 +77,8 @@ const OrderProcessing = () => {
         };
         setOrder(orderData);
         setLoading(false);
+        // Show success modal after order loads
+        setShowSuccessModal(true);
       } catch (error) {
         console.error('Error parsing stored order:', error);
         // Fall back to demo data
@@ -109,6 +114,8 @@ const OrderProcessing = () => {
         currentStep: 'ai-generation'
       });
       setLoading(false);
+      // Show success modal after demo order loads
+      setShowSuccessModal(true);
     }, 1000);
   };
 
@@ -175,8 +182,10 @@ const OrderProcessing = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background py-8">
-      <div className="max-w-6xl mx-auto px-4">
+    <div className="min-h-screen bg-background flex">
+      <LeftNavigation activePage="projects" />
+      <div className="flex-1 py-8">
+        <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
@@ -329,25 +338,51 @@ const OrderProcessing = () => {
               </CardContent>
             </Card>
 
-            {/* Actions */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Actions</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <Button variant="outline" className="w-full" onClick={() => navigate('/dashboard')}>
-                  <FileText className="w-4 h-4 mr-2" />
-                  View All Orders
-                </Button>
-                <Button variant="outline" className="w-full" onClick={() => navigate('/new-project')}>
-                  <Upload className="w-4 h-4 mr-2" />
-                  Create New Book
-                </Button>
-              </CardContent>
-            </Card>
+
           </div>
         </div>
+        </div>
       </div>
+
+      {/* Success Modal with Fireworks */}
+      {showSuccessModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-8 max-w-md mx-4 relative">
+            {/* Close button */}
+            <button
+              onClick={() => setShowSuccessModal(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            
+            {/* Fireworks animation */}
+            <div className="text-center mb-6">
+              <div className="text-6xl mb-4">🎆</div>
+              <div className="text-4xl mb-2">🎇</div>
+              <div className="text-5xl">✨</div>
+            </div>
+            
+            {/* Success message */}
+            <h2 className="text-2xl font-bold text-center mb-4 text-green-600 dark:text-green-400">
+              Order Placed Successfully!
+            </h2>
+            <p className="text-center text-gray-600 dark:text-gray-300 mb-6">
+              Your book is now being processed. We'll keep you updated on the progress.
+            </p>
+            
+            {/* Action buttons */}
+            <div className="flex gap-3">
+              <Button 
+                onClick={() => setShowSuccessModal(false)}
+                className="flex-1"
+              >
+                Continue
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
