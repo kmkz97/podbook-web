@@ -125,7 +125,7 @@ const BookReview = () => {
           </div>
 
           {/* Main Content Area */}
-          <div className="flex flex-1 overflow-hidden">
+          <div className="flex flex-1 overflow-hidden min-h-0">
             {/* Left Sidebar - Chapter Navigation */}
             <div className="w-64 border-r bg-muted/30 p-4 overflow-y-auto">
               <h3 className="font-medium text-foreground mb-4">Chapters</h3>
@@ -150,9 +150,9 @@ const BookReview = () => {
             </div>
 
             {/* Main Editor Area - Read Only */}
-            <div className="flex-1 flex flex-col">
+            <div className="flex-1 flex flex-col min-h-0">
               {/* Chapter Header */}
-              <div className="border-b px-6 py-4 bg-card">
+              <div className="border-b px-6 py-4 bg-card flex-shrink-0">
                 <h2 className="text-xl font-semibold text-foreground">
                   {currentChapter.title}
                 </h2>
@@ -162,7 +162,7 @@ const BookReview = () => {
               </div>
 
               {/* Read-Only Content */}
-              <div className="flex-1 p-6 overflow-y-auto pb-24">
+              <div className="flex-1 p-6 overflow-y-auto pb-24 min-h-0">
                 <div className="max-w-4xl mx-auto">
                   <div className="prose prose-lg max-w-none">
                     <EditorContent 
