@@ -221,9 +221,8 @@ const BookCompleted = () => {
             </div>
 
             {/* Book Details */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-              {/* Left Column - Book Info */}
-              <div className="lg:col-span-2 space-y-6">
+            <div className="mb-8">
+              <div className="space-y-6">
                 {/* Book Information */}
                 <Card>
                   <CardHeader>
@@ -252,6 +251,29 @@ const BookCompleted = () => {
                     <div>
                       <Label className="text-sm font-medium text-muted-foreground">RSS Feed</Label>
                       <p className="text-foreground break-all">{book.rss_url}</p>
+                    </div>
+
+                    <Separator />
+                    
+                    {/* Action Buttons */}
+                    <div className="space-y-3">
+                      <Button 
+                        className="w-full" 
+                        size="lg"
+                        onClick={() => navigate(`/book-review/${book.id}`)}
+                      >
+                        <Eye className="w-4 h-4 mr-2" />
+                        Review Book
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        className="w-full" 
+                        size="lg"
+                        onClick={handleDownload}
+                      >
+                        <Download className="w-4 h-4 mr-2" />
+                        Download Book
+                      </Button>
                     </div>
                   </CardContent>
                 </Card>
@@ -286,33 +308,7 @@ const BookCompleted = () => {
                 </Card>
               </div>
 
-              {/* Right Column - Actions & Quick Info */}
-              <div className="space-y-6">
-                {/* Quick Actions */}
-                <Card>
-                  <CardContent className="space-y-3 p-6">
-                    <Button 
-                      className="w-full" 
-                      size="lg"
-                      onClick={() => navigate(`/book-review/${book.id}`)}
-                    >
-                      <Eye className="w-4 h-4 mr-2" />
-                      Review Book
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      className="w-full" 
-                      size="lg"
-                      onClick={handleDownload}
-                    >
-                      <Download className="w-4 h-4 mr-2" />
-                      Download Book
-                    </Button>
-                  </CardContent>
-                </Card>
 
-
-              </div>
             </div>
           </div>
         </main>
