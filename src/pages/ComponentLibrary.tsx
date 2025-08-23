@@ -52,7 +52,14 @@ import {
   MousePointer,
   FileText as FileTextIcon,
   Layers,
-  Grid3X3
+  Grid3X3,
+  Clock,
+  Edit,
+  MessageSquare,
+  Loader2,
+  ArrowUp,
+  Link,
+  Rss
 } from 'lucide-react';
 
 // Custom Library Navigation Component
@@ -62,12 +69,14 @@ const LibraryNavigation = () => {
     { id: 'colors', label: 'Color System', icon: Palette, description: 'Primary, semantic, and opacity variations' },
     { id: 'buttons', label: 'Buttons', icon: MousePointer, description: 'All button variants and sizes' },
     { id: 'forms', label: 'Form Elements', icon: FileTextIcon, description: 'Inputs, selects, checkboxes, and more' },
+    { id: 'specialized-inputs', label: 'Specialized Inputs', icon: MessageSquare, description: 'Chat input, RSS feeds, and AI components' },
     { id: 'cards', label: 'Cards', icon: Layers, description: 'Basic, action, and feature cards' },
     { id: 'badges', label: 'Badges', icon: Grid3X3, description: 'Status, category, and default badges' },
     { id: 'navigation', label: 'Navigation', icon: MoreHorizontal, description: 'Breadcrumbs, tabs, and accordions' },
     { id: 'alerts', label: 'Alerts', icon: AlertTriangle, description: 'Info, success, warning, and error alerts' },
     { id: 'layout', label: 'Layout', icon: Grid3X3, description: 'Grid system and spacing scale' },
     { id: 'interactive', label: 'Interactive', icon: MousePointer, description: 'Hover, focus, and transitions' },
+    { id: 'project-components', label: 'Project Components', icon: BookOpen, description: 'Project cards, status, and progress' },
     { id: 'pages', label: 'Page Examples', icon: FileText, description: 'Complete page designs and layouts' }
   ];
 
@@ -446,39 +455,118 @@ const ComponentLibrary = () => {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div className="space-y-2">
-                        <Label>Checkbox</Label>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox id="checkbox" />
-                          <Label htmlFor="checkbox">Accept terms</Label>
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                        <Label>Radio Group</Label>
-                        <RadioGroup defaultValue="option1">
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="option1" id="radio1" />
-                            <Label htmlFor="radio1">Option 1</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="option2" id="radio2" />
-                            <Label htmlFor="radio2">Option 2</Label>
-                          </div>
-                        </RadioGroup>
-                      </div>
-                      <div className="space-y-2">
-                        <Label>Switch</Label>
-                        <div className="flex items-center space-x-2">
-                          <Switch id="switch" />
-                          <Label htmlFor="switch">Enable notifications</Label>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </section>
+                                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                       <div className="space-y-2">
+                         <Label>Checkbox</Label>
+                         <div className="flex items-center space-x-2">
+                           <Checkbox id="checkbox" />
+                           <Label htmlFor="checkbox">Accept terms</Label>
+                         </div>
+                       </div>
+                       <div className="space-y-2">
+                         <Label>Radio Group</Label>
+                         <RadioGroup defaultValue="option1">
+                           <div className="flex items-center space-x-2">
+                             <RadioGroupItem value="option1" id="radio1" />
+                             <Label htmlFor="radio1">Option 1</Label>
+                           </div>
+                           <div className="flex items-center space-x-2">
+                             <RadioGroupItem value="option2" id="radio2" />
+                             <Label htmlFor="radio2">Option 2</Label>
+                           </div>
+                         </RadioGroup>
+                       </div>
+                       <div className="space-y-2">
+                         <Label>Switch</Label>
+                         <div className="flex items-center space-x-2">
+                           <Switch id="switch" />
+                           <Label htmlFor="switch">Enable notifications</Label>
+                         </div>
+                       </div>
+                     </div>
+                   </CardContent>
+                 </Card>
+               </div>
+             </section>
+
+             {/* Specialized Input Components Section */}
+             <section id="specialized-inputs" className="mb-16">
+               <h2 className="text-3xl font-bold text-foreground mb-8">Specialized Input Components</h2>
+               <div className="grid gap-6">
+                 <Card>
+                   <CardHeader>
+                     <CardTitle>Chat Input Component</CardTitle>
+                     <CardDescription>AI-powered content creation input with file upload</CardDescription>
+                   </CardHeader>
+                   <CardContent className="space-y-6">
+                     <div className="max-w-2xl">
+                       <div className="relative">
+                         <Input
+                           type="text"
+                           placeholder="Add an RSS feed, upload files, write a prompt, to start your book..."
+                           className="w-full h-16 text-lg px-6 pr-16 border-2 border-border focus:border-primary transition-colors bg-background rounded-[30px] text-foreground placeholder:text-muted-foreground"
+                         />
+                         <Button
+                           size="sm"
+                           className="absolute right-2 top-1/2 transform -translate-y-1/2 h-12 w-12 rounded-full bg-primary hover:bg-primary/90"
+                         >
+                           <ArrowUp className="w-5 h-5" />
+                         </Button>
+                       </div>
+                       <div className="flex gap-2 mt-3">
+                         <Button variant="outline" size="sm">
+                           <Upload className="w-4 h-4 mr-2" />
+                           Upload Files
+                         </Button>
+                         <Button variant="outline" size="sm">
+                           <Link className="w-4 h-4 mr-2" />
+                           Add RSS Feed
+                         </Button>
+                         <Button variant="outline" size="sm">
+                           <Type className="w-4 h-4 mr-2" />
+                           Write Prompt
+                         </Button>
+                       </div>
+                     </div>
+                   </CardContent>
+                 </Card>
+
+                 <Card>
+                   <CardHeader>
+                     <CardTitle>RSS Feed Input</CardTitle>
+                     <CardDescription>Specialized input for RSS feed URLs with validation</CardDescription>
+                   </CardHeader>
+                   <CardContent>
+                     <div className="space-y-4">
+                       <div className="space-y-2">
+                         <Label htmlFor="rss-input">RSS Feed URL</Label>
+                         <div className="relative">
+                           <Rss className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                           <Input
+                             id="rss-input"
+                             placeholder="https://example.com/feed.xml"
+                             className="pl-10"
+                           />
+                         </div>
+                         <p className="text-sm text-muted-foreground">
+                           Enter the URL of an RSS feed to import content from
+                         </p>
+                       </div>
+                       <div className="flex gap-2">
+                         <Button size="sm">
+                           <Search className="w-4 h-4 mr-2" />
+                           Validate Feed
+                         </Button>
+                         <Button variant="outline" size="sm">
+                           <Plus className="w-4 h-4 mr-2" />
+                           Add Another Feed
+                         </Button>
+                       </div>
+                     </div>
+                   </CardContent>
+                 </Card>
+               </div>
+             </section>
 
             {/* Card Components Section */}
             <section id="cards" className="mb-16">
@@ -789,6 +877,168 @@ const ComponentLibrary = () => {
               </div>
             </section>
 
+            {/* Project-Specific Components Section */}
+            <section id="project-components" className="mb-16">
+              <h2 className="text-3xl font-bold text-foreground mb-8">Project-Specific Components</h2>
+              <div className="grid gap-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Project Cards & Status</CardTitle>
+                    <CardDescription>Components used specifically for project management</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div>
+                      <h4 className="text-lg font-semibold mb-4">Project Status Cards</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="bg-card border border-border rounded-lg p-4">
+                          <div className="flex items-start justify-between mb-3">
+                            <BookOpen className="h-6 w-6 text-primary mt-1" />
+                            <Badge variant="default">Completed</Badge>
+                          </div>
+                          <h3 className="font-medium text-foreground mb-2">Tech News Weekly</h3>
+                          <div className="flex items-center gap-4 mb-4 text-xs text-muted-foreground">
+                            <span>Edited: 1/15/2024</span>
+                            <span>45,000 words</span>
+                            <span>~124 pages</span>
+                          </div>
+                          <div className="flex gap-2">
+                            <Button variant="outline" size="sm" className="flex-1">
+                              <Eye className="w-4 h-4 mr-2" />
+                              View
+                            </Button>
+                            <Button variant="outline" size="sm" className="flex-1">
+                              <Edit className="w-4 h-4 mr-2" />
+                              Edit
+                            </Button>
+                          </div>
+                        </div>
+
+                        <div className="bg-card border border-border rounded-lg p-4">
+                          <div className="flex items-start justify-between mb-3">
+                            <BookOpen className="h-6 w-6 text-primary mt-1" />
+                            <Badge variant="secondary">Processing</Badge>
+                          </div>
+                          <h3 className="font-medium text-foreground mb-2">Design Inspiration</h3>
+                          <div className="flex items-center gap-4 mb-4 text-xs text-muted-foreground">
+                            <span>Edited: 1/20/2024</span>
+                          </div>
+                          <div className="flex gap-2">
+                            <Button variant="outline" size="sm" className="flex-1">
+                              <Eye className="w-4 h-4 mr-2" />
+                              View
+                            </Button>
+                            <Button variant="outline" size="sm" className="flex-1" disabled>
+                              <Edit className="w-4 h-4 mr-2" />
+                              Edit
+                            </Button>
+                          </div>
+                        </div>
+
+                        <div className="bg-card border border-border rounded-lg p-4">
+                          <div className="flex items-start justify-between mb-3">
+                            <BookOpen className="h-6 w-6 text-primary mt-1" />
+                            <Badge variant="destructive">Failed</Badge>
+                          </div>
+                          <h3 className="font-medium text-foreground mb-2">Industry Updates</h3>
+                          <div className="flex items-center gap-4 mb-4 text-xs text-muted-foreground">
+                            <span>Edited: 1/18/2024</span>
+                          </div>
+                          <div className="flex gap-2">
+                            <Button variant="outline" size="sm" className="flex-1">
+                              <Eye className="w-4 h-4 mr-2" />
+                              View
+                            </Button>
+                            <Button variant="outline" size="sm" className="flex-1">
+                              <Clock className="w-4 h-4 mr-2" />
+                              Retry
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h4 className="text-lg font-semibold mb-4">Status Chips</h4>
+                      <div className="flex flex-wrap gap-3">
+                        <Badge variant="default">Completed</Badge>
+                        <Badge variant="secondary">Processing</Badge>
+                        <Badge variant="destructive">Failed</Badge>
+                        <Badge variant="outline">Draft</Badge>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Progress & Processing</CardTitle>
+                    <CardDescription>Components for tracking project progress and status</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div>
+                      <h4 className="text-lg font-semibold mb-4">Progress Bar</h4>
+                      <div className="space-y-4">
+                        <div>
+                          <div className="flex justify-between text-sm text-muted-foreground mb-2">
+                            <span>Overall Progress</span>
+                            <span>65%</span>
+                          </div>
+                          <div className="w-full bg-muted rounded-full h-2">
+                            <div className="bg-primary h-2 rounded-full" style={{ width: '65%' }}></div>
+                          </div>
+                        </div>
+                        <div className="text-sm text-muted-foreground">
+                          Started: 2:30 PM • ETA: ~3 minutes
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h4 className="text-lg font-semibold mb-4">Processing Steps</h4>
+                      <div className="space-y-4">
+                        <div className="flex items-start space-x-4">
+                          <CheckCircle className="w-6 h-6 text-green-500 mt-1" />
+                          <div className="flex-1">
+                            <div className="flex items-center justify-between">
+                              <h4 className="text-sm font-medium text-foreground">Fetching RSS Feed</h4>
+                              <Badge variant="secondary" className="text-xs">Completed</Badge>
+                            </div>
+                            <p className="text-sm text-muted-foreground mt-1">
+                              Downloading and parsing RSS feed content
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex items-start space-x-4">
+                          <div className="w-6 h-6 border-2 border-primary rounded-full animate-spin mt-1"></div>
+                          <div className="flex-1">
+                            <div className="flex items-center justify-between">
+                              <h4 className="text-sm font-medium text-foreground">Processing Articles</h4>
+                              <Badge variant="secondary" className="text-xs">Processing</Badge>
+                            </div>
+                            <p className="text-sm text-muted-foreground mt-1">
+                              Extracting and cleaning article content
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex items-start space-x-4">
+                          <div className="w-6 h-6 border-2 border-muted rounded-full mt-1"></div>
+                          <div className="flex-1">
+                            <div className="flex items-center justify-between">
+                              <h4 className="text-sm font-medium text-foreground">Generating Layout</h4>
+                              <Badge variant="outline" className="text-xs">Pending</Badge>
+                            </div>
+                            <p className="text-sm text-muted-foreground mt-1">
+                              Creating book structure and formatting
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </section>
+
             {/* Page Examples Section */}
             <section id="pages" className="mb-16">
               <h2 className="text-3xl font-bold text-foreground mb-8">Page Examples</h2>
@@ -854,6 +1104,62 @@ const ComponentLibrary = () => {
                   </CardContent>
                 </Card>
 
+                {/* Project States & Workflows */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Project States & Workflows</CardTitle>
+                    <CardDescription>Different project states and their corresponding UI components</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      <div className="space-y-3">
+                        <div className="w-full h-32 bg-gradient-to-br from-amber-500/10 to-amber-500/5 rounded-lg flex items-center justify-center">
+                          <Clock className="w-8 h-8 text-amber-600" />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-foreground">Processing State</h4>
+                          <p className="text-sm text-muted-foreground">Real-time progress tracking with steps</p>
+                          <div className="flex gap-2 mt-2">
+                            <Badge variant="outline" className="text-xs">Progress Bar</Badge>
+                            <Badge variant="outline" className="text-xs">Steps</Badge>
+                            <Badge variant="outline" className="text-xs">ETA</Badge>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-3">
+                        <div className="w-full h-32 bg-gradient-to-br from-green-500/10 to-green-500/5 rounded-lg flex items-center justify-center">
+                          <CheckCircle className="w-8 h-8 text-green-600" />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-foreground">Completed State</h4>
+                          <p className="text-sm text-muted-foreground">Success confirmation with download options</p>
+                          <div className="flex gap-2 mt-2">
+                            <Badge variant="outline" className="text-xs">Success Modal</Badge>
+                            <Badge variant="outline" className="text-xs">Download</Badge>
+                            <Badge variant="outline" className="text-xs">Review</Badge>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-3">
+                        <div className="w-full h-32 bg-gradient-to-br from-red-500/10 to-red-500/5 rounded-lg flex items-center justify-center">
+                          <X className="w-8 h-8 text-red-600" />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-foreground">Failed State</h4>
+                          <p className="text-sm text-muted-foreground">Error handling with retry options</p>
+                          <div className="flex gap-2 mt-2">
+                            <Badge variant="outline" className="text-xs">Error Display</Badge>
+                            <Badge variant="outline" className="text-xs">Retry</Badge>
+                            <Badge variant="outline" className="text-xs">Support</Badge>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
                 {/* Authentication Pages */}
                 <Card>
                   <CardHeader>
@@ -910,6 +1216,62 @@ const ComponentLibrary = () => {
                   </CardContent>
                 </Card>
 
+                {/* Project Management & Editing */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Project Management & Editing</CardTitle>
+                    <CardDescription>Core project management and content editing interfaces</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      <div className="space-y-3">
+                        <div className="w-full h-32 bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 rounded-lg flex items-center justify-center">
+                          <Home className="w-8 h-8 text-emerald-600" />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-foreground">Dashboard</h4>
+                          <p className="text-sm text-muted-foreground">Main user dashboard with chat input</p>
+                          <div className="flex gap-2 mt-2">
+                            <Badge variant="outline" className="text-xs">Chat Input</Badge>
+                            <Badge variant="outline" className="text-xs">Quick Actions</Badge>
+                            <Badge variant="outline" className="text-xs">Welcome</Badge>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-3">
+                        <div className="w-full h-32 bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 rounded-lg flex items-center justify-center">
+                          <FileText className="w-8 h-8 text-cyan-600" />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-foreground">Projects List</h4>
+                          <p className="text-sm text-muted-foreground">Project management with status cards</p>
+                          <div className="flex gap-2 mt-2">
+                            <Badge variant="outline" className="text-xs">Project Cards</Badge>
+                            <Badge variant="outline" className="text-xs">Status Chips</Badge>
+                            <Badge variant="outline" className="text-xs">Search</Badge>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-3">
+                        <div className="w-full h-32 bg-gradient-to-br from-rose-500/10 to-rose-500/5 rounded-lg flex items-center justify-center">
+                          <Plus className="w-8 h-8 text-rose-600" />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-foreground">New Project Wizard</h4>
+                          <p className="text-sm text-muted-foreground">Multi-step book creation process</p>
+                          <div className="flex gap-2 mt-2">
+                            <Badge variant="outline" className="text-xs">Wizard</Badge>
+                            <Badge variant="outline" className="text-xs">Steps</Badge>
+                            <Badge variant="outline" className="text-xs">Forms</Badge>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
                 {/* Dashboard & Core App Pages */}
                 <Card>
                   <CardHeader>
@@ -959,6 +1321,62 @@ const ComponentLibrary = () => {
                             <Badge variant="outline" className="text-xs">Wizard</Badge>
                             <Badge variant="outline" className="text-xs">Steps</Badge>
                             <Badge variant="outline" className="text-xs">Forms</Badge>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Content Creation & Editing */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Content Creation & Editing</CardTitle>
+                    <CardDescription>Text editing, AI assistance, and content management tools</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      <div className="space-y-3">
+                        <div className="w-full h-32 bg-gradient-to-br from-violet-500/10 to-violet-500/5 rounded-lg flex items-center justify-center">
+                          <Eye className="w-8 h-8 text-violet-600" />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-foreground">Book Review</h4>
+                          <p className="text-sm text-muted-foreground">Read-only book preview with chapters</p>
+                          <div className="flex gap-2 mt-2">
+                            <Badge variant="outline" className="text-xs">Preview</Badge>
+                            <Badge variant="outline" className="text-xs">Chapters</Badge>
+                            <Badge variant="outline" className="text-xs">Navigation</Badge>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-3">
+                        <div className="w-full h-32 bg-gradient-to-br from-indigo-500/10 to-indigo-500/5 rounded-lg flex items-center justify-center">
+                          <Edit className="w-8 h-8 text-indigo-600" />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-foreground">AI Text Editor</h4>
+                          <p className="text-sm text-muted-foreground">Rich text editor with AI assistance</p>
+                          <div className="flex gap-2 mt-2">
+                            <Badge variant="outline" className="text-xs">Rich Text</Badge>
+                            <Badge variant="outline" className="text-xs">AI Chat</Badge>
+                            <Badge variant="outline" className="text-xs">Toolbar</Badge>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-3">
+                        <div className="w-full h-32 bg-gradient-to-br from-blue-500/10 to-blue-500/5 rounded-lg flex items-center justify-center">
+                          <MessageSquare className="w-8 h-8 text-blue-600" />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-foreground">Chat Input</h4>
+                          <p className="text-sm text-muted-foreground">AI-powered content creation input</p>
+                          <div className="flex gap-2 mt-2">
+                            <Badge variant="outline" className="text-xs">File Upload</Badge>
+                            <Badge variant="outline" className="text-xs">Quick Actions</Badge>
+                            <Badge variant="outline" className="text-xs">AI Integration</Badge>
                           </div>
                         </div>
                       </div>
@@ -1071,6 +1489,62 @@ const ComponentLibrary = () => {
                             <Badge variant="outline" className="text-xs">Collaboration</Badge>
                             <Badge variant="outline" className="text-xs">Sharing</Badge>
                             <Badge variant="outline" className="text-xs">Permissions</Badge>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Special Pages & Workflows */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Special Pages & Workflows</CardTitle>
+                    <CardDescription>Order processing, guarantees, and special user flows</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      <div className="space-y-3">
+                        <div className="w-full h-32 bg-gradient-to-br from-orange-500/10 to-orange-500/5 rounded-lg flex items-center justify-center">
+                          <CreditCard className="w-8 h-8 text-orange-600" />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-foreground">Order Processing</h4>
+                          <p className="text-sm text-muted-foreground">Payment and order confirmation flow</p>
+                          <div className="flex gap-2 mt-2">
+                            <Badge variant="outline" className="text-xs">Payment</Badge>
+                            <Badge variant="outline" className="text-xs">Confirmation</Badge>
+                            <Badge variant="outline" className="text-xs">Receipt</Badge>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-3">
+                        <div className="w-full h-32 bg-gradient-to-br from-green-500/10 to-green-500/5 rounded-lg flex items-center justify-center">
+                          <CheckCircle className="w-8 h-8 text-green-600" />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-foreground">Money Back Guarantee</h4>
+                          <p className="text-sm text-muted-foreground">Trust building and legal information</p>
+                          <div className="flex gap-2 mt-2">
+                            <Badge variant="outline" className="text-xs">Trust</Badge>
+                            <Badge variant="outline" className="text-xs">Legal</Badge>
+                            <Badge variant="outline" className="text-xs">Guarantee</Badge>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-3">
+                        <div className="w-full h-32 bg-gradient-to-br from-purple-500/10 to-purple-500/5 rounded-lg flex items-center justify-center">
+                          <Settings className="w-8 h-8 text-purple-600" />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-foreground">Onboarding Flow</h4>
+                          <p className="text-sm text-muted-foreground">New user setup and tutorial</p>
+                          <div className="flex gap-2 mt-2">
+                            <Badge variant="outline" className="text-xs">Tutorial</Badge>
+                            <Badge variant="outline" className="text-xs">Setup</Badge>
+                            <Badge variant="outline" className="text-xs">Progressive</Badge>
                           </div>
                         </div>
                       </div>
