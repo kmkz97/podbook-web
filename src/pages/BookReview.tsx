@@ -34,9 +34,185 @@ const BookReview = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [chapters, setChapters] = useState<Chapter[]>([
-    { id: 1, title: 'Introduction', content: '<h1>Introduction</h1><p>Welcome to your book. This is the introduction chapter that provides an overview of the content...</p>', wordCount: 120, estimatedPages: 1 },
-    { id: 2, title: 'Chapter 1', content: '<h1>Chapter 1</h1><p>This is the beginning of your first chapter. The content has been generated and is ready for your review...</p>', wordCount: 150, estimatedPages: 1 },
-    { id: 3, title: 'Chapter 2', content: '<h1>Chapter 2</h1><p>Continue your story in the second chapter. This content has been carefully crafted based on your specifications...</p>', wordCount: 120, estimatedPages: 1 },
+    { 
+      id: 1, 
+      title: 'Introduction', 
+      content: `
+        <h1>Introduction: The Future of Technology</h1>
+        <p>Welcome to <strong>Tech News Weekly Digest</strong>, your comprehensive guide to the latest developments in the world of technology. This book represents the culmination of weeks of research, analysis, and expert insights into the most significant trends shaping our digital future.</p>
+        
+        <h2>What You'll Discover</h2>
+        <p>In the following chapters, we'll explore:</p>
+        <ul>
+          <li><strong>Artificial Intelligence Breakthroughs</strong> - From GPT-4 to autonomous systems</li>
+          <li><strong>Cloud Computing Evolution</strong> - The rise of edge computing and hybrid solutions</li>
+          <li><strong>Cybersecurity Challenges</strong> - Emerging threats and innovative defenses</li>
+          <li><strong>Mobile Technology Trends</strong> - 5G, foldables, and the future of smartphones</li>
+        </ul>
+        
+        <p>Each chapter is designed to provide you with actionable insights and a deeper understanding of how these technologies will impact your business and daily life.</p>
+        
+        <blockquote>
+          <p>"The best way to predict the future is to invent it." - Alan Kay</p>
+        </blockquote>
+      `, 
+      wordCount: 450, 
+      estimatedPages: 2 
+    },
+    { 
+      id: 2, 
+      title: 'AI Revolution', 
+      content: `
+        <h1>Chapter 1: The AI Revolution</h1>
+        <p>The artificial intelligence landscape has undergone a <em>dramatic transformation</em> in recent years, with breakthroughs that seemed impossible just a decade ago now becoming reality.</p>
+        
+        <h2>Large Language Models</h2>
+        <p>Large Language Models (LLMs) have revolutionized how we interact with technology. These sophisticated AI systems can:</p>
+        <ul>
+          <li>Generate human-like text across multiple languages</li>
+          <li>Understand context and maintain conversation flow</li>
+          <li>Assist with complex problem-solving tasks</li>
+          <li>Create content in various formats and styles</li>
+        </ul>
+        
+        <h3>Key Developments</h3>
+        <p>Recent advancements include:</p>
+        <ul>
+          <li><strong>GPT-4</strong> - Enhanced reasoning and multimodal capabilities</li>
+          <li><strong>Claude</strong> - Improved safety and ethical considerations</li>
+          <li><strong>Open Source Models</strong> - Democratizing AI access</li>
+        </ul>
+        
+        <h2>Practical Applications</h2>
+        <p>AI is transforming industries across the board:</p>
+        <ul>
+          <li><strong>Healthcare:</strong> Diagnostic assistance and drug discovery</li>
+          <li><strong>Finance:</strong> Fraud detection and algorithmic trading</li>
+          <li><strong>Education:</strong> Personalized learning experiences</li>
+          <li><strong>Creative Arts:</strong> Music composition and visual design</li>
+        </ul>
+        
+        <p>As we move forward, the integration of AI into everyday applications will become increasingly seamless, creating new opportunities and challenges for businesses and individuals alike.</p>
+      `, 
+      wordCount: 680, 
+      estimatedPages: 3 
+    },
+    { 
+      id: 3, 
+      title: 'Cloud & Edge Computing', 
+      content: `
+        <h1>Chapter 2: Cloud and Edge Computing</h1>
+        <p>The cloud computing paradigm has evolved far beyond simple data storage, becoming the backbone of modern digital infrastructure.</p>
+        
+        <h2>The Rise of Edge Computing</h2>
+        <p>Edge computing represents a fundamental shift in how we process and analyze data. By bringing computation closer to data sources, we achieve:</p>
+        <ul>
+          <li><strong>Reduced Latency</strong> - Faster response times for critical applications</li>
+          <li><strong>Bandwidth Optimization</strong> - Less data transmission over networks</li>
+          <li><strong>Enhanced Privacy</strong> - Local data processing capabilities</li>
+          <li><strong>Improved Reliability</strong> - Reduced dependency on central servers</li>
+        </ul>
+        
+        <h3>Hybrid Cloud Solutions</h3>
+        <p>Modern enterprises are adopting hybrid approaches that combine:</p>
+        <ul>
+          <li><strong>Public Cloud</strong> - Scalability and cost-effectiveness</li>
+          <li><strong>Private Cloud</strong> - Security and control</li>
+          <li><strong>Edge Nodes</strong> - Performance and responsiveness</li>
+        </ul>
+        
+        <h2>Industry Impact</h2>
+        <p>This evolution is driving innovation across sectors:</p>
+        <ul>
+          <li><strong>Manufacturing:</strong> Real-time quality control and predictive maintenance</li>
+          <li><strong>Healthcare:</strong> Remote patient monitoring and telemedicine</li>
+          <li><strong>Transportation:</strong> Autonomous vehicles and smart traffic management</li>
+          <li><strong>Retail:</strong> Personalized shopping experiences and inventory optimization</li>
+        </ul>
+        
+        <p>The future of cloud computing lies in creating intelligent, distributed systems that can adapt to changing demands while maintaining security and performance standards.</p>
+      `, 
+      wordCount: 720, 
+      estimatedPages: 3 
+    },
+    { 
+      id: 4, 
+      title: 'Cybersecurity Landscape', 
+      content: `
+        <h1>Chapter 3: The Cybersecurity Landscape</h1>
+        <p>As technology advances, so do the threats that target our digital infrastructure. Understanding the current cybersecurity landscape is crucial for protecting both personal and organizational assets.</p>
+        
+        <h2>Emerging Threats</h2>
+        <p>New attack vectors are constantly emerging:</p>
+        <ul>
+          <li><strong>AI-Powered Attacks</strong> - Sophisticated phishing and social engineering</li>
+          <li><strong>Supply Chain Vulnerabilities</strong> - Attacks on third-party services</li>
+          <li><strong>IoT Exploitation</strong> - Weak security in connected devices</li>
+          <li><strong>Ransomware Evolution</strong> - Double extortion and targeted attacks</li>
+        </ul>
+        
+        <h3>Defense Strategies</h3>
+        <p>Modern cybersecurity requires a multi-layered approach:</p>
+        <ul>
+          <li><strong>Zero Trust Architecture</strong> - Verify every access attempt</li>
+          <li><strong>Behavioral Analytics</strong> - Detect anomalies in user patterns</li>
+          <li><strong>Threat Intelligence</strong> - Stay ahead of emerging risks</li>
+          <li><strong>Incident Response Planning</strong> - Prepare for the inevitable</li>
+        </ul>
+        
+        <h2>Future Trends</h2>
+        <p>Looking ahead, we can expect:</p>
+        <ul>
+          <li><strong>Quantum-Resistant Cryptography</strong> - Preparing for quantum computing threats</li>
+          <li><strong>AI-Enhanced Security</strong> - Automated threat detection and response</li>
+          <li><strong>Regulatory Evolution</strong> - Stricter compliance requirements</li>
+          <li><strong>Security by Design</strong> - Building security into products from the start</li>
+        </ul>
+        
+        <p>Cybersecurity is not just a technical challenge—it's a business imperative that requires ongoing attention and investment.</p>
+      `, 
+      wordCount: 650, 
+      estimatedPages: 3 
+    },
+    { 
+      id: 5, 
+      title: 'Mobile Innovation', 
+      content: `
+        <h1>Chapter 4: Mobile Technology Innovation</h1>
+        <p>The mobile device landscape continues to evolve at an unprecedented pace, with each generation bringing new capabilities and possibilities.</p>
+        
+        <h2>5G and Beyond</h2>
+        <p>Fifth-generation wireless technology is revolutionizing mobile connectivity:</p>
+        <ul>
+          <li><strong>Ultra-Fast Speeds</strong> - Up to 100x faster than 4G</li>
+          <li><strong>Low Latency</strong> - Near real-time response for critical applications</li>
+          <li><strong>Massive Connectivity</strong> - Support for millions of IoT devices</li>
+          <li><strong>Network Slicing</strong> - Customized network configurations</li>
+        </ul>
+        
+        <h3>Foldable Technology</h3>
+        <p>Foldable smartphones represent a new paradigm in mobile computing:</p>
+        <ul>
+          <li><strong>Enhanced Productivity</strong> - Larger screens when needed</li>
+          <li><strong>Portability</strong> - Compact form factor for storage</li>
+          <li><strong>New Use Cases</strong> - Gaming, multitasking, and content creation</li>
+          <li><strong>Design Innovation</strong> - Pushing the boundaries of mobile aesthetics</li>
+        </ul>
+        
+        <h2>App Ecosystem Evolution</h2>
+        <p>Mobile applications are becoming more sophisticated:</p>
+        <ul>
+          <li><strong>AI Integration</strong> - Personalized experiences and intelligent features</li>
+          <li><strong>Augmented Reality</strong> - Enhanced shopping and navigation</li>
+          <li><strong>Cross-Platform Development</strong> - Consistent experiences across devices</li>
+          <li><strong>Privacy-First Design</strong> - User control over data and permissions</li>
+        </ul>
+        
+        <p>The future of mobile technology lies in creating seamless, intelligent experiences that enhance our daily lives while respecting our privacy and security needs.</p>
+      `, 
+      wordCount: 580, 
+      estimatedPages: 2 
+    }
   ]);
   const [currentChapter, setCurrentChapter] = useState<Chapter>(chapters[0]);
   const [showDownloadModal, setShowDownloadModal] = useState(false);
