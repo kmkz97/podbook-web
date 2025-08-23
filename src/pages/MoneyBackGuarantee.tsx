@@ -4,6 +4,7 @@ import { CheckCircle, Download, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTheme } from '@/contexts/ThemeContext';
+import Logo from '@/components/Logo';
 
 const MoneyBackGuarantee = () => {
   const { theme } = useTheme();
@@ -14,14 +15,7 @@ const MoneyBackGuarantee = () => {
         {/* Top Navigation */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center gap-3">
-              <img 
-                src={theme === 'dark' ? '/logo-white.svg' : '/logo.svg'} 
-                alt="Podbook Logo" 
-                className="w-8 h-8" 
-              />
-              <span className="text-xl font-bold text-foreground">Podbook</span>
-            </div>
+            <Logo size="md" showText={true} textSize="2xl" />
           </div>
           
           <h1 className="text-4xl font-bold text-foreground mb-4">Money-Back Guarantee</h1>

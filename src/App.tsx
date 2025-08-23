@@ -23,7 +23,10 @@ import MoneyBackGuarantee from "./pages/MoneyBackGuarantee";
 import OrderProcessing from "./pages/OrderProcessing";
 import BookCompleted from "./pages/BookCompleted";
 import BookReview from "./pages/BookReview";
+import BookPostApproval from "./pages/BookPostApproval";
+import BookUnderReview from "./pages/BookUnderReview";
 import ComponentLibrary from "./pages/ComponentLibrary";
+import AIEditor from "./pages/AIEditor";
 
 const queryClient = new QueryClient();
 
@@ -75,7 +78,11 @@ const App = () => (
               <Route path="/order-processing/:orderId" element={<OrderProcessing />} />
               <Route path="/book-completed/:id" element={<BookCompleted />} />
               <Route path="/book-review/:id" element={<BookReview />} />
+              <Route path="/book-post-approval/:id" element={<BookPostApproval />} />
+              <Route path="/book-under-review/:id" element={<BookUnderReview />} />
               <Route path="/component-library" element={<ComponentLibrary />} />
+              <Route path="/ai-editor" element={<AIEditor />} />
+              <Route path="/ai-editor/:projectId" element={<AIEditor />} />
               <Route path="/api-test" element={<ApiTest />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

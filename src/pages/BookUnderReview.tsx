@@ -5,23 +5,21 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { 
-  Download, 
+  Clock, 
   Eye, 
   Calendar, 
-  Clock, 
   FileText, 
   Rss, 
   User,
   Target,
   ArrowLeft,
-  CheckCircle,
+  AlertTriangle,
   MessageCircle,
-  X
+  X,
+  HelpCircle
 } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import LeftNavigation from "@/components/LeftNavigation";
-import BookReviewReminder from "@/components/BookReviewReminder";
-import RefundRequestModal from "@/components/RefundRequestModal";
 
 interface Chapter {
   id: string;
@@ -38,7 +36,7 @@ interface Book {
   author: string;
   audience: string;
   rss_url: string;
-  status: 'completed';
+  status: 'under_review';
   created_at: string;
   completed_at: string;
   pages_count: number;
@@ -48,16 +46,16 @@ interface Book {
   format: string;
   estimated_cost: number;
   chapters: Chapter[];
+  review_request_type: 'refund' | 'modification';
+  review_request_date: string;
+  estimated_review_time: string;
 }
 
-const BookCompleted = () => {
+const BookUnderReview = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [book, setBook] = useState<Book | null>(null);
   const [loading, setLoading] = useState(true);
-  const [showReadyModal, setShowReadyModal] = useState(false);
-  const [showDownloadModal, setShowDownloadModal] = useState(false);
-  const [showRefundModal, setShowRefundModal] = useState(false);
 
   useEffect(() => {
     // Simulate loading book data
@@ -69,15 +67,18 @@ const BookCompleted = () => {
         author: 'John Doe',
         audience: 'Technology professionals and enthusiasts',
         rss_url: 'https://example.com/tech-news-feed',
-        status: 'completed',
+        status: 'under_review',
         created_at: '2024-01-15',
-        completed_at: new Date().toISOString().split('T')[0],
+        completed_at: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 5 days ago
         pages_count: 124,
         word_count: 45600,
         chapters_count: 8,
         file_size: '2.3 MB',
         format: 'PDF',
         estimated_cost: 25,
+        review_request_type: 'refund',
+        review_request_date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 2 days ago
+        estimated_review_time: '3-5 business days',
         chapters: [
           { id: '1', title: 'Introduction to Tech Trends', description: 'Overview of current technology landscape', wordCount: 1200, estimatedPages: 4 },
           { id: '2', title: 'Artificial Intelligence Breakthroughs', description: 'Latest developments in AI and machine learning', wordCount: 1800, estimatedPages: 6 },
@@ -91,30 +92,8 @@ const BookCompleted = () => {
       };
       setBook(mockBook);
       setLoading(false);
-      // Show ready modal once after book loads
-      setShowReadyModal(true);
     }, 1000);
   }, [id]);
-
-  const handleDownload = () => {
-    setShowDownloadModal(true);
-  };
-
-  const confirmDownload = () => {
-    // TODO: In production, this would:
-    // 1. Mark the book as downloaded in the backend
-    // 2. Waive refund eligibility
-    // 3. Initiate actual file download
-    setShowDownloadModal(false);
-    
-    // Simulate download
-    const link = document.createElement('a');
-    link.href = 'data:text/plain;charset=utf-8,Your book content here';
-    link.download = `${book?.title || 'book'}.pdf`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
 
   if (loading) {
     return (
@@ -124,8 +103,7 @@ const BookCompleted = () => {
           <main className="flex-1 p-8">
             <div className="text-center py-12">
               <Clock className="w-12 h-12 text-primary mx-auto mb-4" />
-              <h2 className="text-center text-xl font-semibold">Loading your completed book...</h2>
-              <p className="text-muted-foreground mt-2">ID: {id}</p>
+              <h2 className="text-xl font-semibold">Loading book review status...</h2>
             </div>
           </main>
         </div>
@@ -168,11 +146,11 @@ const BookCompleted = () => {
             <div className="mb-8">
               <div className="mb-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <CheckCircle className="w-8 h-8 text-green-600" />
-                  <h1 className="text-3xl font-bold text-foreground">Book Completed!</h1>
+                  <Clock className="w-8 h-8 text-amber-600" />
+                  <h1 className="text-3xl font-bold text-foreground">Book Under Review</h1>
                 </div>
                 <p className="text-muted-foreground">
-                  Your book "{book.title}" is ready for review and download
+                  Your book "{book.title}" is currently being reviewed by our team
                 </p>
               </div>
             </div>
@@ -204,22 +182,22 @@ const BookCompleted = () => {
               <Card>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-sm font-medium text-muted-foreground">
-                    Chapters
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-medium text-foreground">{book.chapters_count}</div>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-medium text-muted-foreground">
                     File Size
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-medium text-foreground">{book.file_size}</div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm font-medium text-muted-foreground">
+                    Format
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-medium text-foreground">{book.format}</div>
                 </CardContent>
               </Card>
             </div>
@@ -231,27 +209,69 @@ const BookCompleted = () => {
                 <div className="text-center space-y-4">
                   <h1 className="text-3xl font-bold text-foreground">{book.title}</h1>
                   <div className="flex items-center justify-center gap-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-sm text-muted-foreground">Ready for Review</span>
+                    <div className="w-2 h-2 bg-amber-500 rounded-full"></div>
+                    <span className="text-sm text-muted-foreground">Under Team Review</span>
                   </div>
                 </div>
 
-                {/* Book Review Reminder - Prominent Placement */}
-                <BookReviewReminder
-                  generatedDate={new Date(book.completed_at)}
-                  reviewPeriodDays={7}
-                  onRequestRefund={() => {
-                    setShowRefundModal(true);
-                  }}
-                  onAcceptBook={() => {
-                    // TODO: Implement book acceptance flow
-                    console.log('Book accepted:', book.id);
-                  }}
-                  onReviewBook={() => navigate(`/book-review/${book.id}`)}
-                  onDownloadBook={handleDownload}
-                  bookTitle={book.title}
-                  orderId={book.id}
-                />
+                {/* Review Status Card */}
+                <Card className="bg-amber-50 border-amber-200">
+                  <CardContent className="p-6">
+                    <div className="text-center space-y-4">
+                      <div className="w-16 h-16 mx-auto bg-amber-100 rounded-full flex items-center justify-center">
+                        <Clock className="w-8 h-8 text-amber-600" />
+                      </div>
+                      <h3 className="text-lg font-semibold text-amber-800">
+                        {book.review_request_type === 'refund' ? 'Refund Request Submitted' : 'Modification Request Submitted'}
+                      </h3>
+                      <p className="text-sm text-amber-700">
+                        Your {book.review_request_type} request is being reviewed by our team. 
+                        We'll contact you within {book.estimated_review_time} with an update.
+                      </p>
+                      <div className="text-xs text-amber-600">
+                        Request submitted: {new Date(book.review_request_date).toLocaleDateString()}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Current Status */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Current Status</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex items-center gap-3 p-4 bg-muted/30 rounded-lg">
+                      <div className="w-3 h-3 bg-amber-500 rounded-full animate-pulse"></div>
+                      <div className="flex-1">
+                        <div className="font-medium text-foreground">Under Review</div>
+                        <div className="text-sm text-muted-foreground">
+                          Our team is currently reviewing your {book.review_request_type} request
+                        </div>
+                      </div>
+                      <Badge variant="secondary">Active</Badge>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <Label className="text-muted-foreground">Request Type</Label>
+                        <p className="font-medium capitalize">{book.review_request_type}</p>
+                      </div>
+                      <div>
+                        <Label className="text-muted-foreground">Estimated Review Time</Label>
+                        <p className="font-medium">{book.estimated_review_time}</p>
+                      </div>
+                      <div>
+                        <Label className="text-muted-foreground">Request Date</Label>
+                        <p className="font-medium">{new Date(book.review_request_date).toLocaleDateString()}</p>
+                      </div>
+                      <div>
+                        <Label className="text-muted-foreground">Book Completed</Label>
+                        <p className="font-medium">{new Date(book.completed_at).toLocaleDateString()}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
 
                 {/* Book Information - Compact Grid */}
                 <Card>
@@ -289,7 +309,21 @@ const BookCompleted = () => {
                   </CardContent>
                 </Card>
 
-
+                {/* Important Notice - No Download Available */}
+                <Card className="bg-red-50 border-red-200">
+                  <CardContent className="p-6">
+                    <div className="text-center space-y-4">
+                      <div className="w-16 h-16 mx-auto bg-red-100 rounded-full flex items-center justify-center">
+                        <AlertTriangle className="w-8 h-8 text-red-600" />
+                      </div>
+                      <h3 className="text-lg font-semibold text-red-800">Download Temporarily Unavailable</h3>
+                      <p className="text-sm text-red-700">
+                        Your book is currently under review and cannot be downloaded until the review process is complete. 
+                        We'll notify you once the review is finished.
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
 
                 {/* Chapters Overview */}
                 <Card>
@@ -302,8 +336,8 @@ const BookCompleted = () => {
                         </CardDescription>
                       </div>
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                        <span>Content Ready</span>
+                        <div className="w-2 h-2 bg-amber-500 rounded-full"></div>
+                        <span>Under Review</span>
                       </div>
                     </div>
                   </CardHeader>
@@ -317,10 +351,10 @@ const BookCompleted = () => {
                           <div className="flex items-start justify-between">
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-3 mb-2">
-                                <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary text-sm font-semibold">
+                                <div className="flex items-center justify-center w-8 h-8 rounded-full bg-amber-100 text-amber-600 text-sm font-semibold">
                                   {index + 1}
                                 </div>
-                                <h3 className="font-medium text-foreground group-hover:text-primary transition-colors">
+                                <h3 className="font-medium text-foreground group-hover:text-amber-600 transition-colors">
                                   {chapter.title}
                                 </h3>
                               </div>
@@ -339,7 +373,7 @@ const BookCompleted = () => {
                           </div>
                           
                           {/* Hover indicator */}
-                          <div className="absolute inset-0 border-2 border-transparent rounded-lg group-hover:border-primary/20 transition-colors pointer-events-none"></div>
+                          <div className="absolute inset-0 border-2 border-transparent rounded-lg group-hover:border-amber-200 transition-colors pointer-events-none"></div>
                         </div>
                       ))}
                     </div>
@@ -348,15 +382,15 @@ const BookCompleted = () => {
                     <div className="mt-6 pt-6 border-t">
                       <div className="grid grid-cols-3 gap-4 text-center">
                         <div>
-                          <div className="text-2xl font-bold text-primary">{book.chapters.length}</div>
+                          <div className="text-2xl font-bold text-amber-600">{book.chapters.length}</div>
                           <div className="text-xs text-muted-foreground">Chapters</div>
                         </div>
                         <div>
-                          <div className="text-2xl font-bold text-primary">{book.word_count.toLocaleString()}</div>
+                          <div className="text-2xl font-bold text-amber-600">{book.word_count.toLocaleString()}</div>
                           <div className="text-xs text-muted-foreground">Total Words</div>
                         </div>
                         <div>
-                          <div className="text-2xl font-bold text-primary">
+                          <div className="text-2xl font-bold text-amber-600">
                             {Math.round(book.word_count / 250)}
                           </div>
                           <div className="text-xs text-muted-foreground">Est. Pages</div>
@@ -365,135 +399,42 @@ const BookCompleted = () => {
                     </div>
                   </CardContent>
                 </Card>
+
+                {/* Help & Support */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Need Help?</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-center space-y-4">
+                      <div className="w-16 h-16 mx-auto bg-blue-100 rounded-full flex items-center justify-center">
+                        <HelpCircle className="w-8 h-8 text-blue-600" />
+                      </div>
+                      <h3 className="text-lg font-semibold text-foreground">Questions About Your Review?</h3>
+                      <p className="text-sm text-muted-foreground">
+                        If you have any questions about the review process or need to provide additional information, 
+                        our support team is here to help.
+                      </p>
+                      <div className="flex justify-center gap-3">
+                        <Button variant="outline">
+                          <MessageCircle className="w-4 h-4 mr-2" />
+                          Contact Support
+                        </Button>
+                        <Button variant="outline">
+                          <HelpCircle className="w-4 h-4 mr-2" />
+                          Review FAQ
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
-
-
             </div>
           </div>
         </main>
       </div>
-
-      {/* Book Ready Modal - One time only */}
-      {showReadyModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-card border border-border rounded-lg p-8 max-w-md mx-4 relative shadow-lg">
-            {/* Close button */}
-            <button
-              onClick={() => setShowReadyModal(false)}
-              className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <X className="w-5 h-5" />
-            </button>
-            
-            {/* Success icon */}
-            <div className="text-center mb-6">
-              <div className="w-20 h-20 mx-auto mb-4 bg-green-100 rounded-full flex items-center justify-center">
-                <CheckCircle className="w-12 h-12 text-green-600" />
-              </div>
-            </div>
-            
-            {/* Success message */}
-            <h2 className="text-2xl font-bold text-center mb-4 text-foreground">
-              Your Book is Ready!
-            </h2>
-            <p className="text-center text-muted-foreground mb-6">
-              Your book has been completed and is ready for review. You have 7 days to review it before downloading.
-            </p>
-            
-            {/* Instructions */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-              <h4 className="font-medium text-blue-800 mb-2">Important:</h4>
-              <ul className="text-sm text-blue-700 space-y-1">
-                <li>• Review your book within 7 days</li>
-                <li>• Downloading waives refund eligibility</li>
-                <li>• Contact support if you have questions</li>
-              </ul>
-            </div>
-            
-            {/* Action buttons */}
-            <div className="flex gap-3">
-              <Button 
-                onClick={() => setShowReadyModal(false)}
-                className="flex-1"
-              >
-                Continue
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Download Confirmation Modal */}
-      {showDownloadModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-card border border-border rounded-lg p-8 max-w-md mx-4 relative shadow-lg">
-            {/* Close button */}
-            <button
-              onClick={() => setShowDownloadModal(false)}
-              className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <X className="w-5 h-5" />
-            </button>
-            
-            {/* Warning icon */}
-            <div className="text-center mb-6">
-              <div className="w-20 h-20 mx-auto mb-4 bg-amber-100 rounded-full flex items-center justify-center">
-                <Download className="w-12 h-12 text-amber-600" />
-              </div>
-            </div>
-            
-            {/* Warning message */}
-            <h2 className="text-2xl font-bold text-center mb-4 text-foreground">
-              Confirm Download
-            </h2>
-            <p className="text-center text-muted-foreground mb-6">
-              By downloading this book, you confirm that you are satisfied with the content and waive your right to request a refund.
-            </p>
-            
-            {/* Warning box */}
-            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
-              <h4 className="font-medium text-amber-800 mb-2">⚠️ Important Notice:</h4>
-              <p className="text-sm text-amber-700">
-                Downloading this book will permanently waive your 7-day refund eligibility period.
-              </p>
-            </div>
-            
-            {/* Action buttons */}
-            <div className="flex gap-3">
-              <Button 
-                variant="outline"
-                onClick={() => setShowDownloadModal(false)}
-                className="flex-1"
-              >
-                Cancel
-              </Button>
-              <Button 
-                onClick={confirmDownload}
-                className="flex-1 bg-amber-600 hover:bg-amber-700"
-              >
-                Confirm & Download
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Refund Request Modal */}
-      <RefundRequestModal
-        isOpen={showRefundModal}
-        onClose={() => setShowRefundModal(false)}
-        bookTitle={book?.title}
-        orderId={book?.id}
-        onSubmit={(data) => {
-          // TODO: Implement refund/modification request submission
-          console.log(`${data.requestType} request submitted:`, data);
-          setShowRefundModal(false);
-          // Show success message or redirect
-          alert(`${data.requestType === 'modification' ? 'Modification' : 'Refund'} request submitted successfully! We'll contact you within 24-48 hours.`);
-        }}
-      />
     </div>
   );
 };
 
-export default BookCompleted;
+export default BookUnderReview;

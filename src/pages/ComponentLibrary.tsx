@@ -13,7 +13,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Separator } from '@/components/ui/separator';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { useTheme } from '@/contexts/ThemeContext';
+import LogoMark from '@/components/LogoMark';
 import { 
   AlertTriangle, 
   CheckCircle, 
@@ -66,6 +68,7 @@ import {
 const LibraryNavigation = () => {
   const sections = [
     { id: 'typography', label: 'Typography', icon: Type, description: 'Font families, weights, and scales' },
+    { id: 'logo', label: 'Logo & Brand', icon: BookOpen, description: 'Logo components and brand identity' },
     { id: 'colors', label: 'Color System', icon: Palette, description: 'Primary, semantic, and opacity variations' },
     { id: 'buttons', label: 'Buttons', icon: MousePointer, description: 'All button variants and sizes' },
     { id: 'forms', label: 'Form Elements', icon: FileTextIcon, description: 'Inputs, selects, checkboxes, and more' },
@@ -88,13 +91,9 @@ const LibraryNavigation = () => {
   };
 
   return (
-    <div className="w-64 bg-card border-r border-border flex-shrink-0 overflow-y-auto">
+    <div className="w-96 bg-card flex-shrink-0">
+      <ScrollArea className="h-full">
       <div className="p-4">
-        <div className="mb-6">
-          <h3 className="text-lg font-semibold text-foreground mb-2">Library Sections</h3>
-          <p className="text-sm text-muted-foreground">Navigate through all component categories</p>
-        </div>
-        
         <nav className="space-y-2">
           {sections.map((section) => {
             const IconComponent = section.icon;
@@ -115,6 +114,7 @@ const LibraryNavigation = () => {
           })}
         </nav>
       </div>
+      </ScrollArea>
     </div>
   );
 };
@@ -123,14 +123,9 @@ const ComponentLibrary = () => {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <div className="h-screen bg-background flex">
-      {/* Custom Library Navigation */}
-      <LibraryNavigation />
-      
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-h-0">
-        {/* Header with Logo and Theme Toggle */}
-        <div className="border-b bg-card px-6 py-4 flex items-center justify-between flex-shrink-0">
+    <div className="h-screen bg-background flex flex-col">
+      {/* Header with Logo and Theme Toggle - Full viewport width */}
+      <div className="border-b bg-card px-6 py-4 flex items-center justify-between flex-shrink-0 w-full">
           <div className="flex items-center gap-4">
             {/* Logo Section */}
             <div className="flex items-center gap-3">
@@ -160,8 +155,15 @@ const ComponentLibrary = () => {
           </Button>
         </div>
 
-        {/* Page Content */}
-        <div className="flex-1 overflow-y-auto">
+      {/* Content Area with Left Nav and Main Content */}
+      <div className="flex flex-1 min-h-0">
+        {/* Custom Library Navigation */}
+        <LibraryNavigation />
+        
+        {/* Main Content Area */}
+        <div className="flex-1 flex flex-col min-h-0">
+          {/* Page Content with ScrollArea */}
+          <ScrollArea className="flex-1">
           <div className="container mx-auto px-6 py-8">
             {/* Introduction Section */}
             <div className="text-center mb-16">
@@ -238,6 +240,288 @@ const ComponentLibrary = () => {
                 </Card>
               </div>
             </section>
+
+            {/* Logo Section */}
+            <section id="logo" className="mb-16">
+              <h2 className="text-3xl font-bold text-foreground mb-8">Logo & Brand Identity</h2>
+              <div className="grid gap-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Logo Components</CardTitle>
+                    <CardDescription>Consistent logo usage across different contexts and sizes</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-8">
+                    <div>
+                      <h4 className="text-lg font-semibold mb-4">Logo Mark Only</h4>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        The standalone logo mark using the official Podbook SVG logo. Use this for small spaces, favicons, and when the full logo doesn't fit.
+                      </p>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        <div className="text-center space-y-2">
+                            <LogoMark size="lg" className="mx-auto" />
+                          <p className="text-xs font-medium">8×8 (32px)</p>
+                          <p className="text-xs text-muted-foreground">Favicon, small icons</p>
+                        </div>
+                        <div className="text-center space-y-2">
+                            <LogoMark size="xl" className="mx-auto" />
+                          <p className="text-xs font-medium">10×10 (40px)</p>
+                          <p className="text-xs text-muted-foreground">Navigation, buttons</p>
+                        </div>
+                        <div className="text-center space-y-2">
+                            <LogoMark size="2xl" className="mx-auto" />
+                          <p className="text-xs font-medium">12×12 (48px)</p>
+                          <p className="text-xs text-muted-foreground">Headers, cards</p>
+                        </div>
+                        <div className="text-center space-y-2">
+                            <LogoMark size="xl" className="mx-auto w-16 h-16" />
+                          <p className="text-xs font-medium">16×16 (64px)</p>
+                          <p className="text-xs text-muted-foreground">Hero sections, large displays</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h4 className="text-lg font-semibold mb-4">Logo with Logotype</h4>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        Full logo combining the mark with the "Podbook" text. Use this for headers, footers, and brand recognition.
+                      </p>
+                      <div className="space-y-6">
+                        <div className="flex items-center gap-3">
+                            <LogoMark size="md" />
+                          <span className="text-2xl font-medium text-foreground" style={{ letterSpacing: '-1px' }}>Podbook</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <LogoMark size="lg" />
+                          <span className="text-3xl font-medium text-foreground" style={{ letterSpacing: '-1px' }}>Podbook</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <LogoMark size="xl" />
+                          <span className="text-4xl font-medium text-foreground" style={{ letterSpacing: '-1px' }}>Podbook</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h4 className="text-lg font-semibold mb-4">Logo Usage Guidelines</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="space-y-3">
+                          <h5 className="font-medium text-foreground">✅ Do's</h5>
+                          <ul className="text-sm text-muted-foreground space-y-1">
+                            <li>• Maintain minimum clear space around logo</li>
+                            <li>• Use appropriate size for context</li>
+                            <li>• Ensure sufficient contrast with background</li>
+                            <li>• Keep logo mark and text proportional</li>
+                          </ul>
+                        </div>
+                        <div className="space-y-3">
+                          <h5 className="font-medium text-foreground">❌ Don'ts</h5>
+                          <ul className="text-sm text-muted-foreground space-y-1">
+                            <li>• Don't stretch or distort the logo</li>
+                            <li>• Don't change logo colors arbitrarily</li>
+                            <li>• Don't place on busy backgrounds</li>
+                            <li>• Don't make logo too small to read</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h4 className="text-lg font-semibold mb-4">Theme Variants</h4>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        Podbook provides two logo variants for different themes and backgrounds.
+                      </p>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="border rounded-lg p-4 bg-card">
+                          <h5 className="font-medium text-foreground mb-3">Light Theme Logo</h5>
+                          <div className="flex items-center gap-3">
+                              <LogoMark size="md" />
+                            <span className="text-2xl font-medium text-foreground" style={{ letterSpacing: '-1px' }}>Podbook</span>
+                          </div>
+                          <p className="text-xs text-muted-foreground mt-2">Use on light backgrounds</p>
+                        </div>
+                        <div className="border rounded-lg p-4 bg-card">
+                          <h5 className="font-medium text-foreground mb-3">Dark Theme Logo</h5>
+                          <div className="flex items-center gap-3">
+                              <LogoMark size="md" />
+                            <span className="text-2xl font-medium text-foreground" style={{ letterSpacing: '-1px' }}>Podbook</span>
+                          </div>
+                          <p className="text-xs text-muted-foreground mt-2">Use on dark backgrounds</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h4 className="text-lg font-semibold mb-4">Logo in Context</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="border rounded-lg p-4 bg-card">
+                          <h5 className="font-medium text-foreground mb-3">Header Usage</h5>
+                          <div className="flex items-center gap-3">
+                              <LogoMark size="md" />
+                            <span className="text-2xl font-medium text-foreground" style={{ letterSpacing: '-1px' }}>Podbook</span>
+                          </div>
+                        </div>
+                        <div className="border rounded-lg p-4 bg-card">
+                          <h5 className="font-medium text-foreground mb-3">Navigation Usage</h5>
+                          <div className="flex items-center gap-2">
+                              <LogoMark size="md" />
+                            <span className="text-2xl font-medium text-foreground" style={{ letterSpacing: '-1px' }}>Podbook</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </section>
+
+              {/* Favicon Section */}
+              <section id="favicon" className="mb-16">
+                <h2 className="text-3xl font-bold text-foreground mb-8">Favicon & App Icons</h2>
+                <div className="grid gap-6">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Favicon Collection</CardTitle>
+                      <CardDescription>Complete set of favicon and app icon files for all platforms and devices</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-8">
+                      <div>
+                        <h4 className="text-lg font-semibold mb-4">Standard Favicons</h4>
+                        <p className="text-sm text-muted-foreground mb-4">
+                          Traditional favicon files for web browsers and bookmarks.
+                        </p>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                          <div className="text-center space-y-2">
+                            <div className="w-16 h-16 bg-muted rounded-lg flex items-center justify-center mx-auto">
+                              <img src="/favicon-16x16.png" alt="16x16 Favicon" className="w-4 h-4" />
+                            </div>
+                            <p className="text-xs font-medium">16×16</p>
+                            <p className="text-xs text-muted-foreground">Standard favicon</p>
+                          </div>
+                          <div className="text-center space-y-2">
+                            <div className="w-16 h-16 bg-muted rounded-lg flex items-center justify-center mx-auto">
+                              <img src="/favicon-32x32.png" alt="32x32 Favicon" className="w-8 h-8" />
+                            </div>
+                            <p className="text-xs font-medium">32×32</p>
+                            <p className="text-xs text-muted-foreground">High-DPI favicon</p>
+                          </div>
+                          <div className="text-center space-y-2">
+                            <div className="w-16 h-16 bg-muted rounded-lg flex items-center justify-center mx-auto">
+                              <img src="/favicon.ico" alt="ICO Favicon" className="w-8 h-8" />
+                            </div>
+                            <p className="text-xs font-medium">ICO Format</p>
+                            <p className="text-xs text-muted-foreground">Legacy browser support</p>
+                          </div>
+                          <div className="text-center space-y-2">
+                            <div className="w-16 h-16 bg-muted rounded-lg flex items-center justify-center mx-auto">
+                              <img src="/apple-touch-icon.png" alt="Apple Touch Icon" className="w-12 h-12" />
+                            </div>
+                            <p className="text-xs font-medium">180×180</p>
+                            <p className="text-xs text-muted-foreground">Apple devices</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div>
+                        <h4 className="text-lg font-semibold mb-4">Android App Icons</h4>
+                        <p className="text-sm text-muted-foreground mb-4">
+                          High-resolution icons for Android devices and PWA installations.
+                        </p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div className="text-center space-y-2">
+                            <div className="w-24 h-24 bg-muted rounded-lg flex items-center justify-center mx-auto">
+                              <img src="/android-chrome-192x192.png" alt="192x192 Android Icon" className="w-20 h-20" />
+                            </div>
+                            <p className="text-sm font-medium">192×192</p>
+                            <p className="text-xs text-muted-foreground">Android devices, PWA</p>
+                          </div>
+                          <div className="text-center space-y-2">
+                            <div className="w-24 h-24 bg-muted rounded-lg flex items-center justify-center mx-auto">
+                              <img src="/android-chrome-512x512.png" alt="512x512 Android Icon" className="w-20 h-20" />
+                            </div>
+                            <p className="text-sm font-medium">512×512</p>
+                            <p className="text-xs text-muted-foreground">High-DPI Android, PWA</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div>
+                        <h4 className="text-lg font-semibold mb-4">Implementation</h4>
+                        <div className="bg-muted/50 rounded-lg p-4">
+                          <h5 className="font-medium mb-3">HTML Head Tags:</h5>
+                                                     <pre className="bg-muted p-3 rounded text-xs overflow-x-auto">
+{`&lt;!-- Favicon --&gt;
+&lt;link rel="icon" type="image/x-icon" href="/favicon.ico" /&gt;
+&lt;link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" /&gt;
+&lt;link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" /&gt;
+&lt;link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" /&gt;
+&lt;link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" /&gt;
+&lt;link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png" /&gt;
+&lt;link rel="manifest" href="/site.webmanifest" /&gt;`}
+                           </pre>
+                        </div>
+                      </div>
+
+                      <div>
+                        <h4 className="text-lg font-semibold mb-4">Web App Manifest</h4>
+                        <p className="text-sm text-muted-foreground mb-4">
+                          The site.webmanifest file enables PWA functionality and provides app metadata.
+                        </p>
+                        <div className="bg-muted/50 rounded-lg p-4">
+                          <h5 className="font-medium mb-3">site.webmanifest:</h5>
+                          <pre className="bg-muted p-3 rounded text-xs overflow-x-auto">
+{`{
+  "name": "Podbook - Convert RSS Feeds to Beautiful Books",
+  "short_name": "Podbook",
+  "description": "Transform any RSS feed into professionally formatted books",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/"
+}`}
+                          </pre>
+                        </div>
+                      </div>
+
+                      <div>
+                        <h4 className="text-lg font-semibold mb-4">Best Practices</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div className="space-y-3">
+                            <h5 className="font-medium text-foreground">✅ Do's</h5>
+                            <ul className="text-sm text-muted-foreground space-y-1">
+                              <li>• Use appropriate sizes for different devices</li>
+                              <li>• Ensure icons are clear at small sizes</li>
+                              <li>• Test favicons across different browsers</li>
+                              <li>• Include web app manifest for PWA support</li>
+                            </ul>
+                          </div>
+                          <div className="space-y-3">
+                            <h5 className="font-medium text-foreground">❌ Don'ts</h5>
+                            <ul className="text-sm text-muted-foreground space-y-1">
+                              <li>• Don't use overly complex designs</li>
+                              <li>• Don't forget high-DPI versions</li>
+                              <li>• Don't ignore mobile device icons</li>
+                              <li>• Don't use inconsistent icon styles</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </section>
 
             {/* Color System Section */}
             <section id="colors" className="mb-16">
@@ -1039,519 +1323,191 @@ const ComponentLibrary = () => {
               </div>
             </section>
 
-            {/* Page Examples Section */}
-            <section id="pages" className="mb-16">
-              <h2 className="text-3xl font-bold text-foreground mb-8">Page Examples</h2>
-              <p className="text-lg text-muted-foreground mb-8 text-center max-w-3xl mx-auto">
-                See how these components come together in real pages throughout the Podbook application. 
-                Each page demonstrates different component combinations and design patterns.
-              </p>
-              
-              <div className="grid gap-6">
-                {/* Landing & Marketing Pages */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Landing & Marketing Pages</CardTitle>
-                    <CardDescription>Public-facing pages that showcase the brand and convert visitors</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      <div className="space-y-3">
-                        <div className="w-full h-32 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center">
-                          <Home className="w-8 h-8 text-primary" />
+              {/* Book Review & Refund Components Section */}
+              <section id="book-review-refund" className="mb-16">
+                <h2 className="text-3xl font-bold text-foreground mb-8">Book Review & Refund Components</h2>
+                <div className="grid gap-6">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Book Review Reminder</CardTitle>
+                      <CardDescription>Countdown timer and refund eligibility reminder for book reviews</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <div>
+                        <h4 className="text-lg font-semibold mb-4">Component Overview</h4>
+                        <p className="text-sm text-muted-foreground mb-4">
+                          The BookReviewReminder component displays a countdown timer showing how many days remain for the user to review their book before it's automatically accepted. 
+                          It includes progress tracking, status indicators, and action buttons for accepting the book or requesting a refund.
+                        </p>
+                        
+                        <div className="bg-muted/50 rounded-lg p-4">
+                          <h5 className="font-medium mb-3">Key Features:</h5>
+                          <ul className="text-sm text-muted-foreground space-y-1">
+                            <li>• Real-time countdown timer (days, hours, minutes, seconds)</li>
+                            <li>• Visual progress bar showing review period completion</li>
+                            <li>• Dynamic status indicators and urgency messages</li>
+                            <li>• Action buttons for refund requests and book acceptance</li>
+                            <li>• Important reminders about refund eligibility</li>
+                            <li>• Responsive design with theme-aware styling</li>
+                          </ul>
                         </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">Homepage</h4>
-                          <p className="text-sm text-muted-foreground">Main landing page with hero section and features</p>
-                          <div className="flex gap-2 mt-2">
-                            <Badge variant="outline" className="text-xs">Hero Section</Badge>
-                            <Badge variant="outline" className="text-xs">Features</Badge>
-                            <Badge variant="outline" className="text-xs">CTA</Badge>
+                      </div>
+
+                      <div>
+                        <h4 className="text-lg font-semibold mb-4">Usage Example</h4>
+                        <div className="bg-card border rounded-lg p-4">
+                          <div className="text-sm text-muted-foreground mb-2">Basic Implementation:</div>
+                                                     <pre className="bg-muted p-3 rounded text-xs overflow-x-auto">
+{`<BookReviewReminder
+  generatedDate={new Date('2024-01-15')}
+  reviewPeriodDays={7}
+  bookTitle="Tech News Weekly"
+  orderId="ORD-12345"
+  onRequestRefund={() => setShowRefundModal(true)}
+  onAcceptBook={() => handleAcceptBook()}
+/>`}
+                           </pre>
+                        </div>
+                      </div>
+
+                      <div>
+                        <h4 className="text-lg font-semibold mb-4">Props Interface</h4>
+                        <div className="bg-muted/50 rounded-lg p-4">
+                          <div className="space-y-2 text-sm">
+                            <div><strong>generatedDate:</strong> Date - When the book was generated</div>
+                            <div><strong>reviewPeriodDays:</strong> number (optional) - Days allowed for review (default: 7)</div>
+                            <div><strong>onRequestRefund:</strong> () =&gt; void - Callback for refund requests</div>
+                            <div><strong>onAcceptBook:</strong> () =&gt; void - Callback for book acceptance</div>
+                            <div><strong>onReviewBook:</strong> () =&gt; void (optional) - Callback for book review</div>
+                            <div><strong>onDownloadBook:</strong> () =&gt; void (optional) - Callback for book download</div>
+                            <div><strong>bookTitle:</strong> string (optional) - Book title for display</div>
+                            <div><strong>orderId:</strong> string (optional) - Order ID for reference</div>
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Refund Request Modal</CardTitle>
+                      <CardDescription>Multi-step survey modal for collecting refund request information</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <div>
+                        <h4 className="text-lg font-semibold mb-4">Component Overview</h4>
+                        <p className="text-sm text-muted-foreground mb-4">
+                          The RefundRequestModal provides a comprehensive, step-by-step form for users to request refunds. 
+                          It follows the same design patterns as the onboarding flow with progress indicators, validation, and a clean user experience.
+                        </p>
+                        
+                        <div className="bg-muted/50 rounded-lg p-4">
+                          <h5 className="font-medium mb-3">Form Steps:</h5>
+                          <ul className="text-sm text-muted-foreground space-y-1">
+                            <li>• <strong>Step 1:</strong> Reason for refund and specific issues</li>
+                            <li>• <strong>Step 2:</strong> Contact information and preferences</li>
+                            <li>• <strong>Step 3:</strong> Refund amount and urgency level</li>
+                            <li>• <strong>Step 4:</strong> Review and submit request</li>
+                          </ul>
+                        </div>
+                      </div>
+
+                      <div>
+                        <h4 className="text-lg font-semibold mb-4">Usage Example</h4>
+                        <div className="bg-card border rounded-lg p-4">
+                          <div className="text-sm text-muted-foreground mb-2">Basic Implementation:</div>
+                          <pre className="bg-muted p-3 rounded text-xs overflow-x-auto">
+{`&lt;RefundRequestModal
+  isOpen={showRefundModal}
+  onClose={() => setShowRefundModal(false)}
+  bookTitle="Tech News Weekly"
+  orderId="ORD-12345"
+  onSubmit={(data) => handleRefundRequest(data)}
+/&gt;`}
+                          </pre>
+                        </div>
+                      </div>
+
+                      <div>
+                        <h4 className="text-lg font-semibold mb-4">Props Interface</h4>
+                        <div className="bg-muted/50 rounded-lg p-4">
+                          <div className="space-y-2 text-sm">
+                            <div><strong>isOpen:</strong> boolean - Whether the modal is open</div>
+                            <div><strong>onClose:</strong> () =&gt; void - Callback to close the modal</div>
+                            <div><strong>bookTitle:</strong> string (optional) - Book title for reference</div>
+                            <div><strong>orderId:</strong> string (optional) - Order ID for reference</div>
+                            <div><strong>onSubmit:</strong> (data: RefundRequestData) =&gt; void - Callback when form is submitted</div>
                           </div>
                         </div>
                       </div>
 
-                      <div className="space-y-3">
-                        <div className="w-full h-32 bg-gradient-to-br from-blue-500/10 to-blue-500/5 rounded-lg flex items-center justify-center">
-                          <BookOpen className="w-8 h-8 text-blue-600" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">Start Page</h4>
-                          <p className="text-sm text-muted-foreground">Book creation flow entry point</p>
-                          <div className="flex gap-2 mt-2">
-                            <Badge variant="outline" className="text-xs">Pricing</Badge>
-                            <Badge variant="outline" className="text-xs">Features</Badge>
-                            <Badge variant="outline" className="text-xs">Sign Up</Badge>
+                      <div>
+                        <h4 className="text-lg font-semibold mb-4">Data Structure</h4>
+                        <div className="bg-muted/50 rounded-lg p-4">
+                          <div className="text-sm text-muted-foreground">
+                            <div><strong>RefundRequestData:</strong></div>
+                            <div className="ml-4 space-y-1 mt-2">
+                              <div>• reason: string - Primary reason for refund</div>
+                              <div>• specificIssues: string[] - Array of specific problems</div>
+                              <div>• description: string - Detailed explanation</div>
+                              <div>• contactEmail: string - User's email address</div>
+                              <div>• phoneNumber?: string - Optional phone number</div>
+                              <div>• preferredContact: 'email' | 'phone' | 'both' - Contact preference</div>
+                              <div>• urgency: 'low' | 'medium' | 'high' - Urgency level</div>
+                              <div>• refundAmount: number - Amount requested</div>
+                              <div>• additionalNotes?: string - Optional additional information</div>
+                            </div>
                           </div>
                         </div>
                       </div>
 
-                      <div className="space-y-3">
-                        <div className="w-full h-32 bg-gradient-to-br from-green-500/10 to-green-500/5 rounded-lg flex items-center justify-center">
-                          <CheckCircle className="w-8 h-8 text-green-600" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">Money Back Guarantee</h4>
-                          <p className="text-sm text-muted-foreground">Trust and confidence building page</p>
-                          <div className="flex gap-2 mt-2">
-                            <Badge variant="outline" className="text-xs">Trust</Badge>
-                            <Badge variant="outline" className="text-xs">Guarantee</Badge>
-                            <Badge variant="outline" className="text-xs">Legal</Badge>
+                      <div>
+                        <h4 className="text-lg font-semibold mb-4">Key Features</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <div className="flex items-center gap-2">
+                              <CheckCircle className="w-4 h-4 text-green-600" />
+                              <span className="text-sm">Progress tracking with step indicators</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <CheckCircle className="w-4 h-4 text-green-600" />
+                              <span className="text-sm">Form validation at each step</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <CheckCircle className="w-4 h-4 text-green-600" />
+                              <span className="text-sm">Responsive design for all devices</span>
+                            </div>
+                          </div>
+                          <div className="space-y-2">
+                            <div className="flex items-center gap-2">
+                              <CheckCircle className="w-4 h-4 text-green-600" />
+                              <span className="text-sm">Theme-aware styling</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <CheckCircle className="w-4 h-4 text-green-600" />
+                              <span className="text-sm">Accessibility features</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <CheckCircle className="w-4 h-4 text-green-600" />
+                              <span className="text-sm">Comprehensive data collection</span>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                  </Card>
+                </div>
+              </section>
 
-                {/* Project States & Workflows */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Project States & Workflows</CardTitle>
-                    <CardDescription>Different project states and their corresponding UI components</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      <div className="space-y-3">
-                        <div className="w-full h-32 bg-gradient-to-br from-amber-500/10 to-amber-500/5 rounded-lg flex items-center justify-center">
-                          <Clock className="w-8 h-8 text-amber-600" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">Processing State</h4>
-                          <p className="text-sm text-muted-foreground">Real-time progress tracking with steps</p>
-                          <div className="flex gap-2 mt-2">
-                            <Badge variant="outline" className="text-xs">Progress Bar</Badge>
-                            <Badge variant="outline" className="text-xs">Steps</Badge>
-                            <Badge variant="outline" className="text-xs">ETA</Badge>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="space-y-3">
-                        <div className="w-full h-32 bg-gradient-to-br from-green-500/10 to-green-500/5 rounded-lg flex items-center justify-center">
-                          <CheckCircle className="w-8 h-8 text-green-600" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">Completed State</h4>
-                          <p className="text-sm text-muted-foreground">Success confirmation with download options</p>
-                          <div className="flex gap-2 mt-2">
-                            <Badge variant="outline" className="text-xs">Success Modal</Badge>
-                            <Badge variant="outline" className="text-xs">Download</Badge>
-                            <Badge variant="outline" className="text-xs">Review</Badge>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="space-y-3">
-                        <div className="w-full h-32 bg-gradient-to-br from-red-500/10 to-red-500/5 rounded-lg flex items-center justify-center">
-                          <X className="w-8 h-8 text-red-600" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">Failed State</h4>
-                          <p className="text-sm text-muted-foreground">Error handling with retry options</p>
-                          <div className="flex gap-2 mt-2">
-                            <Badge variant="outline" className="text-xs">Error Display</Badge>
-                            <Badge variant="outline" className="text-xs">Retry</Badge>
-                            <Badge variant="outline" className="text-xs">Support</Badge>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Authentication Pages */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Authentication & Onboarding</CardTitle>
-                    <CardDescription>User account management and onboarding experience</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      <div className="space-y-3">
-                        <div className="w-full h-32 bg-gradient-to-br from-purple-500/10 to-purple-500/5 rounded-lg flex items-center justify-center">
-                          <User className="w-8 h-8 text-purple-600" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">Login</h4>
-                          <p className="text-sm text-muted-foreground">User authentication page</p>
-                          <div className="flex gap-2 mt-2">
-                            <Badge variant="outline" className="text-xs">Form</Badge>
-                            <Badge variant="outline" className="text-xs">Validation</Badge>
-                            <Badge variant="outline" className="text-xs">Security</Badge>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="space-y-3">
-                        <div className="w-full h-32 bg-gradient-to-br from-orange-500/10 to-orange-500/5 rounded-lg flex items-center justify-center">
-                          <User className="w-8 h-8 text-orange-600" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">Sign Up</h4>
-                          <p className="text-sm text-muted-foreground">New user registration</p>
-                          <div className="flex gap-2 mt-2">
-                            <Badge variant="outline" className="text-xs">Registration</Badge>
-                            <Badge variant="outline" className="text-xs">Form</Badge>
-                            <Badge variant="outline" className="text-xs">Validation</Badge>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="space-y-3">
-                        <div className="w-full h-32 bg-gradient-to-br from-indigo-500/10 to-indigo-500/5 rounded-lg flex items-center justify-center">
-                          <Settings className="w-8 h-8 text-indigo-600" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">Onboarding</h4>
-                          <p className="text-sm text-muted-foreground">New user setup and tutorial</p>
-                          <div className="flex gap-2 mt-2">
-                            <Badge variant="outline" className="text-xs">Tutorial</Badge>
-                            <Badge variant="outline" className="text-xs">Setup</Badge>
-                            <Badge variant="outline" className="text-xs">Progressive</Badge>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Project Management & Editing */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Project Management & Editing</CardTitle>
-                    <CardDescription>Core project management and content editing interfaces</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      <div className="space-y-3">
-                        <div className="w-full h-32 bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 rounded-lg flex items-center justify-center">
-                          <Home className="w-8 h-8 text-emerald-600" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">Dashboard</h4>
-                          <p className="text-sm text-muted-foreground">Main user dashboard with chat input</p>
-                          <div className="flex gap-2 mt-2">
-                            <Badge variant="outline" className="text-xs">Chat Input</Badge>
-                            <Badge variant="outline" className="text-xs">Quick Actions</Badge>
-                            <Badge variant="outline" className="text-xs">Welcome</Badge>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="space-y-3">
-                        <div className="w-full h-32 bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 rounded-lg flex items-center justify-center">
-                          <FileText className="w-8 h-8 text-cyan-600" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">Projects List</h4>
-                          <p className="text-sm text-muted-foreground">Project management with status cards</p>
-                          <div className="flex gap-2 mt-2">
-                            <Badge variant="outline" className="text-xs">Project Cards</Badge>
-                            <Badge variant="outline" className="text-xs">Status Chips</Badge>
-                            <Badge variant="outline" className="text-xs">Search</Badge>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="space-y-3">
-                        <div className="w-full h-32 bg-gradient-to-br from-rose-500/10 to-rose-500/5 rounded-lg flex items-center justify-center">
-                          <Plus className="w-8 h-8 text-rose-600" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">New Project Wizard</h4>
-                          <p className="text-sm text-muted-foreground">Multi-step book creation process</p>
-                          <div className="flex gap-2 mt-2">
-                            <Badge variant="outline" className="text-xs">Wizard</Badge>
-                            <Badge variant="outline" className="text-xs">Steps</Badge>
-                            <Badge variant="outline" className="text-xs">Forms</Badge>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Dashboard & Core App Pages */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Dashboard & Core Application</CardTitle>
-                    <CardDescription>Main application interface and user workflows</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      <div className="space-y-3">
-                        <div className="w-full h-32 bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 rounded-lg flex items-center justify-center">
-                          <Home className="w-8 h-8 text-emerald-600" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">Dashboard</h4>
-                          <p className="text-sm text-muted-foreground">Main user dashboard with overview</p>
-                          <div className="flex gap-2 mt-2">
-                            <Badge variant="outline" className="text-xs">Overview</Badge>
-                            <Badge variant="outline" className="text-xs">Stats</Badge>
-                            <Badge variant="outline" className="text-xs">Quick Actions</Badge>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="space-y-3">
-                        <div className="w-full h-32 bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 rounded-lg flex items-center justify-center">
-                          <FileText className="w-8 h-8 text-cyan-600" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">Projects</h4>
-                          <p className="text-sm text-muted-foreground">User's book projects list</p>
-                          <div className="flex gap-2 mt-2">
-                            <Badge variant="outline" className="text-xs">List View</Badge>
-                            <Badge variant="outline" className="text-xs">Cards</Badge>
-                            <Badge variant="outline" className="text-xs">Filters</Badge>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="space-y-3">
-                        <div className="w-full h-32 bg-gradient-to-br from-rose-500/10 to-rose-500/5 rounded-lg flex items-center justify-center">
-                          <Plus className="w-8 h-8 text-rose-600" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">New Project</h4>
-                          <p className="text-sm text-muted-foreground">Book creation wizard</p>
-                          <div className="flex gap-2 mt-2">
-                            <Badge variant="outline" className="text-xs">Wizard</Badge>
-                            <Badge variant="outline" className="text-xs">Steps</Badge>
-                            <Badge variant="outline" className="text-xs">Forms</Badge>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Content Creation & Editing */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Content Creation & Editing</CardTitle>
-                    <CardDescription>Text editing, AI assistance, and content management tools</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      <div className="space-y-3">
-                        <div className="w-full h-32 bg-gradient-to-br from-violet-500/10 to-violet-500/5 rounded-lg flex items-center justify-center">
-                          <Eye className="w-8 h-8 text-violet-600" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">Book Review</h4>
-                          <p className="text-sm text-muted-foreground">Read-only book preview with chapters</p>
-                          <div className="flex gap-2 mt-2">
-                            <Badge variant="outline" className="text-xs">Preview</Badge>
-                            <Badge variant="outline" className="text-xs">Chapters</Badge>
-                            <Badge variant="outline" className="text-xs">Navigation</Badge>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="space-y-3">
-                        <div className="w-full h-32 bg-gradient-to-br from-indigo-500/10 to-indigo-500/5 rounded-lg flex items-center justify-center">
-                          <Edit className="w-8 h-8 text-indigo-600" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">AI Text Editor</h4>
-                          <p className="text-sm text-muted-foreground">Rich text editor with AI assistance</p>
-                          <div className="flex gap-2 mt-2">
-                            <Badge variant="outline" className="text-xs">Rich Text</Badge>
-                            <Badge variant="outline" className="text-xs">AI Chat</Badge>
-                            <Badge variant="outline" className="text-xs">Toolbar</Badge>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="space-y-3">
-                        <div className="w-full h-32 bg-gradient-to-br from-blue-500/10 to-blue-500/5 rounded-lg flex items-center justify-center">
-                          <MessageSquare className="w-8 h-8 text-blue-600" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">Chat Input</h4>
-                          <p className="text-sm text-muted-foreground">AI-powered content creation input</p>
-                          <div className="flex gap-2 mt-2">
-                            <Badge variant="outline" className="text-xs">File Upload</Badge>
-                            <Badge variant="outline" className="text-xs">Quick Actions</Badge>
-                            <Badge variant="outline" className="text-xs">AI Integration</Badge>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Book Creation & Management */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Book Creation & Management</CardTitle>
-                    <CardDescription>Core book creation workflow and management tools</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      <div className="space-y-3">
-                        <div className="w-full h-32 bg-gradient-to-br from-amber-500/10 to-amber-500/5 rounded-lg flex items-center justify-center">
-                          <BookOpen className="w-8 h-8 text-amber-600" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">Book Creation Wizard</h4>
-                          <p className="text-sm text-muted-foreground">Step-by-step book creation process</p>
-                          <div className="flex gap-2 mt-2">
-                            <Badge variant="outline" className="text-xs">Multi-step</Badge>
-                            <Badge variant="outline" className="text-xs">Wizard</Badge>
-                            <Badge variant="outline" className="text-xs">Progress</Badge>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="space-y-3">
-                        <div className="w-full h-32 bg-gradient-to-br from-lime-500/10 to-lime-500/5 rounded-lg flex items-center justify-center">
-                          <Download className="w-8 h-8 text-lime-600" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">Processing</h4>
-                          <p className="text-sm text-muted-foreground">Book generation progress tracking</p>
-                          <div className="flex gap-2 mt-2">
-                            <Badge variant="outline" className="text-xs">Progress</Badge>
-                            <Badge variant="outline" className="text-xs">Status</Badge>
-                            <Badge variant="outline" className="text-xs">Real-time</Badge>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="space-y-3">
-                        <div className="w-full h-32 bg-gradient-to-br from-violet-500/10 to-violet-500/5 rounded-lg flex items-center justify-center">
-                          <Eye className="w-8 h-8 text-violet-600" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">Book Review</h4>
-                          <p className="text-sm text-muted-foreground">Final book review before download</p>
-                          <div className="flex gap-2 mt-2">
-                            <Badge variant="outline" className="text-xs">Preview</Badge>
-                            <Badge variant="outline" className="text-xs">Chapters</Badge>
-                            <Badge variant="outline" className="text-xs">Download</Badge>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Settings & Account Management */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Settings & Account Management</CardTitle>
-                    <CardDescription>User preferences, account settings, and billing</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      <div className="space-y-3">
-                        <div className="w-full h-32 bg-gradient-to-br from-slate-500/10 to-slate-500/5 rounded-lg flex items-center justify-center">
-                          <Settings className="w-8 h-8 text-slate-600" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">Settings</h4>
-                          <p className="text-sm text-muted-foreground">User preferences and account settings</p>
-                          <div className="flex gap-2 mt-2">
-                            <Badge variant="outline" className="text-xs">Preferences</Badge>
-                            <Badge variant="outline" className="text-xs">Account</Badge>
-                            <Badge variant="outline" className="text-xs">Security</Badge>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="space-y-3">
-                        <div className="w-full h-32 bg-gradient-to-br from-pink-500/10 to-pink-500/5 rounded-lg flex items-center justify-center">
-                          <CreditCard className="w-8 h-8 text-pink-600" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">Billing & Plans</h4>
-                          <p className="text-sm text-muted-foreground">Subscription management and billing</p>
-                          <div className="flex gap-2 mt-2">
-                            <Badge variant="outline" className="text-xs">Plans</Badge>
-                            <Badge variant="outline" className="text-xs">Billing</Badge>
-                            <Badge variant="outline" className="text-xs">Payment</Badge>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="space-y-3">
-                        <div className="w-full h-32 bg-gradient-to-br from-teal-500/10 to-teal-500/5 rounded-lg flex items-center justify-center">
-                          <Users className="w-8 h-8 text-teal-600" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">Team Management</h4>
-                          <p className="text-sm text-muted-foreground">Collaboration and team features</p>
-                          <div className="flex gap-2 mt-2">
-                            <Badge variant="outline" className="text-xs">Collaboration</Badge>
-                            <Badge variant="outline" className="text-xs">Sharing</Badge>
-                            <Badge variant="outline" className="text-xs">Permissions</Badge>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Special Pages & Workflows */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Special Pages & Workflows</CardTitle>
-                    <CardDescription>Order processing, guarantees, and special user flows</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      <div className="space-y-3">
-                        <div className="w-full h-32 bg-gradient-to-br from-orange-500/10 to-orange-500/5 rounded-lg flex items-center justify-center">
-                          <CreditCard className="w-8 h-8 text-orange-600" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">Order Processing</h4>
-                          <p className="text-sm text-muted-foreground">Payment and order confirmation flow</p>
-                          <div className="flex gap-2 mt-2">
-                            <Badge variant="outline" className="text-xs">Payment</Badge>
-                            <Badge variant="outline" className="text-xs">Confirmation</Badge>
-                            <Badge variant="outline" className="text-xs">Receipt</Badge>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="space-y-3">
-                        <div className="w-full h-32 bg-gradient-to-br from-green-500/10 to-green-500/5 rounded-lg flex items-center justify-center">
-                          <CheckCircle className="w-8 h-8 text-green-600" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">Money Back Guarantee</h4>
-                          <p className="text-sm text-muted-foreground">Trust building and legal information</p>
-                          <div className="flex gap-2 mt-2">
-                            <Badge variant="outline" className="text-xs">Trust</Badge>
-                            <Badge variant="outline" className="text-xs">Legal</Badge>
-                            <Badge variant="outline" className="text-xs">Guarantee</Badge>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="space-y-3">
-                        <div className="w-full h-32 bg-gradient-to-br from-purple-500/10 to-purple-500/5 rounded-lg flex items-center justify-center">
-                          <Settings className="w-8 h-8 text-purple-600" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">Onboarding Flow</h4>
-                          <p className="text-sm text-muted-foreground">New user setup and tutorial</p>
-                          <div className="flex gap-2 mt-2">
-                            <Badge variant="outline" className="text-xs">Tutorial</Badge>
-                            <Badge variant="outline" className="text-xs">Setup</Badge>
-                            <Badge variant="outline" className="text-xs">Progressive</Badge>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
+              {/* Page Examples Section */}
+              <section id="pages" className="mb-16">
+                <h2 className="text-3xl font-bold text-foreground mb-8">Page Examples</h2>
+                <p className="text-lg text-muted-foreground mb-8 text-center max-w-3xl mx-auto">
+                  See how these components come together in real pages throughout the Podbook application. 
+                  Each page demonstrates different component combinations and design patterns.
+                </p>
+                
+                <div className="grid gap-6">
                 {/* Page Navigation Links */}
                 <Card>
                   <CardHeader>
@@ -1617,6 +1573,60 @@ const ComponentLibrary = () => {
                               Settings
                             </a>
                           </Button>
+                          <Button variant="outline" size="sm" className="w-full justify-start" asChild>
+                            <a href="/processing/:id" target="_blank" rel="noopener noreferrer">
+                              <Clock className="w-4 h-4 mr-2" />
+                              Processing State
+                            </a>
+                          </Button>
+                          <Button variant="outline" size="sm" className="w-full justify-start" asChild>
+                            <a href="/book-completed/:id" target="_blank" rel="noopener noreferrer">
+                              <CheckCircle className="w-4 h-4 mr-2" />
+                              Book Completed
+                            </a>
+                          </Button>
+                          <Button variant="outline" size="sm" className="w-full justify-start" asChild>
+                            <a href="/book-review/:id" target="_blank" rel="noopener noreferrer">
+                              <Eye className="w-4 h-4 mr-2" />
+                              Book Review (Read-Only)
+                            </a>
+                          </Button>
+                          <Button variant="outline" size="sm" className="w-full justify-start" asChild>
+                            <a href="/book-post-approval/:id" target="_blank" rel="noopener noreferrer">
+                              <CheckCircle className="w-4 h-4 mr-2" />
+                              Post Approval (No Timer/Refund)
+                            </a>
+                          </Button>
+                          <Button variant="outline" size="sm" className="w-full justify-start" asChild>
+                            <a href="/book-under-review/:id" target="_blank" rel="noopener noreferrer">
+                              <Clock className="w-4 h-4 mr-2" />
+                              Under Review by Team
+                            </a>
+                          </Button>
+                          <Button variant="outline" size="sm" className="w-full justify-start" asChild>
+                            <a href="/order-processing/:orderId" target="_blank" rel="noopener noreferrer">
+                              <CreditCard className="w-4 h-4 mr-2" />
+                              Order Processing
+                            </a>
+                          </Button>
+                          <Button variant="outline" size="sm" className="w-full justify-start" asChild>
+                            <a href="/ai-editor" target="_blank" rel="noopener noreferrer">
+                              <Edit className="w-4 h-4 mr-2" />
+                              AI Text Editor (Edit Mode)
+                            </a>
+                          </Button>
+                          <Button variant="outline" size="sm" className="w-full justify-start" asChild>
+                            <a href="/projects/demo-project" target="_blank" rel="noopener noreferrer">
+                              <FileText className="w-4 h-4 mr-2" />
+                              Project Detail
+                            </a>
+                          </Button>
+                          <Button variant="outline" size="sm" className="w-full justify-start" asChild>
+                            <a href="/api-test" target="_blank" rel="noopener noreferrer">
+                              <Settings className="w-4 h-4 mr-2" />
+                              API Test
+                            </a>
+                          </Button>
                         </div>
                       </div>
 
@@ -1661,6 +1671,7 @@ const ComponentLibrary = () => {
               </div>
             </footer>
           </div>
+          </ScrollArea>
         </div>
       </div>
     </div>
