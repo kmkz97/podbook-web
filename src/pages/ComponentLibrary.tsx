@@ -41,7 +41,9 @@ import {
   Minus,
   X,
   ArrowRight,
-  ArrowLeft
+  ArrowLeft,
+  CreditCard,
+  FileText
 } from 'lucide-react';
 
 const ComponentLibrary = () => {
@@ -680,6 +682,392 @@ const ComponentLibrary = () => {
                     <Button className="focus:ring-2 focus:ring-primary focus:ring-offset-2">
                       Focus Button
                     </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        {/* Page Examples Section */}
+        <section className="mb-16">
+          <h2 className="text-3xl font-bold text-foreground mb-8">Page Examples</h2>
+          <p className="text-lg text-muted-foreground mb-8 text-center max-w-3xl mx-auto">
+            See how these components come together in real pages throughout the Podbook application. 
+            Each page demonstrates different component combinations and design patterns.
+          </p>
+          
+          <div className="grid gap-6">
+            {/* Landing & Marketing Pages */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Landing & Marketing Pages</CardTitle>
+                <CardDescription>Public-facing pages that showcase the brand and convert visitors</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div className="space-y-3">
+                    <div className="w-full h-32 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg flex items-center justify-center">
+                      <Home className="w-8 h-8 text-primary" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-foreground">Homepage</h4>
+                      <p className="text-sm text-muted-foreground">Main landing page with hero section and features</p>
+                      <div className="flex gap-2 mt-2">
+                        <Badge variant="outline" className="text-xs">Hero Section</Badge>
+                        <Badge variant="outline" className="text-xs">Features</Badge>
+                        <Badge variant="outline" className="text-xs">CTA</Badge>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="w-full h-32 bg-gradient-to-br from-blue-500/10 to-blue-500/5 rounded-lg flex items-center justify-center">
+                      <BookOpen className="w-8 h-8 text-blue-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-foreground">Start Page</h4>
+                      <p className="text-sm text-muted-foreground">Book creation flow entry point</p>
+                      <div className="flex gap-2 mt-2">
+                        <Badge variant="outline" className="text-xs">Pricing</Badge>
+                        <Badge variant="outline" className="text-xs">Features</Badge>
+                        <Badge variant="outline" className="text-xs">Sign Up</Badge>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="w-full h-32 bg-gradient-to-br from-green-500/10 to-green-500/5 rounded-lg flex items-center justify-center">
+                      <CheckCircle className="w-8 h-8 text-green-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-foreground">Money Back Guarantee</h4>
+                      <p className="text-sm text-muted-foreground">Trust and confidence building page</p>
+                      <div className="flex gap-2 mt-2">
+                        <Badge variant="outline" className="text-xs">Trust</Badge>
+                        <Badge variant="outline" className="text-xs">Guarantee</Badge>
+                        <Badge variant="outline" className="text-xs">Legal</Badge>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Authentication Pages */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Authentication & Onboarding</CardTitle>
+                <CardDescription>User account management and onboarding experience</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div className="space-y-3">
+                    <div className="w-full h-32 bg-gradient-to-br from-purple-500/10 to-purple-500/5 rounded-lg flex items-center justify-center">
+                      <User className="w-8 h-8 text-purple-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-foreground">Login</h4>
+                      <p className="text-sm text-muted-foreground">User authentication page</p>
+                      <div className="flex gap-2 mt-2">
+                        <Badge variant="outline" className="text-xs">Form</Badge>
+                        <Badge variant="outline" className="text-xs">Validation</Badge>
+                        <Badge variant="outline" className="text-xs">Security</Badge>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="w-full h-32 bg-gradient-to-br from-orange-500/10 to-orange-500/5 rounded-lg flex items-center justify-center">
+                      <User className="w-8 h-8 text-orange-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-foreground">Sign Up</h4>
+                      <p className="text-sm text-muted-foreground">New user registration</p>
+                      <div className="flex gap-2 mt-2">
+                        <Badge variant="outline" className="text-xs">Registration</Badge>
+                        <Badge variant="outline" className="text-xs">Form</Badge>
+                        <Badge variant="outline" className="text-xs">Validation</Badge>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="w-full h-32 bg-gradient-to-br from-indigo-500/10 to-indigo-500/5 rounded-lg flex items-center justify-center">
+                      <Settings className="w-8 h-8 text-indigo-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-foreground">Onboarding</h4>
+                      <p className="text-sm text-muted-foreground">New user setup and tutorial</p>
+                      <div className="flex gap-2 mt-2">
+                        <Badge variant="outline" className="text-xs">Tutorial</Badge>
+                        <Badge variant="outline" className="text-xs">Setup</Badge>
+                        <Badge variant="outline" className="text-xs">Progressive</Badge>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Dashboard & Core App Pages */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Dashboard & Core Application</CardTitle>
+                <CardDescription>Main application interface and user workflows</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div className="space-y-3">
+                    <div className="w-full h-32 bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 rounded-lg flex items-center justify-center">
+                      <Home className="w-8 h-8 text-emerald-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-foreground">Dashboard</h4>
+                      <p className="text-sm text-muted-foreground">Main user dashboard with overview</p>
+                      <div className="flex gap-2 mt-2">
+                        <Badge variant="outline" className="text-xs">Overview</Badge>
+                        <Badge variant="outline" className="text-xs">Stats</Badge>
+                        <Badge variant="outline" className="text-xs">Quick Actions</Badge>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="w-full h-32 bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 rounded-lg flex items-center justify-center">
+                      <FileText className="w-8 h-8 text-cyan-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-foreground">Projects</h4>
+                      <p className="text-sm text-muted-foreground">User's book projects list</p>
+                      <div className="flex gap-2 mt-2">
+                        <Badge variant="outline" className="text-xs">List View</Badge>
+                        <Badge variant="outline" className="text-xs">Cards</Badge>
+                        <Badge variant="outline" className="text-xs">Filters</Badge>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="w-full h-32 bg-gradient-to-br from-rose-500/10 to-rose-500/5 rounded-lg flex items-center justify-center">
+                      <Plus className="w-8 h-8 text-rose-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-foreground">New Project</h4>
+                      <p className="text-sm text-muted-foreground">Book creation wizard</p>
+                      <div className="flex gap-2 mt-2">
+                        <Badge variant="outline" className="text-xs">Wizard</Badge>
+                        <Badge variant="outline" className="text-xs">Steps</Badge>
+                        <Badge variant="outline" className="text-xs">Forms</Badge>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Book Creation & Management */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Book Creation & Management</CardTitle>
+                <CardDescription>Core book creation workflow and management tools</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div className="space-y-3">
+                    <div className="w-full h-32 bg-gradient-to-br from-amber-500/10 to-amber-500/5 rounded-lg flex items-center justify-center">
+                      <BookOpen className="w-8 h-8 text-amber-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-foreground">Book Creation Wizard</h4>
+                      <p className="text-sm text-muted-foreground">Step-by-step book creation process</p>
+                      <div className="flex gap-2 mt-2">
+                        <Badge variant="outline" className="text-xs">Multi-step</Badge>
+                        <Badge variant="outline" className="text-xs">Wizard</Badge>
+                        <Badge variant="outline" className="text-xs">Progress</Badge>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="w-full h-32 bg-gradient-to-br from-lime-500/10 to-lime-500/5 rounded-lg flex items-center justify-center">
+                      <Download className="w-8 h-8 text-lime-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-foreground">Processing</h4>
+                      <p className="text-sm text-muted-foreground">Book generation progress tracking</p>
+                      <div className="flex gap-2 mt-2">
+                        <Badge variant="outline" className="text-xs">Progress</Badge>
+                        <Badge variant="outline" className="text-xs">Status</Badge>
+                        <Badge variant="outline" className="text-xs">Real-time</Badge>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="w-full h-32 bg-gradient-to-br from-violet-500/10 to-violet-500/5 rounded-lg flex items-center justify-center">
+                      <Eye className="w-8 h-8 text-violet-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-foreground">Book Review</h4>
+                      <p className="text-sm text-muted-foreground">Final book review before download</p>
+                      <div className="flex gap-2 mt-2">
+                        <Badge variant="outline" className="text-xs">Preview</Badge>
+                        <Badge variant="outline" className="text-xs">Chapters</Badge>
+                        <Badge variant="outline" className="text-xs">Download</Badge>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Settings & Account Management */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Settings & Account Management</CardTitle>
+                <CardDescription>User preferences, account settings, and billing</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div className="space-y-3">
+                    <div className="w-full h-32 bg-gradient-to-br from-slate-500/10 to-slate-500/5 rounded-lg flex items-center justify-center">
+                      <Settings className="w-8 h-8 text-slate-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-foreground">Settings</h4>
+                      <p className="text-sm text-muted-foreground">User preferences and account settings</p>
+                      <div className="flex gap-2 mt-2">
+                        <Badge variant="outline" className="text-xs">Preferences</Badge>
+                        <Badge variant="outline" className="text-xs">Account</Badge>
+                        <Badge variant="outline" className="text-xs">Security</Badge>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="w-full h-32 bg-gradient-to-br from-pink-500/10 to-pink-500/5 rounded-lg flex items-center justify-center">
+                      <CreditCard className="w-8 h-8 text-pink-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-foreground">Billing & Plans</h4>
+                      <p className="text-sm text-muted-foreground">Subscription management and billing</p>
+                      <div className="flex gap-2 mt-2">
+                        <Badge variant="outline" className="text-xs">Plans</Badge>
+                        <Badge variant="outline" className="text-xs">Billing</Badge>
+                        <Badge variant="outline" className="text-xs">Payment</Badge>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="w-full h-32 bg-gradient-to-br from-teal-500/10 to-teal-500/5 rounded-lg flex items-center justify-center">
+                      <Users className="w-8 h-8 text-teal-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-foreground">Team Management</h4>
+                      <p className="text-sm text-muted-foreground">Collaboration and team features</p>
+                      <div className="flex gap-2 mt-2">
+                        <Badge variant="outline" className="text-xs">Collaboration</Badge>
+                        <Badge variant="outline" className="text-xs">Sharing</Badge>
+                        <Badge variant="outline" className="text-xs">Permissions</Badge>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Page Navigation Links */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Quick Navigation to All Pages</CardTitle>
+                <CardDescription>Direct links to explore all designed pages in the application</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div className="space-y-3">
+                    <h4 className="font-semibold text-foreground">Public Pages</h4>
+                    <div className="space-y-2">
+                      <Button variant="outline" size="sm" className="w-full justify-start" asChild>
+                        <a href="/" target="_blank" rel="noopener noreferrer">
+                          <Home className="w-4 h-4 mr-2" />
+                          Homepage
+                        </a>
+                      </Button>
+                      <Button variant="outline" size="sm" className="w-full justify-start" asChild>
+                        <a href="/start" target="_blank" rel="noopener noreferrer">
+                          <BookOpen className="w-4 h-4 mr-2" />
+                          Start Page
+                        </a>
+                      </Button>
+                      <Button variant="outline" size="sm" className="w-full justify-start" asChild>
+                        <a href="/login" target="_blank" rel="noopener noreferrer">
+                          <User className="w-4 h-4 mr-2" />
+                          Login
+                        </a>
+                      </Button>
+                      <Button variant="outline" size="sm" className="w-full justify-start" asChild>
+                        <a href="/signup" target="_blank" rel="noopener noreferrer">
+                          <User className="w-4 h-4 mr-2" />
+                          Sign Up
+                        </a>
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <h4 className="font-semibold text-foreground">App Pages</h4>
+                    <div className="space-y-2">
+                      <Button variant="outline" size="sm" className="w-full justify-start" asChild>
+                        <a href="/dashboard" target="_blank" rel="noopener noreferrer">
+                          <Home className="w-4 h-4 mr-2" />
+                          Dashboard
+                        </a>
+                      </Button>
+                      <Button variant="outline" size="sm" className="w-full justify-start" asChild>
+                        <a href="/projects" target="_blank" rel="noopener noreferrer">
+                          <FileText className="w-4 h-4 mr-2" />
+                          Projects
+                        </a>
+                      </Button>
+                      <Button variant="outline" size="sm" className="w-full justify-start" asChild>
+                        <a href="/new-project" target="_blank" rel="noopener noreferrer">
+                          <Plus className="w-4 h-4 mr-2" />
+                          New Project
+                        </a>
+                      </Button>
+                      <Button variant="outline" size="sm" className="w-full justify-start" asChild>
+                        <a href="/settings" target="_blank" rel="noopener noreferrer">
+                          <Settings className="w-4 h-4 mr-2" />
+                          Settings
+                        </a>
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <h4 className="font-semibold text-foreground">Special Pages</h4>
+                    <div className="space-y-2">
+                      <Button variant="outline" size="sm" className="w-full justify-start" asChild>
+                        <a href="/onboarding" target="_blank" rel="noopener noreferrer">
+                          <Settings className="w-4 h-4 mr-2" />
+                          Onboarding
+                        </a>
+                      </Button>
+                      <Button variant="outline" size="sm" className="w-full justify-start" asChild>
+                        <a href="/money-back-guarantee" target="_blank" rel="noopener noreferrer">
+                          <CheckCircle className="w-4 h-4 mr-2" />
+                          Guarantee
+                        </a>
+                      </Button>
+                      <Button variant="outline" size="sm" className="w-full justify-start" asChild>
+                        <a href="/component-library" target="_blank" rel="noopener noreferrer">
+                          <Settings className="w-4 h-4 mr-2" />
+                          This Library
+                        </a>
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </CardContent>
