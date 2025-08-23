@@ -85,8 +85,7 @@ const BookReview = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <main className="flex-1 flex flex-col">
-          {/* Top Navigation Bar - Read Only */}
+      {/* Top Navigation Bar - Read Only */}
           <div className="border-b bg-card px-6 py-3 flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Button
@@ -175,7 +174,6 @@ const BookReview = () => {
               </div>
             </div>
           </div>
-        </main>
 
         {/* Sticky Footer - Read-Only Notice */}
         <div className="sticky bottom-0 bg-blue-50 border-t border-blue-200 p-4">
@@ -190,7 +188,6 @@ const BookReview = () => {
             </p>
           </div>
         </div>
-      </div>
 
       {/* Download Confirmation Modal */}
       {showDownloadModal && (
