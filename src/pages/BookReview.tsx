@@ -84,9 +84,9 @@ const BookReview = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="h-screen bg-background flex flex-col">
       {/* Top Navigation Bar - Read Only */}
-          <div className="border-b bg-card px-6 py-3 flex items-center justify-between">
+          <div className="border-b bg-card px-6 py-3 flex items-center justify-between flex-shrink-0">
             <div className="flex items-center gap-4">
               <Button
                 variant="ghost"
