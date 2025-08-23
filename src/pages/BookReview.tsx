@@ -303,7 +303,7 @@ const BookReview = () => {
           {/* Main Content Area */}
           <div className="flex flex-1 overflow-hidden min-h-0">
             {/* Left Sidebar - Chapter Navigation */}
-            <div className="w-64 border-r bg-muted/30 p-4 overflow-y-auto">
+            <div className="w-64 p-4 overflow-y-auto">
               <h3 className="font-medium text-foreground mb-4">Chapters</h3>
               <div className="space-y-2">
                 {chapters.map((chapter) => (
