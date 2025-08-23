@@ -314,22 +314,7 @@ const BookCompleted = () => {
                   </CardContent>
                 </Card>
 
-                {/* Cost Information */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Cost Information</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-center">
-                      <div className="text-3xl font-medium text-foreground mb-2">
-                        ${book.estimated_cost}
-                      </div>
-                      <p className="text-sm text-muted-foreground">
-                        Cost to generate this book
-                      </p>
-                    </div>
-                  </CardContent>
-                </Card>
+
               </div>
             </div>
           </div>
