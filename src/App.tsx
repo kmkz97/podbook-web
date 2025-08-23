@@ -23,6 +23,7 @@ import MoneyBackGuarantee from "./pages/MoneyBackGuarantee";
 import OrderProcessing from "./pages/OrderProcessing";
 import BookCompleted from "./pages/BookCompleted";
 import BookReview from "./pages/BookReview";
+import ComponentLibrary from "./pages/ComponentLibrary";
 
 const queryClient = new QueryClient();
 
@@ -74,6 +75,7 @@ const App = () => (
               <Route path="/order-processing/:orderId" element={<OrderProcessing />} />
               <Route path="/book-completed/:id" element={<BookCompleted />} />
               <Route path="/book-review/:id" element={<BookReview />} />
+              <Route path="/component-library" element={<ComponentLibrary />} />
               <Route path="/api-test" element={<ApiTest />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

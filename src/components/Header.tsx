@@ -20,6 +20,12 @@ const Header = () => {
           </div>
 
           <div className="flex items-center gap-4">
+            <Link 
+              to="/component-library" 
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Component Library
+            </Link>
             <Button variant="outline" asChild>
               <Link to="/login">Login</Link>
             </Button>

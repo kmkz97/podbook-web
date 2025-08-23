@@ -96,6 +96,12 @@ const LeftNavigation = ({ activePage = 'dashboard' }: LeftNavigationProps) => {
                 <Download className="w-4 h-4 mr-3" />
                 Import RSS
               </Button>
+              <Button variant="ghost" className="w-full justify-start left-nav-hover" asChild>
+                <Link to="/component-library">
+                  <Settings className="w-4 h-4 mr-3" />
+                  Component Library
+                </Link>
+              </Button>
             </div>
           </div>
         </nav>
