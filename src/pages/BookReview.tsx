@@ -85,9 +85,7 @@ const BookReview = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="flex">
-        <LeftNavigation activePage="projects" />
-        <main className="flex-1 flex flex-col">
+      <main className="flex-1 flex flex-col">
           {/* Top Navigation Bar - Read Only */}
           <div className="border-b bg-card px-6 py-3 flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -173,20 +171,25 @@ const BookReview = () => {
                       className="min-h-[500px] p-6 border rounded-lg bg-background"
                     />
                   </div>
-                  
-                  {/* Read-Only Notice */}
-                  <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                    <div className="flex items-center gap-2 text-blue-800">
-                      <Eye className="w-4 h-4" />
-                      <span className="font-medium">Read-Only Mode</span>
-                    </div>
-                    <p className="text-sm text-blue-700 mt-1">
-                      This is a preview of your completed book. You cannot edit the content. 
-                      Review carefully before downloading, as downloading will waive your refund eligibility.
-                    </p>
-                  </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </main>
+
+        {/* Sticky Footer - Read-Only Notice */}
+        <div className="sticky bottom-0 bg-blue-50 border-t border-blue-200 p-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="flex items-center gap-2 text-blue-800">
+              <Eye className="w-4 h-4" />
+              <span className="font-medium">Read-Only Mode</span>
+            </div>
+            <p className="text-sm text-blue-700 mt-1">
+              This is a preview of your completed book. You cannot edit the content. 
+              Review carefully before downloading, as downloading will waive your refund eligibility.
+            </p>
+          </div>
+        </div>
             </div>
           </div>
         </main>
