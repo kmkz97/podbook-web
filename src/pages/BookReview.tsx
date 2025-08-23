@@ -190,9 +190,6 @@ const BookReview = () => {
             </p>
           </div>
         </div>
-            </div>
-          </div>
-        </main>
       </div>
 
       {/* Download Confirmation Modal */}
