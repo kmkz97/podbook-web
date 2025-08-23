@@ -151,16 +151,6 @@ const BookReview = () => {
 
             {/* Main Editor Area - Read Only */}
             <div className="flex-1 flex flex-col min-h-0">
-              {/* Chapter Header */}
-              <div className="border-b px-6 py-4 bg-card flex-shrink-0">
-                <h2 className="text-xl font-semibold text-foreground">
-                  {currentChapter.title}
-                </h2>
-                <p className="text-sm text-muted-foreground mt-1">
-                  {currentChapter.wordCount} words • ~{currentChapter.estimatedPages} pages
-                </p>
-              </div>
-
               {/* Read-Only Content */}
               <div className="flex-1 p-6 overflow-y-auto pb-24 min-h-0">
                 <div className="max-w-4xl mx-auto">
