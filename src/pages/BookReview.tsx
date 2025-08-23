@@ -167,7 +167,7 @@ const BookReview = () => {
                   <div className="prose prose-lg max-w-none">
                     <EditorContent 
                       editor={editor} 
-                      className="min-h-[500px] p-6 border rounded-lg bg-background"
+                      className="min-h-[500px] p-6 rounded-lg bg-background"
                     />
                   </div>
                 </div>
