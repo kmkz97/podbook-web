@@ -102,6 +102,14 @@ const Login = () => {
                   required
                   className="border-border bg-background text-foreground"
                 />
+                <div className="text-right">
+                  <Link 
+                    to="/forgot-password" 
+                    className="text-sm text-primary hover:underline font-medium"
+                  >
+                    Forgot Password?
+                  </Link>
+                </div>
               </div>
               
               <Button 

@@ -27,6 +27,8 @@ import BookPostApproval from "./pages/BookPostApproval";
 import BookUnderReview from "./pages/BookUnderReview";
 import ComponentLibrary from "./pages/ComponentLibrary";
 import AIEditor from "./pages/AIEditor";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +43,8 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/start" element={<Start />} />
               <Route path="/dashboard" element={
