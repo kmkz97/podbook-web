@@ -290,10 +290,7 @@ const BookCompleted = () => {
               <div className="space-y-6">
                 {/* Quick Actions */}
                 <Card>
-                  <CardHeader>
-                    <CardTitle>Quick Actions</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
+                  <CardContent className="space-y-3 p-6">
                     <Button 
                       className="w-full" 
                       size="lg"
