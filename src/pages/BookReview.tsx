@@ -116,7 +116,7 @@ const BookReview = () => {
               {/* Confirm & Download Button */}
               <Button 
                 onClick={handleDownload}
-                className="bg-white text-foreground border border-border hover:bg-muted"
+                className="bg-primary hover:bg-primary/90"
               >
                 <CheckCircle className="w-4 h-4 mr-2" />
                 Confirm & Download
