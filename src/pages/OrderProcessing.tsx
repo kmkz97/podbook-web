@@ -226,19 +226,19 @@ const OrderProcessing = () => {
             </Card>
 
             {/* Human Review Notice */}
-            <Card className="border-blue-200 bg-blue-50">
+            <Card className="border-border bg-muted/30">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-blue-800">
+                <CardTitle className="flex items-center gap-2 text-foreground">
                   <User className="w-5 h-5" />
                   Human Review Included
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-blue-700 mb-4">
+                <p className="text-muted-foreground mb-4">
                   Every book goes through our expert review process to ensure quality, accuracy, and readability. 
                   This step typically takes 1-2 business days and includes:
                 </p>
-                <ul className="text-blue-700 text-sm space-y-2 ml-4">
+                <ul className="text-muted-foreground text-sm space-y-2 ml-4">
                   <li>• Content accuracy verification</li>
                   <li>• Grammar and style review</li>
                   <li>• Formatting consistency check</li>
