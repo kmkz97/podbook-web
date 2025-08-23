@@ -162,7 +162,7 @@ const BookReview = () => {
               </div>
 
               {/* Read-Only Content */}
-              <div className="flex-1 p-6 overflow-y-auto">
+              <div className="flex-1 p-6 overflow-y-auto pb-24">
                 <div className="max-w-4xl mx-auto">
                   <div className="prose prose-lg max-w-none">
                     <EditorContent 
@@ -176,7 +176,7 @@ const BookReview = () => {
           </div>
 
         {/* Sticky Footer - Read-Only Notice */}
-        <div className="sticky bottom-0 bg-blue-50 border-t border-blue-200 p-4">
+        <div className="fixed bottom-0 left-0 right-0 bg-blue-50 border-t border-blue-200 p-4 z-40">
           <div className="max-w-4xl mx-auto">
             <div className="flex items-center gap-2 text-blue-800">
               <Eye className="w-4 h-4" />
