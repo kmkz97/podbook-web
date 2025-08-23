@@ -153,7 +153,7 @@ const BookReview = () => {
       title: 'Cloud & Edge Computing', 
       content: `
         <h1>Chapter 2: Cloud and Edge Computing</h1>
-        <p>The cloud computing paradigm has evolved far beyond simple data storage, becoming the backbone of modern digital infrastructure.</p>
+        <p>The cloud computing paradigm has evolved far beyond simple data storage, becoming the backbone of modern digital infrastructure. What began as a way to access computing resources remotely has transformed into a sophisticated ecosystem that powers everything from mobile apps to enterprise systems.</p>
         
         <h2>The Rise of Edge Computing</h2>
         <p>Edge computing represents a fundamental shift in how we process and analyze data. By bringing computation closer to data sources, we achieve:</p>
@@ -162,6 +162,17 @@ const BookReview = () => {
           <li><strong>Bandwidth Optimization</strong> - Less data transmission over networks</li>
           <li><strong>Enhanced Privacy</strong> - Local data processing capabilities</li>
           <li><strong>Improved Reliability</strong> - Reduced dependency on central servers</li>
+          <li><strong>Real-time Processing</strong> - Immediate analysis of streaming data</li>
+          <li><strong>Cost Efficiency</strong> - Reduced cloud computing costs</li>
+        </ul>
+        
+        <h3>Edge Computing Architectures</h3>
+        <p>Modern edge computing systems employ sophisticated architectures:</p>
+        <ul>
+          <li><strong>Multi-tier Edge</strong> - Distributed processing across multiple edge locations</li>
+          <li><strong>Fog Computing</strong> - Intermediate layer between edge and cloud</li>
+          <li><strong>Mobile Edge Computing</strong> - Processing at cellular base stations</li>
+          <li><strong>Industrial Edge</strong> - Specialized computing for manufacturing environments</li>
         </ul>
         
         <h3>Hybrid Cloud Solutions</h3>
@@ -170,6 +181,17 @@ const BookReview = () => {
           <li><strong>Public Cloud</strong> - Scalability and cost-effectiveness</li>
           <li><strong>Private Cloud</strong> - Security and control</li>
           <li><strong>Edge Nodes</strong> - Performance and responsiveness</li>
+          <li><strong>Multi-cloud Strategies</strong> - Avoiding vendor lock-in</li>
+        </ul>
+        
+        <h2>Cloud Service Models</h2>
+        <p>The cloud computing landscape offers various service models:</p>
+        <ul>
+          <li><strong>Infrastructure as a Service (IaaS)</strong> - Virtual machines and storage</li>
+          <li><strong>Platform as a Service (PaaS)</strong> - Development and deployment platforms</li>
+          <li><strong>Software as a Service (SaaS)</strong> - Ready-to-use applications</li>
+          <li><strong>Function as a Service (FaaS)</strong> - Serverless computing</li>
+          <li><strong>Container as a Service (CaaS)</strong> - Containerized applications</li>
         </ul>
         
         <h2>Industry Impact</h2>
@@ -179,27 +201,58 @@ const BookReview = () => {
           <li><strong>Healthcare:</strong> Remote patient monitoring and telemedicine</li>
           <li><strong>Transportation:</strong> Autonomous vehicles and smart traffic management</li>
           <li><strong>Retail:</strong> Personalized shopping experiences and inventory optimization</li>
+          <li><strong>Energy:</strong> Smart grid management and renewable energy optimization</li>
+          <li><strong>Agriculture:</strong> Precision farming and crop monitoring</li>
         </ul>
         
-        <p>The future of cloud computing lies in creating intelligent, distributed systems that can adapt to changing demands while maintaining security and performance standards.</p>
+        <h2>Security and Compliance</h2>
+        <p>As cloud and edge computing expand, security becomes paramount:</p>
+        <ul>
+          <li><strong>Data Encryption</strong> - Protecting data in transit and at rest</li>
+          <li><strong>Identity Management</strong> - Robust authentication and authorization</li>
+          <li><strong>Compliance Frameworks</strong> - Meeting regulatory requirements</li>
+          <li><strong>Threat Detection</strong> - Advanced security monitoring</li>
+        </ul>
+        
+        <h2>Future Trends</h2>
+        <p>Looking ahead, we can expect:</p>
+        <ul>
+          <li><strong>Quantum Cloud Computing</strong> - Quantum processing in the cloud</li>
+          <li><strong>AI-Enhanced Edge</strong> - Intelligent edge computing capabilities</li>
+          <li><strong>Green Cloud</strong> - Sustainable computing practices</li>
+          <li><strong>Edge AI</strong> - Artificial intelligence at the edge</li>
+        </ul>
+        
+        <p>The future of cloud computing lies in creating intelligent, distributed systems that can adapt to changing demands while maintaining security and performance standards. The key to success will be finding the right balance between centralized cloud resources and distributed edge computing based on specific use cases and requirements.</p>
       `, 
-      wordCount: 720, 
-      estimatedPages: 3 
+      wordCount: 1100, 
+      estimatedPages: 5 
     },
     { 
       id: 4, 
       title: 'Cybersecurity Landscape', 
       content: `
         <h1>Chapter 3: The Cybersecurity Landscape</h1>
-        <p>As technology advances, so do the threats that target our digital infrastructure. Understanding the current cybersecurity landscape is crucial for protecting both personal and organizational assets.</p>
+        <p>As technology advances, so do the threats that target our digital infrastructure. Understanding the current cybersecurity landscape is crucial for protecting both personal and organizational assets. In today's interconnected world, a single vulnerability can compromise entire networks, making cybersecurity one of the most critical challenges of our time.</p>
         
         <h2>Emerging Threats</h2>
-        <p>New attack vectors are constantly emerging:</p>
+        <p>New attack vectors are constantly emerging, requiring constant vigilance and adaptation:</p>
         <ul>
           <li><strong>AI-Powered Attacks</strong> - Sophisticated phishing and social engineering</li>
           <li><strong>Supply Chain Vulnerabilities</strong> - Attacks on third-party services</li>
           <li><strong>IoT Exploitation</strong> - Weak security in connected devices</li>
           <li><strong>Ransomware Evolution</strong> - Double extortion and targeted attacks</li>
+          <li><strong>Deepfake Technology</strong> - AI-generated content for deception</li>
+          <li><strong>Quantum Threats</strong> - Future risks from quantum computing</li>
+        </ul>
+        
+        <h3>Attack Sophistication</h3>
+        <p>Modern cyberattacks are becoming increasingly sophisticated:</p>
+        <ul>
+          <li><strong>Advanced Persistent Threats (APTs)</strong> - Long-term, targeted attacks</li>
+          <li><strong>Fileless Malware</strong> - Attacks that don't rely on traditional files</li>
+          <li><strong>Living-off-the-Land</strong> - Using legitimate system tools for attacks</li>
+          <li><strong>Polymorphic Malware</strong> - Constantly changing attack signatures</li>
         </ul>
         
         <h3>Defense Strategies</h3>
@@ -209,6 +262,27 @@ const BookReview = () => {
           <li><strong>Behavioral Analytics</strong> - Detect anomalies in user patterns</li>
           <li><strong>Threat Intelligence</strong> - Stay ahead of emerging risks</li>
           <li><strong>Incident Response Planning</strong> - Prepare for the inevitable</li>
+          <li><strong>Penetration Testing</strong> - Regular security assessments</li>
+          <li><strong>Security Awareness Training</strong> - Educating users about threats</li>
+        </ul>
+        
+        <h2>Cybersecurity Frameworks</h2>
+        <p>Organizations can follow established frameworks to improve security:</p>
+        <ul>
+          <li><strong>NIST Cybersecurity Framework</strong> - Comprehensive security guidelines</li>
+          <li><strong>ISO 27001</strong> - Information security management standards</li>
+          <li><strong>COBIT</strong> - IT governance and control framework</li>
+          <li><strong>OWASP</strong> - Web application security guidelines</li>
+        </ul>
+        
+        <h2>Industry-Specific Challenges</h2>
+        <p>Different sectors face unique cybersecurity challenges:</p>
+        <ul>
+          <li><strong>Healthcare:</strong> Patient data protection and medical device security</li>
+          <li><strong>Financial Services:</strong> Transaction security and regulatory compliance</li>
+          <li><strong>Manufacturing:</strong> Industrial control system protection</li>
+          <li><strong>Government:</strong> National security and citizen data protection</li>
+          <li><strong>Education:</strong> Student privacy and research data security</li>
         </ul>
         
         <h2>Future Trends</h2>
@@ -218,19 +292,30 @@ const BookReview = () => {
           <li><strong>AI-Enhanced Security</strong> - Automated threat detection and response</li>
           <li><strong>Regulatory Evolution</strong> - Stricter compliance requirements</li>
           <li><strong>Security by Design</strong> - Building security into products from the start</li>
+          <li><strong>Blockchain Security</strong> - Decentralized security solutions</li>
+          <li><strong>Biometric Authentication</strong> - Advanced identity verification</li>
         </ul>
         
-        <p>Cybersecurity is not just a technical challenge—it's a business imperative that requires ongoing attention and investment.</p>
+        <h2>Building a Security Culture</h2>
+        <p>Effective cybersecurity goes beyond technology:</p>
+        <ul>
+          <li><strong>Leadership Commitment</strong> - Executive support for security initiatives</li>
+          <li><strong>Employee Training</strong> - Regular security awareness programs</li>
+          <li><strong>Incident Response Teams</strong> - Dedicated security personnel</li>
+          <li><strong>Continuous Improvement</strong> - Regular security assessments and updates</li>
+        </ul>
+        
+        <p>Cybersecurity is not just a technical challenge—it's a business imperative that requires ongoing attention and investment. Organizations must adopt a proactive approach, continuously monitoring threats, updating defenses, and educating users to create a robust security posture that can withstand evolving challenges.</p>
       `, 
-      wordCount: 650, 
-      estimatedPages: 3 
+      wordCount: 1100, 
+      estimatedPages: 5 
     },
     { 
       id: 5, 
       title: 'Mobile Innovation', 
       content: `
         <h1>Chapter 4: Mobile Technology Innovation</h1>
-        <p>The mobile device landscape continues to evolve at an unprecedented pace, with each generation bringing new capabilities and possibilities.</p>
+        <p>The mobile device landscape continues to evolve at an unprecedented pace, with each generation bringing new capabilities and possibilities. From the first mobile phones to today's sophisticated smartphones, the journey has been nothing short of revolutionary, transforming how we communicate, work, and live.</p>
         
         <h2>5G and Beyond</h2>
         <p>Fifth-generation wireless technology is revolutionizing mobile connectivity:</p>
@@ -239,6 +324,17 @@ const BookReview = () => {
           <li><strong>Low Latency</strong> - Near real-time response for critical applications</li>
           <li><strong>Massive Connectivity</strong> - Support for millions of IoT devices</li>
           <li><strong>Network Slicing</strong> - Customized network configurations</li>
+          <li><strong>Enhanced Mobile Broadband</strong> - Superior streaming and gaming experiences</li>
+          <strong>Ultra-Reliable Low-Latency Communications</strong> - Critical for autonomous vehicles</li>
+        </ul>
+        
+        <h3>6G Development</h3>
+        <p>While 5G is still rolling out, research into 6G has already begun:</p>
+        <ul>
+          <li><strong>Terahertz Frequencies</strong> - Even faster data transmission</li>
+          <li><strong>AI-Native Networks</strong> - Intelligent network management</li>
+          <li><strong>Holographic Communications</strong> - 3D visual experiences</li>
+          <li><strong>Quantum Communications</strong> - Ultra-secure data transmission</li>
         </ul>
         
         <h3>Foldable Technology</h3>
@@ -248,6 +344,8 @@ const BookReview = () => {
           <li><strong>Portability</strong> - Compact form factor for storage</li>
           <li><strong>New Use Cases</strong> - Gaming, multitasking, and content creation</li>
           <li><strong>Design Innovation</strong> - Pushing the boundaries of mobile aesthetics</li>
+          <li><strong>Durability Improvements</strong> - Advanced materials and hinge mechanisms</li>
+          <li><strong>Software Optimization</strong> - Apps designed for flexible displays</li>
         </ul>
         
         <h2>App Ecosystem Evolution</h2>
@@ -257,16 +355,144 @@ const BookReview = () => {
           <li><strong>Augmented Reality</strong> - Enhanced shopping and navigation</li>
           <li><strong>Cross-Platform Development</strong> - Consistent experiences across devices</li>
           <li><strong>Privacy-First Design</strong> - User control over data and permissions</li>
+          <li><strong>Progressive Web Apps</strong> - Web-based mobile experiences</li>
+          <li><strong>App Clips</strong> - Lightweight app experiences</li>
         </ul>
         
-        <p>The future of mobile technology lies in creating seamless, intelligent experiences that enhance our daily lives while respecting our privacy and security needs.</p>
+        <h2>Mobile Hardware Innovation</h2>
+        <p>Hardware advancements continue to push boundaries:</p>
+        <ul>
+          <li><strong>Advanced Cameras</strong> - Multiple lenses and computational photography</li>
+          <li><strong>Biometric Security</strong> - Face ID, fingerprint, and iris scanning</li>
+          <li><strong>Battery Technology</strong> - Longer life and faster charging</li>
+          <li><strong>Display Technology</strong> - OLED, Mini-LED, and Micro-LED screens</li>
+          <li><strong>Processor Evolution</strong> - Custom silicon and neural engines</li>
+        </ul>
+        
+        <h2>Mobile Gaming Revolution</h2>
+        <p>Mobile gaming has become a dominant force in the industry:</p>
+        <ul>
+          <li><strong>Cloud Gaming</strong> - Streaming games without downloads</li>
+          <li><strong>AR Gaming</strong> - Location-based and augmented reality experiences</li>
+          <li><strong>Cross-Platform Play</strong> - Gaming across mobile, console, and PC</li>
+          <li><strong>Mobile Esports</strong> - Competitive mobile gaming leagues</li>
+        </ul>
+        
+        <h2>Privacy and Security</h2>
+        <p>As mobile devices become more central to our lives, privacy becomes crucial:</p>
+        <ul>
+          <li><strong>App Privacy Labels</strong> - Transparent data collection practices</li>
+          <li><strong>Location Services Control</strong> - Granular permission management</li>
+          <li><strong>Secure Enclaves</strong> - Hardware-based security features</li>
+          <li><strong>Privacy-First Browsing</strong> - Enhanced tracking protection</li>
+        </ul>
+        
+        <h2>Future Mobile Trends</h2>
+        <p>Looking ahead, we can expect:</p>
+        <ul>
+          <li><strong>Brain-Computer Interfaces</strong> - Direct neural control of devices</li>
+          <li><strong>Holographic Displays</strong> - 3D visual experiences without glasses</li>
+          <li><strong>Ambient Computing</strong> - Invisible, context-aware technology</li>
+          <li><strong>Mobile Health Integration</strong> - Advanced health monitoring</li>
+        </ul>
+        
+        <p>The future of mobile technology lies in creating seamless, intelligent experiences that enhance our daily lives while respecting our privacy and security needs. As we move toward more integrated and intuitive mobile experiences, the line between technology and human capability continues to blur, opening up new possibilities for how we interact with the digital world.</p>
       `, 
-      wordCount: 580, 
-      estimatedPages: 2 
+      wordCount: 1200, 
+      estimatedPages: 5 
     }
   ]);
   const [currentChapter, setCurrentChapter] = useState<Chapter>(chapters[0]);
   const [showDownloadModal, setShowDownloadModal] = useState(false);
+
+  // Prevent text selection, copying, and screenshots
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Prevent common keyboard shortcuts
+      if (
+        (e.ctrlKey || e.metaKey) && (
+          e.key === 'c' || // Copy
+          e.key === 'x' || // Cut
+          e.key === 'v' || // Paste
+          e.key === 'a' || // Select all
+          e.key === 's' || // Save
+          e.key === 'p' || // Print
+          e.key === 'u'    // View source
+        )
+      ) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }
+      
+      // Prevent F12 (Developer Tools)
+      if (e.key === 'F12') {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }
+      
+      // Prevent right-click context menu
+      if (e.key === 'ContextMenu') {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }
+    };
+
+    const handleKeyUp = (e: KeyboardEvent) => {
+      // Prevent text selection with Shift + Arrow keys
+      if (e.shiftKey && (e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }
+    };
+
+    // Add event listeners
+    document.addEventListener('keydown', handleKeyDown, true);
+    document.addEventListener('keyup', handleKeyUp, true);
+    
+    // Disable text selection globally while on this page
+    document.body.style.userSelect = 'none';
+    document.body.style.WebkitUserSelect = 'none';
+    document.body.style.MozUserSelect = 'none';
+    document.body.style.msUserSelect = 'none';
+    
+    // Add body class for additional CSS protection
+    document.body.classList.add('content-protection-active');
+    
+    // Disable context menu globally
+    document.addEventListener('contextmenu', (e) => e.preventDefault(), true);
+    
+    // Disable drag and drop
+    document.addEventListener('dragstart', (e) => e.preventDefault(), true);
+    
+    // Disable copy events
+    document.addEventListener('copy', (e) => e.preventDefault(), true);
+    document.addEventListener('cut', (e) => e.preventDefault(), true);
+    document.addEventListener('paste', (e) => e.preventDefault(), true);
+
+    // Cleanup function
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown, true);
+      document.removeEventListener('keyup', handleKeyUp, true);
+      document.removeEventListener('contextmenu', (e) => e.preventDefault(), true);
+      document.removeEventListener('dragstart', (e) => e.preventDefault(), true);
+      document.removeEventListener('copy', (e) => e.preventDefault(), true);
+      document.removeEventListener('cut', (e) => e.preventDefault(), true);
+      document.removeEventListener('paste', (e) => e.preventDefault(), true);
+      
+      // Restore text selection
+      document.body.style.userSelect = '';
+      document.body.style.WebkitUserSelect = '';
+      document.body.style.MozUserSelect = '';
+      document.body.style.msUserSelect = '';
+      
+      // Remove body class
+      document.body.classList.remove('content-protection-active');
+    };
+  }, []);
 
   // Read-only editor - no editing capabilities
   const editor = useEditor({
@@ -311,7 +537,24 @@ const BookReview = () => {
   };
 
   return (
-    <div className="h-screen bg-background flex flex-col">
+    <div 
+      className="h-screen bg-background flex flex-col select-none"
+      onContextMenu={(e) => e.preventDefault()}
+      onCopy={(e) => e.preventDefault()}
+      onCut={(e) => e.preventDefault()}
+      onPaste={(e) => e.preventDefault()}
+      onDragStart={(e) => e.preventDefault()}
+      onSelectStart={(e) => e.preventDefault()}
+      style={{
+        userSelect: 'none',
+        WebkitUserSelect: 'none',
+        MozUserSelect: 'none',
+        msUserSelect: 'none',
+        WebkitTouchCallout: 'none',
+        WebkitUserDrag: 'none',
+        KhtmlUserSelect: 'none'
+      }}
+    >
       {/* Top Navigation Bar - Read Only */}
           <div className="border-b bg-card px-6 py-3 flex items-center justify-between flex-shrink-0">
             <div className="flex items-center gap-4">
@@ -354,7 +597,7 @@ const BookReview = () => {
           {/* Main Content Area */}
           <div className="flex flex-1 overflow-hidden min-h-0">
             {/* Left Sidebar - Chapter Navigation */}
-            <div className="w-64 p-4 overflow-y-auto">
+            <div className="w-64 p-4 overflow-y-auto custom-scrollbar">
               <h3 className="font-medium text-foreground mb-4">Chapters</h3>
               <div className="space-y-2">
                 {chapters.map((chapter) => (
@@ -363,7 +606,7 @@ const BookReview = () => {
                     onClick={() => setActiveChapter(chapter)}
                     className={`w-full text-left p-3 rounded-lg transition-colors ${
                       currentChapter.id === chapter.id
-                        ? 'bg-muted/30 border-l-2 border-primary/60 text-foreground'
+                        ? 'bg-muted/30 text-foreground'
                         : 'hover:bg-muted/20'
                     }`}
                   >
@@ -379,12 +622,29 @@ const BookReview = () => {
             {/* Main Editor Area - Read Only */}
             <div className="flex-1 flex flex-col min-h-0">
               {/* Read-Only Content */}
-              <div className="flex-1 p-6 overflow-y-auto pb-24 min-h-0">
+              <div 
+                className="flex-1 p-6 overflow-y-auto pb-24 min-h-0 custom-scrollbar"
+                onContextMenu={(e) => e.preventDefault()}
+                onCopy={(e) => e.preventDefault()}
+                onCut={(e) => e.preventDefault()}
+                onPaste={(e) => e.preventDefault()}
+                onDragStart={(e) => e.preventDefault()}
+                onSelectStart={(e) => e.preventDefault()}
+                style={{
+                  userSelect: 'none',
+                  WebkitUserSelect: 'none',
+                  MozUserSelect: 'none',
+                  msUserSelect: 'none',
+                  WebkitTouchCallout: 'none',
+                  WebkitUserDrag: 'none',
+                  KhtmlUserSelect: 'none'
+                }}
+              >
                 <div className="max-w-4xl mx-auto">
-                  <div className="prose prose-lg max-w-none">
+                  <div className="prose prose-lg max-w-none select-none content-protected">
                     <EditorContent 
                       editor={editor} 
-                      className="min-h-[500px] p-6 rounded-lg bg-background"
+                      className="min-h-[500px] p-6 rounded-lg bg-background select-none content-protected"
                     />
                   </div>
                 </div>
