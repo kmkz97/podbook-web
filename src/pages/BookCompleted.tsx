@@ -162,8 +162,8 @@ const BookCompleted = () => {
           <div className="max-w-6xl mx-auto">
             {/* Header */}
             <div className="mb-8">
-              <div className="text-center mb-4">
-                <div className="flex items-center justify-center gap-2 mb-2">
+              <div className="mb-4">
+                <div className="flex items-center gap-2 mb-2">
                   <CheckCircle className="w-8 h-8 text-green-600" />
                   <h1 className="text-3xl font-bold text-foreground">Book Completed!</h1>
                 </div>

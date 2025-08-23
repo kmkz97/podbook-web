@@ -187,10 +187,10 @@ const OrderProcessing = () => {
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="mb-8">
-            <div className="text-center mb-4">
+            <div className="mb-4">
               <h1 className="text-3xl font-bold text-foreground">Order Processing</h1>
             </div>
-            <p className="text-center text-muted-foreground">
+            <p className="text-muted-foreground">
               Order #{order.orderNumber} • Created {order.createdAt} • Estimated completion: {order.estimatedCompletion}
             </p>
           </div>
