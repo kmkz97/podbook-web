@@ -98,7 +98,7 @@ const BookReview = () => {
               </Button>
               <Separator orientation="vertical" className="h-6" />
               <h1 className="text-lg font-medium text-foreground">
-                Review: {chapters[0]?.title || 'Book Review'}
+                Review: Tech News Weekly Digest
               </h1>
             </div>
             
