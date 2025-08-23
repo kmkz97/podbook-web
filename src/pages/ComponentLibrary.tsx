@@ -13,6 +13,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Separator } from '@/components/ui/separator';
+import LeftNavigation from '@/components/LeftNavigation';
+import { useTheme } from '@/contexts/ThemeContext';
 import { 
   AlertTriangle, 
   CheckCircle, 
@@ -43,30 +45,99 @@ import {
   ArrowRight,
   ArrowLeft,
   CreditCard,
-  FileText
+  FileText,
+  Sun,
+  Moon
 } from 'lucide-react';
 
 const ComponentLibrary = () => {
-  return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="border-b bg-card">
-        <div className="container mx-auto px-6 py-8">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold text-foreground mb-4">
-              Podbook Component Library
-            </h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              A comprehensive showcase of all design components, typography, and UI patterns used throughout the Podbook platform.
-              Use this as a reference for maintaining design consistency across all pages.
-            </p>
-          </div>
-        </div>
-      </div>
+  const { theme, toggleTheme } = useTheme();
 
-      <div className="container mx-auto px-6 py-8">
-        {/* Typography Section */}
-        <section className="mb-16">
+  return (
+    <div className="h-screen bg-background flex">
+      {/* Left Navigation */}
+      <LeftNavigation activePage="dashboard" />
+      
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col min-h-0">
+        {/* Header with Logo and Theme Toggle */}
+        <div className="border-b bg-card px-6 py-4 flex items-center justify-between flex-shrink-0">
+          <div className="flex items-center gap-4">
+            {/* Logo Section */}
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                <BookOpen className="w-6 h-6 text-primary-foreground" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-foreground">Component Library</h1>
+                <p className="text-sm text-muted-foreground">Design System Reference</p>
+              </div>
+            </div>
+          </div>
+          
+          {/* Theme Toggle */}
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={toggleTheme}
+            className="w-10 h-10 p-0"
+          >
+            {theme === 'dark' ? (
+              <Sun className="w-5 h-5" />
+            ) : (
+              <Moon className="w-5 h-5" />
+            )}
+            <span className="sr-only">Toggle theme</span>
+          </Button>
+        </div>
+
+                {/* Page Content */}
+        <div className="flex-1 overflow-y-auto">
+          <div className="container mx-auto px-6 py-8">
+            {/* Introduction Section */}
+            <div className="text-center mb-16">
+              <h1 className="text-4xl font-bold text-foreground mb-4">
+                Podbook Component Library
+              </h1>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                A comprehensive showcase of all design components, typography, and UI patterns used throughout the Podbook platform.
+                Use this as a reference for maintaining design consistency across all pages.
+              </p>
+            </div>
+
+            {/* Quick Navigation */}
+            <div className="mb-16">
+              <h2 className="text-2xl font-bold text-foreground mb-6 text-center">Quick Navigation</h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                <Button variant="outline" size="sm" className="h-auto py-3 flex flex-col items-center gap-2" onClick={() => document.getElementById('typography')?.scrollIntoView({ behavior: 'smooth' })}>
+                  <span className="text-lg">Aa</span>
+                  <span className="text-xs">Typography</span>
+                </Button>
+                <Button variant="outline" size="sm" className="h-auto py-3 flex flex-col items-center gap-2" onClick={() => document.getElementById('colors')?.scrollIntoView({ behavior: 'smooth' })}>
+                  <div className="w-4 h-4 bg-primary rounded"></div>
+                  <span className="text-xs">Colors</span>
+                </Button>
+                <Button variant="outline" size="sm" className="h-auto py-3 flex flex-col items-center gap-2" onClick={() => document.getElementById('buttons')?.scrollIntoView({ behavior: 'smooth' })}>
+                  <span className="text-lg">🔘</span>
+                  <span className="text-xs">Buttons</span>
+                </Button>
+                <Button variant="outline" size="sm" className="h-auto py-3 flex flex-col items-center gap-2" onClick={() => document.getElementById('forms')?.scrollIntoView({ behavior: 'smooth' })}>
+                  <span className="text-lg">📝</span>
+                  <span className="text-xs">Forms</span>
+                </Button>
+                <Button variant="outline" size="sm" className="h-auto py-3 flex flex-col items-center gap-2" onClick={() => document.getElementById('cards')?.scrollIntoView({ behavior: 'smooth' })}>
+                  <span className="text-lg">🃏</span>
+                  <span className="text-xs">Cards</span>
+                </Button>
+                <Button variant="outline" size="sm" className="h-auto py-3 flex flex-col items-center gap-2" onClick={() => document.getElementById('pages')?.scrollIntoView({ behavior: 'smooth' })}>
+                  <span className="text-lg">📄</span>
+                  <span className="text-xs">Pages</span>
+                </Button>
+              </div>
+            </div>
+
+            {/* Typography Section */}
+        <section id="typography" className="mb-16">
           <h2 className="text-3xl font-bold text-foreground mb-8">Typography</h2>
           <div className="grid gap-6">
             <Card>
@@ -131,7 +202,7 @@ const ComponentLibrary = () => {
         </section>
 
         {/* Color System Section */}
-        <section className="mb-16">
+        <section id="colors" className="mb-16">
           <h2 className="text-3xl font-bold text-foreground mb-8">Color System</h2>
           <div className="grid gap-6">
             <Card>
@@ -199,7 +270,7 @@ const ComponentLibrary = () => {
         </section>
 
         {/* Button Components Section */}
-        <section className="mb-16">
+        <section id="buttons" className="mb-16">
           <h2 className="text-3xl font-bold text-foreground mb-8">Button Components</h2>
           <div className="grid gap-6">
             <Card>
@@ -282,7 +353,7 @@ const ComponentLibrary = () => {
         </section>
 
         {/* Form Components Section */}
-        <section className="mb-16">
+        <section id="forms" className="mb-16">
           <h2 className="text-3xl font-bold text-foreground mb-8">Form Components</h2>
           <div className="grid gap-6">
             <Card>
@@ -381,7 +452,7 @@ const ComponentLibrary = () => {
         </section>
 
         {/* Card Components Section */}
-        <section className="mb-16">
+        <section id="cards" className="mb-16">
           <h2 className="text-3xl font-bold text-foreground mb-8">Card Components</h2>
           <div className="grid gap-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -690,7 +761,7 @@ const ComponentLibrary = () => {
         </section>
 
         {/* Page Examples Section */}
-        <section className="mb-16">
+        <section id="pages" className="mb-16">
           <h2 className="text-3xl font-bold text-foreground mb-8">Page Examples</h2>
           <p className="text-lg text-muted-foreground mb-8 text-center max-w-3xl mx-auto">
             See how these components come together in real pages throughout the Podbook application. 
@@ -1086,6 +1157,8 @@ const ComponentLibrary = () => {
             </p>
           </div>
         </footer>
+          </div>
+        </div>
       </div>
     </div>
   );
