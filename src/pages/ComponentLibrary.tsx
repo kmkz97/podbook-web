@@ -80,6 +80,7 @@ const LibraryNavigation = () => {
     { id: 'layout', label: 'Layout', icon: Grid3X3, description: 'Grid system and spacing scale' },
     { id: 'interactive', label: 'Interactive', icon: MousePointer, description: 'Hover, focus, and transitions' },
     { id: 'project-components', label: 'Project Components', icon: BookOpen, description: 'Project cards, status, and progress' },
+    { id: 'book-landing-pages', label: 'Book Landing Pages', icon: BookOpen, description: 'Book landing page variations for different states' },
     { id: 'pages', label: 'Page Examples', icon: FileText, description: 'Complete page designs and layouts' }
   ];
 
@@ -1323,7 +1324,364 @@ const ComponentLibrary = () => {
               </div>
             </section>
 
-              {/* Book Review & Refund Components Section */}
+            {/* Book Landing Pages Section */}
+            <section id="book-landing-pages" className="mb-16">
+              <h2 className="text-3xl font-bold text-foreground mb-8">Book Landing Pages</h2>
+              <p className="text-muted-foreground mb-6">
+                Book landing page variations for different project states, designed to feel like professional book pages with consistent layouts and different visual states.
+              </p>
+              
+              <div className="space-y-8">
+                {/* Order Processing - Book Landing Page */}
+                <Card className="border-2 border-blue-200">
+                  <CardHeader>
+                    <div className="flex items-center gap-3">
+                      <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
+                      <CardTitle className="text-xl">Order Processing - Book Landing Page</CardTitle>
+                    </div>
+                    <CardDescription>Book page during order processing with progress indicators</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-lg p-6">
+                      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        {/* Book Cover Section */}
+                        <div className="lg:col-span-1">
+                          <div className="bg-white rounded-lg shadow-lg p-6 text-center">
+                            <div className="w-32 h-40 bg-gradient-to-br from-blue-400 to-indigo-600 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                              <BookOpen className="w-16 h-16 text-white" />
+                            </div>
+                            <h3 className="text-lg font-bold text-gray-800 mb-2">Tech News Weekly Digest</h3>
+                            <p className="text-sm text-gray-600 mb-3">by John Doe</p>
+                            <div className="w-full bg-gray-200 rounded-full h-2">
+                              <div className="bg-blue-500 h-2 rounded-full w-1/3"></div>
+                            </div>
+                            <p className="text-xs text-blue-600 mt-2">Processing...</p>
+                          </div>
+                        </div>
+
+                        {/* Book Info Section */}
+                        <div className="lg:col-span-2 space-y-6">
+                          <div>
+                            <h2 className="text-2xl font-bold text-gray-800 mb-2">Tech News Weekly Digest</h2>
+                            <p className="text-gray-600 mb-4">A comprehensive compilation of the latest technology news and insights from leading industry sources, curated and organized into a structured book format.</p>
+                            
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                              <div className="text-center">
+                                <div className="text-2xl font-bold text-blue-600">150</div>
+                                <div className="text-sm text-gray-500">Target Pages</div>
+                              </div>
+                              <div className="text-center">
+                                <div className="text-2xl font-bold text-blue-600">8</div>
+                                <div className="text-sm text-gray-500">Chapters</div>
+                              </div>
+                              <div className="text-center">
+                                <div className="text-2xl font-bold text-blue-600">$25</div>
+                                <div className="text-sm text-gray-500">Total Cost</div>
+                              </div>
+                              <div className="text-center">
+                                <div className="text-2xl font-bold text-blue-600">4</div>
+                                <div className="text-sm text-gray-500">Days Left</div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Processing Steps */}
+                          <div className="bg-white rounded-lg p-4">
+                            <h4 className="font-semibold text-gray-800 mb-3">Processing Progress</h4>
+                            <div className="space-y-3">
+                              <div className="flex items-center gap-3">
+                                <CheckCircle className="w-5 h-5 text-green-500" />
+                                <span className="text-sm text-gray-600">Content Analysis Complete</span>
+                              </div>
+                              <div className="flex items-center gap-3">
+                                <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                                <span className="text-sm text-gray-600">AI Generation in Progress</span>
+                              </div>
+                              <div className="flex items-center gap-3">
+                                <div className="w-5 h-5 border-2 border-gray-300 rounded-full"></div>
+                                <span className="text-sm text-gray-400">Human Review</span>
+                              </div>
+                              <div className="flex items-center gap-3">
+                                <div className="w-5 h-5 border-2 border-gray-300 rounded-full"></div>
+                                <span className="text-sm text-gray-400">Final Formatting</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Book Under Review - Book Landing Page */}
+                <Card className="border-2 border-amber-200">
+                  <CardHeader>
+                    <div className="flex items-center gap-3">
+                      <div className="w-3 h-3 bg-amber-500 rounded-full"></div>
+                      <CardTitle className="text-xl">Book Under Review - Book Landing Page</CardTitle>
+                    </div>
+                    <CardDescription>Book page when under team review with status indicators</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="bg-gradient-to-br from-amber-50 to-orange-100 rounded-lg p-6">
+                      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        {/* Book Cover Section */}
+                        <div className="lg:col-span-1">
+                          <div className="bg-white rounded-lg shadow-lg p-6 text-center">
+                            <div className="w-32 h-40 bg-gradient-to-br from-amber-400 to-orange-600 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                              <BookOpen className="w-16 h-16 text-white" />
+                            </div>
+                            <h3 className="text-lg font-bold text-gray-800 mb-2">Tech News Weekly Digest</h3>
+                            <p className="text-sm text-gray-600 mb-3">by John Doe</p>
+                            <div className="w-full bg-gray-200 rounded-full h-2">
+                              <div className="bg-amber-500 h-2 rounded-full w-2/3"></div>
+                            </div>
+                            <p className="text-xs text-amber-600 mt-2">Under Review</p>
+                          </div>
+                        </div>
+
+                        {/* Book Info Section */}
+                        <div className="lg:col-span-2 space-y-6">
+                          <div>
+                            <h2 className="text-2xl font-bold text-gray-800 mb-2">Tech News Weekly Digest</h2>
+                            <p className="text-gray-600 mb-4">A comprehensive compilation of the latest technology news and insights from leading industry sources, curated and organized into a structured book format.</p>
+                            
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                              <div className="text-center">
+                                <div className="text-2xl font-bold text-amber-600">124</div>
+                                <div className="text-sm text-gray-500">Pages</div>
+                              </div>
+                              <div className="text-center">
+                                <div className="text-2xl font-bold text-amber-600">45.6K</div>
+                                <div className="text-sm text-gray-500">Words</div>
+                              </div>
+                              <div className="text-center">
+                                <div className="text-2xl font-bold text-amber-600">8</div>
+                                <div className="text-sm text-gray-500">Chapters</div>
+                              </div>
+                              <div className="text-center">
+                                <div className="text-2xl font-bold text-amber-600">2-3</div>
+                                <div className="text-sm text-gray-500">Days Left</div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Review Status */}
+                          <div className="bg-white rounded-lg p-4">
+                            <h4 className="font-semibold text-gray-800 mb-3">Review Status</h4>
+                            <div className="space-y-3">
+                              <div className="flex items-center justify-between">
+                                <span className="text-sm text-gray-600">Review Request Type</span>
+                                <Badge variant="outline" className="text-amber-600 border-amber-300">Refund Request</Badge>
+                              </div>
+                              <div className="flex items-center gap-3">
+                                <span className="text-sm text-gray-600">Request Date</span>
+                                <span className="text-sm text-gray-800">2 days ago</span>
+                              </div>
+                              <div className="flex items-center gap-3">
+                                <span className="text-sm text-gray-600">Estimated Review Time</span>
+                                <span className="text-sm text-gray-800">3-5 business days</span>
+                              </div>
+                              <div className="flex items-center gap-3">
+                                <span className="text-sm text-gray-600">Current Status</span>
+                                <Badge className="bg-amber-100 text-amber-800 border-amber-200">Under Team Review</Badge>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Book Post Approval - Book Landing Page */}
+                <Card className="border-2 border-green-200">
+                  <CardHeader>
+                    <div className="flex items-center gap-3">
+                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                      <CardTitle className="text-xl">Book Post Approval - Book Landing Page</CardTitle>
+                    </div>
+                    <CardDescription>Book page after approval with download and review options</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="bg-gradient-to-br from-green-50 to-emerald-100 rounded-lg p-6">
+                      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        {/* Book Cover Section */}
+                        <div className="lg:col-span-1">
+                          <div className="bg-white rounded-lg shadow-lg p-6 text-center">
+                            <div className="w-32 h-40 bg-gradient-to-br from-green-400 to-emerald-600 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                              <BookOpen className="w-16 h-16 text-white" />
+                            </div>
+                            <h3 className="text-lg font-bold text-gray-800 mb-2">Tech News Weekly Digest</h3>
+                            <p className="text-sm text-gray-600 mb-3">by John Doe</p>
+                            <div className="w-full bg-gray-200 rounded-full h-2">
+                              <div className="bg-green-500 h-2 rounded-full w-full"></div>
+                            </div>
+                            <p className="text-xs text-green-600 mt-2">Approved & Ready</p>
+                          </div>
+                        </div>
+
+                        {/* Book Info Section */}
+                        <div className="lg:col-span-2 space-y-6">
+                          <div>
+                            <h2 className="text-2xl font-bold text-gray-800 mb-2">Tech News Weekly Digest</h2>
+                            <p className="text-gray-600 mb-4">A comprehensive compilation of the latest technology news and insights from leading industry sources, curated and organized into a structured book format.</p>
+                            
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                              <div className="text-center">
+                                <div className="text-2xl font-bold text-green-600">124</div>
+                                <div className="text-sm text-gray-500">Pages</div>
+                              </div>
+                              <div className="text-center">
+                                <div className="text-2xl font-bold text-green-600">45.6K</div>
+                                <div className="text-sm text-gray-500">Words</div>
+                              </div>
+                              <div className="text-center">
+                                <div className="text-2xl font-bold text-green-600">8</div>
+                                <div className="text-sm text-gray-500">Chapters</div>
+                              </div>
+                              <div className="text-center">
+                                <div className="text-2xl font-bold text-green-600">PDF</div>
+                                <div className="text-sm text-gray-500">Format</div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Action Buttons */}
+                          <div className="bg-white rounded-lg p-4">
+                            <h4 className="font-semibold text-gray-800 mb-3">Available Actions</h4>
+                            <div className="flex flex-wrap gap-3">
+                              <Button className="bg-green-600 hover:bg-green-700">
+                                <Download className="w-4 h-4 mr-2" />
+                                Download Book
+                              </Button>
+                              <Button variant="outline">
+                                <Eye className="w-4 h-4 mr-2" />
+                                Preview Content
+                              </Button>
+                              <Button variant="outline">
+                                <MessageSquare className="w-4 h-4 mr-2" />
+                                Request Changes
+                              </Button>
+                            </div>
+                            <p className="text-xs text-gray-500 mt-3">Your book has been approved and is ready for download. You have 7 days to review before the refund period expires.</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Book Completed - Book Landing Page */}
+                <Card className="border-2 border-purple-200">
+                  <CardHeader>
+                    <div className="flex items-center gap-3">
+                      <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
+                      <CardTitle className="text-xl">Book Completed - Book Landing Page</CardTitle>
+                    </div>
+                    <CardDescription>Final book page with chapters overview and download options</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="bg-gradient-to-br from-purple-50 to-violet-100 rounded-lg p-6">
+                      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        {/* Book Cover Section */}
+                        <div className="lg:col-span-1">
+                          <div className="bg-white rounded-lg shadow-lg p-6 text-center">
+                            <div className="w-32 h-40 bg-gradient-to-br from-purple-400 to-violet-600 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                              <BookOpen className="w-16 h-16 text-white" />
+                            </div>
+                            <h3 className="text-lg font-bold text-gray-800 mb-2">Tech News Weekly Digest</h3>
+                            <p className="text-sm text-gray-600 mb-3">by John Doe</p>
+                            <div className="w-full bg-gray-200 rounded-full h-2">
+                              <div className="bg-purple-500 h-2 rounded-full w-full"></div>
+                            </div>
+                            <p className="text-xs text-purple-600 mt-2">Completed</p>
+                          </div>
+                        </div>
+
+                        {/* Book Info Section */}
+                        <div className="lg:col-span-2 space-y-6">
+                          <div>
+                            <h2 className="text-2xl font-bold text-gray-800 mb-2">Tech News Weekly Digest</h2>
+                            <p className="text-gray-600 mb-4">A comprehensive compilation of the latest technology news and insights from leading industry sources, curated and organized into a structured book format.</p>
+                            
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                              <div className="text-center">
+                                <div className="text-2xl font-bold text-purple-600">124</div>
+                                <div className="text-sm text-gray-500">Pages</div>
+                              </div>
+                              <div className="text-center">
+                                <div className="text-2xl font-bold text-purple-600">45.6K</div>
+                                <div className="text-sm text-gray-500">Words</div>
+                              </div>
+                              <div className="text-center">
+                                <div className="text-2xl font-bold text-purple-600">8</div>
+                                <div className="text-sm text-gray-500">Chapters</div>
+                              </div>
+                              <div className="text-center">
+                                <div className="text-2xl font-bold text-purple-600">2.3MB</div>
+                                <div className="text-sm text-gray-500">File Size</div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Chapters Overview */}
+                          <div className="bg-white rounded-lg p-4">
+                            <h4 className="font-semibold text-gray-800 mb-3">Chapters Overview</h4>
+                            <div className="space-y-2 max-h-40 overflow-y-auto">
+                              {[
+                                { title: "Introduction to Tech Trends", pages: 4, words: "1.2K" },
+                                { title: "AI Breakthroughs", pages: 6, words: "1.8K" },
+                                { title: "Cloud Computing Evolution", pages: 8, words: "2.4K" },
+                                { title: "Cybersecurity Updates", pages: 7, words: "2.0K" },
+                                { title: "Mobile Technology Trends", pages: 6, words: "1.6K" },
+                                { title: "Blockchain Developments", pages: 5, words: "1.4K" },
+                                { title: "Internet of Things", pages: 4, words: "1.2K" },
+                                { title: "Future Outlook", pages: 3, words: "800" }
+                              ].map((chapter, index) => (
+                                <div key={index} className="flex items-center justify-between p-2 hover:bg-gray-50 rounded">
+                                  <div className="flex items-center gap-3">
+                                    <div className="w-6 h-6 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-xs font-semibold">
+                                      {index + 1}
+                                    </div>
+                                    <span className="text-sm text-gray-700">{chapter.title}</span>
+                                  </div>
+                                  <div className="text-xs text-gray-500">
+                                    {chapter.pages} pages • {chapter.words} words
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Final Actions */}
+                          <div className="bg-white rounded-lg p-4">
+                            <h4 className="font-semibold text-gray-800 mb-3">Ready to Download</h4>
+                            <div className="flex flex-wrap gap-3">
+                              <Button className="bg-purple-600 hover:bg-purple-700">
+                                <Download className="w-4 h-4 mr-2" />
+                                Download PDF
+                              </Button>
+                              <Button variant="outline">
+                                <Eye className="w-4 h-4 mr-2" />
+                                Preview Book
+                              </Button>
+                              <Button variant="outline">
+                                <MessageSquare className="w-4 h-4 mr-2" />
+                                Get Support
+                              </Button>
+                            </div>
+                            <p className="text-xs text-gray-500 mt-3">Your book is complete and ready for download. All chapters have been generated and reviewed.</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </section>
+
+            {/* Book Review & Refund Components Section */}
               <section id="book-review-refund" className="mb-16">
                 <h2 className="text-3xl font-bold text-foreground mb-8">Book Review & Refund Components</h2>
                 <div className="grid gap-6">
