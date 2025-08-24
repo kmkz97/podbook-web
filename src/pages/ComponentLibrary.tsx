@@ -1326,10 +1326,21 @@ const ComponentLibrary = () => {
 
             {/* Book Landing Pages Section */}
             <section id="book-landing-pages" className="mb-16">
-              <h2 className="text-3xl font-bold text-foreground mb-8">Book Landing Pages</h2>
-              <p className="text-muted-foreground mb-6">
-                Book landing page variations for different project states, designed to feel like professional book pages with consistent layouts and different visual states.
-              </p>
+              <div className="flex items-center justify-between mb-8">
+                <div>
+                  <h2 className="text-3xl font-bold text-foreground">Book Landing Pages</h2>
+                  <p className="text-muted-foreground mt-2">
+                    Book landing page variations for different project states, designed to feel like professional book pages with consistent layouts and different visual states.
+                  </p>
+                </div>
+                <Button 
+                  onClick={() => window.open('/book-landing-variations', '_blank')}
+                  className="bg-primary hover:bg-primary/90"
+                >
+                  <BookOpen className="w-4 h-4 mr-2" />
+                  View Interactive Demo
+                </Button>
+              </div>
               
               <div className="space-y-8">
                 {/* Order Processing - Book Landing Page */}

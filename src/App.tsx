@@ -29,6 +29,7 @@ import ComponentLibrary from "./pages/ComponentLibrary";
 import AIEditor from "./pages/AIEditor";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import BookLandingPageVariations from "./pages/BookLandingPageVariations";
 
 const queryClient = new QueryClient();
 
@@ -87,6 +88,7 @@ const App = () => (
               <Route path="/component-library" element={<ComponentLibrary />} />
               <Route path="/ai-editor" element={<AIEditor />} />
               <Route path="/ai-editor/:projectId" element={<AIEditor />} />
+              <Route path="/book-landing-variations" element={<BookLandingPageVariations />} />
               <Route path="/api-test" element={<ApiTest />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
