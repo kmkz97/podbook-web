@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -31,6 +31,7 @@ import {
   X,
   Info
 } from "lucide-react";
+import { projectAPI } from "@/services/api";
 
 interface BookType {
   id: string;
@@ -86,6 +87,9 @@ const BookCreationWizard = () => {
   });
   const [selectedEpisodes, setSelectedEpisodes] = useState<Set<number>>(new Set());
   const [processing, setProcessing] = useState(false);
+  const [processingProgress, setProcessingProgress] = useState<number>(0);
+  const [projectId, setProjectId] = useState<string | null>(null);
+  const autosaveTimerRef = useRef<number | null>(null);
   const [preview, setPreview] = useState<{
     chapters: Chapter[];
     totalWords: number;
@@ -116,6 +120,44 @@ const BookCreationWizard = () => {
       return () => clearTimeout(timer);
     }
   }, [currentStep]);
+
+  // Debounced autosave when relevant state changes
+  useEffect(() => {
+    if (autosaveTimerRef.current) {
+      window.clearTimeout(autosaveTimerRef.current);
+    }
+    autosaveTimerRef.current = window.setTimeout(async () => {
+      try {
+        const payload = {
+          id: projectId || undefined,
+          type: selectedBookType || undefined,
+          details: bookDetails,
+          specs: bookSpecs,
+          content: {
+            rssFeed: contentSources.rssFeed,
+            uploadedFiles: contentSources.uploadedFiles.map(f => ({ name: f.name, size: f.size, type: f.type })),
+            textContent: contentSources.textContent,
+            urls: contentSources.urls,
+            selectedEpisodes: Array.from(selectedEpisodes),
+          },
+          step: currentStep,
+        } as any;
+        const resp = await projectAPI.saveProject(payload);
+        const savedId = resp?.data?.id || resp?.id;
+        if (savedId && !projectId) setProjectId(savedId);
+        setShowChangesSaved(true);
+        setTimeout(() => setShowChangesSaved(false), 1500);
+      } catch (e) {
+        // Silent fail for autosave; could surface toast if desired
+      }
+    }, 600);
+    return () => {
+      if (autosaveTimerRef.current) {
+        window.clearTimeout(autosaveTimerRef.current);
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedBookType, bookDetails, bookSpecs, contentSources, selectedEpisodes, currentStep]);
 
   // Auto-process content when reaching step 5
   useEffect(() => {
@@ -202,24 +244,88 @@ const BookCreationWizard = () => {
 
   const processContent = async () => {
     setProcessing(true);
-    // Simulate AI processing
-    setTimeout(() => {
-      const mockChapters: Chapter[] = [
-        { id: '1', title: 'Introduction', description: 'Overview and context setting', wordCount: 1200, estimatedPages: 4 },
-        { id: '2', title: 'Getting Started', description: 'Basic concepts and setup', wordCount: 1800, estimatedPages: 6 },
-        { id: '3', title: 'Core Concepts', description: 'Main ideas and principles', wordCount: 2400, estimatedPages: 8 },
-        { id: '4', title: 'Advanced Topics', description: 'Complex scenarios and solutions', wordCount: 2000, estimatedPages: 7 },
-        { id: '5', title: 'Conclusion', description: 'Summary and next steps', wordCount: 800, estimatedPages: 3 },
-      ];
-      
-      setPreview({
-        chapters: mockChapters,
-        totalWords: mockChapters.reduce((sum, ch) => sum + ch.wordCount, 0),
-        totalPages: mockChapters.reduce((sum, ch) => sum + ch.estimatedPages, 0),
-        estimatedCost: 25
-      });
-      setProcessing(false);
-    }, 3000);
+    setProcessingProgress(5);
+    try {
+      // Ensure project exists; save current state
+      if (!projectId) {
+        const resp = await projectAPI.saveProject({
+          type: selectedBookType || undefined,
+          details: bookDetails,
+          specs: bookSpecs,
+          content: {
+            rssFeed: contentSources.rssFeed,
+            uploadedFiles: contentSources.uploadedFiles.map(f => ({ name: f.name, size: f.size, type: f.type })),
+            textContent: contentSources.textContent,
+            urls: contentSources.urls,
+            selectedEpisodes: Array.from(selectedEpisodes),
+          },
+          step: currentStep,
+        } as any);
+        const savedId = resp?.data?.id || resp?.id;
+        if (savedId) setProjectId(savedId);
+      } else {
+        await projectAPI.saveProject({
+          id: projectId,
+          type: selectedBookType || undefined,
+          details: bookDetails,
+          specs: bookSpecs,
+          content: {
+            rssFeed: contentSources.rssFeed,
+            uploadedFiles: contentSources.uploadedFiles.map(f => ({ name: f.name, size: f.size, type: f.type })),
+            textContent: contentSources.textContent,
+            urls: contentSources.urls,
+            selectedEpisodes: Array.from(selectedEpisodes),
+          },
+          step: currentStep,
+        } as any);
+      }
+
+      // Simulate progress locally without hitting AI backend
+      let progress = 10;
+      const interval = setInterval(() => {
+        progress = Math.min(progress + Math.random() * 20, 95);
+        setProcessingProgress(progress);
+      }, 800);
+
+      // After a short delay, generate a mock preview
+      setTimeout(() => {
+        clearInterval(interval);
+        const mockChapters: Chapter[] = [
+          { id: '1', title: 'Introduction', description: 'Overview and context setting', wordCount: 1200, estimatedPages: 4 },
+          { id: '2', title: 'Getting Started', description: 'Basic concepts and setup', wordCount: 1800, estimatedPages: 6 },
+          { id: '3', title: 'Core Concepts', description: 'Main ideas and principles', wordCount: 2400, estimatedPages: 8 },
+          { id: '4', title: 'Advanced Topics', description: 'Complex scenarios and solutions', wordCount: 2000, estimatedPages: 7 },
+          { id: '5', title: 'Conclusion', description: 'Summary and next steps', wordCount: 800, estimatedPages: 3 },
+        ];
+        setPreview({
+          chapters: mockChapters,
+          totalWords: mockChapters.reduce((sum, ch) => sum + ch.wordCount, 0),
+          totalPages: mockChapters.reduce((sum, ch) => sum + ch.estimatedPages, 0),
+          estimatedCost: 25,
+        });
+        setProcessingProgress(100);
+        setProcessing(false);
+      }, 3500);
+    } catch (error) {
+      // Still present a mock preview on error
+      setTimeout(() => {
+        const mockChapters: Chapter[] = [
+          { id: '1', title: 'Introduction', description: 'Overview and context setting', wordCount: 1200, estimatedPages: 4 },
+          { id: '2', title: 'Getting Started', description: 'Basic concepts and setup', wordCount: 1800, estimatedPages: 6 },
+          { id: '3', title: 'Core Concepts', description: 'Main ideas and principles', wordCount: 2400, estimatedPages: 8 },
+          { id: '4', title: 'Advanced Topics', description: 'Complex scenarios and solutions', wordCount: 2000, estimatedPages: 7 },
+          { id: '5', title: 'Conclusion', description: 'Summary and next steps', wordCount: 800, estimatedPages: 3 },
+        ];
+        setPreview({
+          chapters: mockChapters,
+          totalWords: mockChapters.reduce((sum, ch) => sum + ch.wordCount, 0),
+          totalPages: mockChapters.reduce((sum, ch) => sum + ch.estimatedPages, 0),
+          estimatedCost: 25,
+        });
+        setProcessingProgress(100);
+        setProcessing(false);
+      }, 3000);
+    }
   };
 
   const renderStep1 = () => (
@@ -573,7 +679,7 @@ const BookCreationWizard = () => {
             <Clock className="w-8 h-8 mx-auto text-primary" />
             <h3 className="text-lg font-medium">Processing Your Content</h3>
             <p className="text-muted-foreground">AI is analyzing your content and generating your book structure...</p>
-            <Progress value={33} className="w-64 mx-auto" />
+            <Progress value={processingProgress} className="w-64 mx-auto" />
           </div>
         </div>
       ) : (
@@ -776,7 +882,36 @@ const BookCreationWizard = () => {
           
           {currentStep === steps.length ? (
             <Button
-              onClick={handleFinish}
+              onClick={async () => {
+                try {
+                  // Ensure we have latest saved data
+                  const payload = {
+                    id: projectId || undefined,
+                    type: selectedBookType || undefined,
+                    details: bookDetails,
+                    specs: bookSpecs,
+                    content: {
+                      rssFeed: contentSources.rssFeed,
+                      uploadedFiles: contentSources.uploadedFiles.map(f => ({ name: f.name, size: f.size, type: f.type })),
+                      textContent: contentSources.textContent,
+                      urls: contentSources.urls,
+                      selectedEpisodes: Array.from(selectedEpisodes),
+                    },
+                    step: currentStep,
+                  } as any;
+                  const saveResp = await projectAPI.saveProject(payload);
+                  const savedId = (saveResp?.data?.id || saveResp?.id) as string;
+                  const finalId = projectId || savedId;
+                  if (finalId) {
+                    await projectAPI.completeProject(finalId, { status: 'ACTIVE' });
+                    navigate(`/projects/${finalId}`);
+                  } else {
+                    navigate(`/dashboard`);
+                  }
+                } catch (e) {
+                  navigate(`/dashboard`);
+                }
+              }}
               className="bg-primary hover:bg-primary/90"
             >
               Save for Later
