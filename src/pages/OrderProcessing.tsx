@@ -63,7 +63,7 @@ const OrderProcessing = () => {
       try {
         const parsedOrder = JSON.parse(storedOrder);
         const orderData: OrderDetails = {
-          id: orderId || parsedOrder.id,
+          id: orderId || parsedOrder.id || 'demo-order-123',
           orderNumber: 'ORD-' + Date.now().toString().slice(-6),
           status: 'processing',
           createdAt: new Date().toLocaleDateString(),

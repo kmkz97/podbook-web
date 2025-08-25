@@ -80,6 +80,7 @@ const App = () => (
               } />
               <Route path="/onboarding" element={<Onboarding />} />
               <Route path="/money-back-guarantee" element={<MoneyBackGuarantee />} />
+              <Route path="/order-processing" element={<OrderProcessing />} />
               <Route path="/order-processing/:orderId" element={<OrderProcessing />} />
               <Route path="/book-completed/:id" element={<BookCompleted />} />
               <Route path="/book-review/:id" element={<BookReview />} />
