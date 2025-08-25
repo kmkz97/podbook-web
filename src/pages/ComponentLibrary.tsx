@@ -1692,341 +1692,135 @@ const ComponentLibrary = () => {
               </div>
             </section>
 
-            {/* Book Review & Refund Components Section */}
-              <section id="book-review-refund" className="mb-16">
-                <h2 className="text-3xl font-bold text-foreground mb-8">Book Review & Refund Components</h2>
-                <div className="grid gap-6">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Book Review Reminder</CardTitle>
-                      <CardDescription>Countdown timer and refund eligibility reminder for book reviews</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-6">
-                      <div>
-                        <h4 className="text-lg font-semibold mb-4">Component Overview</h4>
-                        <p className="text-sm text-muted-foreground mb-4">
-                          The BookReviewReminder component displays a countdown timer showing how many days remain for the user to review their book before it's automatically accepted. 
-                          It includes progress tracking, status indicators, and action buttons for accepting the book or requesting a refund.
-                        </p>
-                        
-                        <div className="bg-muted/50 rounded-lg p-4">
-                          <h5 className="font-medium mb-3">Key Features:</h5>
-                          <ul className="text-sm text-muted-foreground space-y-1">
-                            <li>• Real-time countdown timer (days, hours, minutes, seconds)</li>
-                            <li>• Visual progress bar showing review period completion</li>
-                            <li>• Dynamic status indicators and urgency messages</li>
-                            <li>• Action buttons for refund requests and book acceptance</li>
-                            <li>• Important reminders about refund eligibility</li>
-                            <li>• Responsive design with theme-aware styling</li>
-                          </ul>
-                        </div>
-                      </div>
 
-                      <div>
-                        <h4 className="text-lg font-semibold mb-4">Usage Example</h4>
-                        <div className="bg-card border rounded-lg p-4">
-                          <div className="text-sm text-muted-foreground mb-2">Basic Implementation:</div>
-                                                     <pre className="bg-muted p-3 rounded text-xs overflow-x-auto">
-{`<BookReviewReminder
-  generatedDate={new Date('2024-01-15')}
-  reviewPeriodDays={7}
-  bookTitle="Tech News Weekly"
-  orderId="ORD-12345"
-  onRequestRefund={() => setShowRefundModal(true)}
-  onAcceptBook={() => handleAcceptBook()}
-/>`}
-                           </pre>
-                        </div>
-                      </div>
-
-                      <div>
-                        <h4 className="text-lg font-semibold mb-4">Props Interface</h4>
-                        <div className="bg-muted/50 rounded-lg p-4">
-                          <div className="space-y-2 text-sm">
-                            <div><strong>generatedDate:</strong> Date - When the book was generated</div>
-                            <div><strong>reviewPeriodDays:</strong> number (optional) - Days allowed for review (default: 7)</div>
-                            <div><strong>onRequestRefund:</strong> () =&gt; void - Callback for refund requests</div>
-                            <div><strong>onAcceptBook:</strong> () =&gt; void - Callback for book acceptance</div>
-                            <div><strong>onReviewBook:</strong> () =&gt; void (optional) - Callback for book review</div>
-                            <div><strong>onDownloadBook:</strong> () =&gt; void (optional) - Callback for book download</div>
-                            <div><strong>bookTitle:</strong> string (optional) - Book title for display</div>
-                            <div><strong>orderId:</strong> string (optional) - Order ID for reference</div>
-                          </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Refund Request Modal</CardTitle>
-                      <CardDescription>Multi-step survey modal for collecting refund request information</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-6">
-                      <div>
-                        <h4 className="text-lg font-semibold mb-4">Component Overview</h4>
-                        <p className="text-sm text-muted-foreground mb-4">
-                          The RefundRequestModal provides a comprehensive, step-by-step form for users to request refunds. 
-                          It follows the same design patterns as the onboarding flow with progress indicators, validation, and a clean user experience.
-                        </p>
-                        
-                        <div className="bg-muted/50 rounded-lg p-4">
-                          <h5 className="font-medium mb-3">Form Steps:</h5>
-                          <ul className="text-sm text-muted-foreground space-y-1">
-                            <li>• <strong>Step 1:</strong> Reason for refund and specific issues</li>
-                            <li>• <strong>Step 2:</strong> Contact information and preferences</li>
-                            <li>• <strong>Step 3:</strong> Refund amount and urgency level</li>
-                            <li>• <strong>Step 4:</strong> Review and submit request</li>
-                          </ul>
-                        </div>
-                      </div>
-
-                      <div>
-                        <h4 className="text-lg font-semibold mb-4">Usage Example</h4>
-                        <div className="bg-card border rounded-lg p-4">
-                          <div className="text-sm text-muted-foreground mb-2">Basic Implementation:</div>
-                          <pre className="bg-muted p-3 rounded text-xs overflow-x-auto">
-{`&lt;RefundRequestModal
-  isOpen={showRefundModal}
-  onClose={() => setShowRefundModal(false)}
-  bookTitle="Tech News Weekly"
-  orderId="ORD-12345"
-  onSubmit={(data) => handleRefundRequest(data)}
-/&gt;`}
-                          </pre>
-                        </div>
-                      </div>
-
-                      <div>
-                        <h4 className="text-lg font-semibold mb-4">Props Interface</h4>
-                        <div className="bg-muted/50 rounded-lg p-4">
-                          <div className="space-y-2 text-sm">
-                            <div><strong>isOpen:</strong> boolean - Whether the modal is open</div>
-                            <div><strong>onClose:</strong> () =&gt; void - Callback to close the modal</div>
-                            <div><strong>bookTitle:</strong> string (optional) - Book title for reference</div>
-                            <div><strong>orderId:</strong> string (optional) - Order ID for reference</div>
-                            <div><strong>onSubmit:</strong> (data: RefundRequestData) =&gt; void - Callback when form is submitted</div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div>
-                        <h4 className="text-lg font-semibold mb-4">Data Structure</h4>
-                        <div className="bg-muted/50 rounded-lg p-4">
-                          <div className="text-sm text-muted-foreground">
-                            <div><strong>RefundRequestData:</strong></div>
-                            <div className="ml-4 space-y-1 mt-2">
-                              <div>• reason: string - Primary reason for refund</div>
-                              <div>• specificIssues: string[] - Array of specific problems</div>
-                              <div>• description: string - Detailed explanation</div>
-                              <div>• contactEmail: string - User's email address</div>
-                              <div>• phoneNumber?: string - Optional phone number</div>
-                              <div>• preferredContact: 'email' | 'phone' | 'both' - Contact preference</div>
-                              <div>• urgency: 'low' | 'medium' | 'high' - Urgency level</div>
-                              <div>• refundAmount: number - Amount requested</div>
-                              <div>• additionalNotes?: string - Optional additional information</div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div>
-                        <h4 className="text-lg font-semibold mb-4">Key Features</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div className="space-y-2">
-                            <div className="flex items-center gap-2">
-                              <CheckCircle className="w-4 h-4 text-green-600" />
-                              <span className="text-sm">Progress tracking with step indicators</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <CheckCircle className="w-4 h-4 text-green-600" />
-                              <span className="text-sm">Form validation at each step</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <CheckCircle className="w-4 h-4 text-green-600" />
-                              <span className="text-sm">Responsive design for all devices</span>
-                            </div>
-                          </div>
-                          <div className="space-y-2">
-                            <div className="flex items-center gap-2">
-                              <CheckCircle className="w-4 h-4 text-green-600" />
-                              <span className="text-sm">Theme-aware styling</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <CheckCircle className="w-4 h-4 text-green-600" />
-                              <span className="text-sm">Accessibility features</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <CheckCircle className="w-4 h-4 text-green-600" />
-                              <span className="text-sm">Comprehensive data collection</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+            {/* Book Landing Pages Section */}
+            <section id="book-landing-pages" className="mb-16">
+              <div className="flex items-center justify-between mb-8">
+                <div>
+                  <h2 className="text-3xl font-bold text-foreground">Book Landing Pages</h2>
+                  <p className="text-muted-foreground mt-2">
+                    Interactive book landing page variations for different project states, featuring our new 3D book component and comprehensive modal system.
+                  </p>
                 </div>
-              </section>
-
-              {/* Page Examples Section */}
-              <section id="pages" className="mb-16">
-                <h2 className="text-3xl font-bold text-foreground mb-8">Page Examples</h2>
-                <p className="text-lg text-muted-foreground mb-8 text-center max-w-3xl mx-auto">
-                  See how these components come together in real pages throughout the Podbook application. 
-                  Each page demonstrates different component combinations and design patterns.
-                </p>
-                
-                <div className="grid gap-6">
-                {/* Page Navigation Links */}
+                <Button 
+                  onClick={() => window.open('/book-landing-variations', '_blank')}
+                  className="bg-primary hover:bg-primary/90"
+                >
+                  <BookOpen className="w-4 h-4 mr-2" />
+                  View Interactive Demo
+                </Button>
+              </div>
+              
+              <div className="space-y-8">
+                {/* 3D Book Component */}
                 <Card>
                   <CardHeader>
-                    <CardTitle>Quick Navigation to All Pages</CardTitle>
-                    <CardDescription>Direct links to explore all designed pages in the application</CardDescription>
+                    <CardTitle>3D Book Component</CardTitle>
+                    <CardDescription>Interactive 3D book cover with dynamic thickness based on page count</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      <div className="space-y-3">
-                        <h4 className="font-semibold text-foreground">Public Pages</h4>
-                        <div className="space-y-2">
-                          <Button variant="outline" size="sm" className="w-full justify-start" asChild>
-                            <a href="/" target="_blank" rel="noopener noreferrer">
-                              <Home className="w-4 h-4 mr-2" />
-                              Homepage
-                            </a>
-                          </Button>
-                          <Button variant="outline" size="sm" className="w-full justify-start" asChild>
-                            <a href="/start" target="_blank" rel="noopener noreferrer">
-                              <BookOpen className="w-4 h-4 mr-2" />
-                              Start Page
-                            </a>
-                          </Button>
-                          <Button variant="outline" size="sm" className="w-full justify-start" asChild>
-                            <a href="/login" target="_blank" rel="noopener noreferrer">
-                              <User className="w-4 h-4 mr-2" />
-                              Login
-                            </a>
-                          </Button>
-                          <Button variant="outline" size="sm" className="w-full justify-start" asChild>
-                            <a href="/signup" target="_blank" rel="noopener noreferrer">
-                              <User className="w-4 h-4 mr-2" />
-                              Sign Up
-                            </a>
-                          </Button>
+                    <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-lg p-6">
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div>
+                          <h4 className="font-semibold text-foreground mb-4">Features</h4>
+                          <ul className="space-y-2 text-sm text-muted-foreground">
+                            <li>• Dynamic thickness calculation based on page count</li>
+                            <li>• Interactive 3D transforms with hover effects</li>
+                            <li>• Realistic book spine with page texture</li>
+                            <li>• Responsive design with proper perspective</li>
+                            <li>• Customizable title and author display</li>
+                          </ul>
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-foreground mb-4">Usage</h4>
+                          <div className="bg-muted/50 rounded-lg p-4">
+                            <pre className="text-xs overflow-x-auto">
+{`<Book3D
+  pageCount={124}
+  title="Tech News Weekly Digest"
+  author="by John Doe"
+/>`}
+                            </pre>
+                          </div>
                         </div>
                       </div>
+                    </div>
+                  </CardContent>
+                </Card>
 
-                      <div className="space-y-3">
-                        <h4 className="font-semibold text-foreground">App Pages</h4>
-                        <div className="space-y-2">
-                          <Button variant="outline" size="sm" className="w-full justify-start" asChild>
-                            <a href="/dashboard" target="_blank" rel="noopener noreferrer">
-                              <Home className="w-4 h-4 mr-2" />
-                              Dashboard
-                            </a>
-                          </Button>
-                          <Button variant="outline" size="sm" className="w-full justify-start" asChild>
-                            <a href="/projects" target="_blank" rel="noopener noreferrer">
-                              <FileText className="w-4 h-4 mr-2" />
-                              Projects
-                            </a>
-                          </Button>
-                          <Button variant="outline" size="sm" className="w-full justify-start" asChild>
-                            <a href="/new-project" target="_blank" rel="noopener noreferrer">
-                              <Plus className="w-4 h-4 mr-2" />
-                              New Project
-                            </a>
-                          </Button>
-                          <Button variant="outline" size="sm" className="w-full justify-start" asChild>
-                            <a href="/settings" target="_blank" rel="noopener noreferrer">
-                              <Settings className="w-4 h-4 mr-2" />
-                              Settings
-                            </a>
-                          </Button>
-                          <Button variant="outline" size="sm" className="w-full justify-start" asChild>
-                            <a href="/processing/:id" target="_blank" rel="noopener noreferrer">
-                              <Clock className="w-4 h-4 mr-2" />
-                              Processing State
-                            </a>
-                          </Button>
-                          <Button variant="outline" size="sm" className="w-full justify-start" asChild>
-                            <a href="/book-completed/:id" target="_blank" rel="noopener noreferrer">
-                              <CheckCircle className="w-4 h-4 mr-2" />
-                              Book Completed
-                            </a>
-                          </Button>
-                          <Button variant="outline" size="sm" className="w-full justify-start" asChild>
-                            <a href="/book-review/:id" target="_blank" rel="noopener noreferrer">
-                              <Eye className="w-4 h-4 mr-2" />
-                              Book Review (Read-Only)
-                            </a>
-                          </Button>
-                          <Button variant="outline" size="sm" className="w-full justify-start" asChild>
-                            <a href="/book-post-approval/:id" target="_blank" rel="noopener noreferrer">
-                              <CheckCircle className="w-4 h-4 mr-2" />
-                              Post Approval (No Timer/Refund)
-                            </a>
-                          </Button>
-                          <Button variant="outline" size="sm" className="w-full justify-start" asChild>
-                            <a href="/book-under-review/:id" target="_blank" rel="noopener noreferrer">
-                              <Clock className="w-4 h-4 mr-2" />
-                              Under Review by Team
-                            </a>
-                          </Button>
-                          <Button variant="outline" size="sm" className="w-full justify-start" asChild>
-                            <a href="/order-processing/:orderId" target="_blank" rel="noopener noreferrer">
-                              <CreditCard className="w-4 h-4 mr-2" />
-                              Order Processing
-                            </a>
-                          </Button>
-                          <Button variant="outline" size="sm" className="w-full justify-start" asChild>
-                            <a href="/ai-editor" target="_blank" rel="noopener noreferrer">
-                              <Edit className="w-4 h-4 mr-2" />
-                              AI Text Editor (Edit Mode)
-                            </a>
-                          </Button>
-                          <Button variant="outline" size="sm" className="w-full justify-start" asChild>
-                            <a href="/projects/demo-project" target="_blank" rel="noopener noreferrer">
-                              <FileText className="w-4 h-4 mr-2" />
-                              Project Detail
-                            </a>
-                          </Button>
-                          <Button variant="outline" size="sm" className="w-full justify-start" asChild>
-                            <a href="/api-test" target="_blank" rel="noopener noreferrer">
-                              <Settings className="w-4 h-4 mr-2" />
-                              API Test
-                            </a>
-                          </Button>
-                        </div>
+                {/* Modal System */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Modal System</CardTitle>
+                    <CardDescription>Comprehensive modal system for user interactions</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <h4 className="font-semibold text-foreground mb-3">Available Modals</h4>
+                        <ul className="space-y-2 text-sm text-muted-foreground">
+                          <li>• Order Placed Successfully</li>
+                          <li>• Order Completed</li>
+                          <li>• Download Confirmation</li>
+                          <li>• Contact Support</li>
+                          <li>• View Book</li>
+                          <li>• Refund Request</li>
+                        </ul>
                       </div>
+                      <div>
+                        <h4 className="font-semibold text-foreground mb-3">Auto-Launch Features</h4>
+                        <ul className="space-y-2 text-sm text-muted-foreground">
+                          <li>• Processing state: Order placed modal</li>
+                          <li>• Completed state: Order completed modal</li>
+                          <li>• Proper modal positioning and styling</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
 
-                      <div className="space-y-3">
-                        <h4 className="font-semibold text-foreground">Special Pages</h4>
-                        <div className="space-y-2">
-                          <Button variant="outline" size="sm" className="w-full justify-start" asChild>
-                            <a href="/onboarding" target="_blank" rel="noopener noreferrer">
-                              <Settings className="w-4 h-4 mr-2" />
-                              Onboarding
-                            </a>
-                          </Button>
-                          <Button variant="outline" size="sm" className="w-full justify-start" asChild>
-                            <a href="/money-back-guarantee" target="_blank" rel="noopener noreferrer">
-                              <CheckCircle className="w-4 h-4 mr-2" />
-                              Guarantee
-                            </a>
-                          </Button>
-                          <Button variant="outline" size="sm" className="w-full justify-start" asChild>
-                            <a href="/component-library" target="_blank" rel="noopener noreferrer">
-                              <Settings className="w-4 h-4 mr-2" />
-                              This Library
-                            </a>
-                          </Button>
+                {/* Page States */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Page States</CardTitle>
+                    <CardDescription>Different book landing page variations</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                      <div className="text-center p-4 bg-primary/5 rounded-lg">
+                        <div className="w-12 h-12 bg-primary rounded-full mx-auto mb-3 flex items-center justify-center">
+                          <span className="text-primary-foreground font-bold">P</span>
                         </div>
+                        <h4 className="font-semibold text-foreground">Processing</h4>
+                        <p className="text-xs text-muted-foreground">Order processing with progress steps</p>
+                      </div>
+                      <div className="text-center p-4 bg-primary/5 rounded-lg">
+                        <div className="w-12 h-12 bg-primary rounded-full mx-auto mb-3 flex items-center justify-center">
+                          <span className="text-primary-foreground font-bold">C</span>
+                        </div>
+                        <h4 className="font-semibold text-foreground">Completed</h4>
+                        <p className="text-xs text-muted-foreground">Ready for download with chapters</p>
+                      </div>
+                      <div className="text-center p-4 bg-primary/5 rounded-lg">
+                        <div className="w-12 h-12 bg-primary rounded-full mx-auto mb-3 flex items-center justify-center">
+                          <span className="text-primary-foreground font-bold">A</span>
+                        </div>
+                        <h4 className="font-semibold text-foreground">Approved</h4>
+                        <p className="text-xs text-muted-foreground">Post-approval with actions</p>
+                      </div>
+                      <div className="text-center p-4 bg-muted/5 rounded-lg">
+                        <div className="w-12 h-12 bg-muted rounded-full mx-auto mb-3 flex items-center justify-center">
+                          <span className="text-primary-foreground font-bold">R</span>
+                        </div>
+                        <h4 className="font-semibold text-foreground">Under Review</h4>
+                        <p className="text-xs text-muted-foreground">Team review in progress</p>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
               </div>
             </section>
+
 
             {/* Footer */}
             <footer className="border-t pt-8 mt-16">
