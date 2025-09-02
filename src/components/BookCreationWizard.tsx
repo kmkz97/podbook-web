@@ -116,7 +116,6 @@ const BookCreationWizard = () => {
   const [projectId, setProjectId] = useState<string | null>(null);
   const autosaveTimerRef = useRef<number | null>(null);
   const [preview, setPreview] = useState<{
-    chapters: Chapter[];
     totalWords: number;
     totalPages: number;
     estimatedCost: number;
@@ -397,30 +396,48 @@ const BookCreationWizard = () => {
   };
 
   const calculateTotalPrice = () => {
-    const baseCostPerPage = 0.15;
-    const contentProcessingPerSource = 0.10;
-    const aiGenerationPerChapter = 0.25;
+    // Target pricing: $500-1000 for 100-300 pages
+    // This means approximately $2-3.33 per page
+    const targetPricePerPage = 2.5; // Middle of the range
     
-    // Calculate content sources count
-    const contentSourcesCount = [
-      contentSources.rssFeed ? 1 : 0,
-      contentSources.uploadedFiles.length > 0 ? 1 : 0,
-      contentSources.textContent ? 1 : 0,
-      contentSources.urls.length > 0 ? 1 : 0
-    ].filter(count => count > 0).length;
+    // Base calculation based on target pages
+    let basePrice = bookSpecs.targetPages[0] * targetPricePerPage;
     
-    // Calculate complexity multiplier
-    const complexityMultiplier = (selectedBookType === 'technical' || selectedBookType === 'academic') ? 1.5 : 1.0;
+    // Adjust for book type complexity
+    const complexityMultiplier = (selectedBookType === 'technical' || selectedBookType === 'academic') ? 1.3 : 1.0;
+    if (selectedBookType === 'creative') complexityMultiplier = 0.9; // Creative content is easier to generate
+    
+    // Content source processing fee
+    const contentProcessingFee = 25; // Fixed fee for processing content sources
     
     // Calculate total
-    const baseCost = bookSpecs.targetPages[0] * baseCostPerPage;
-    const contentProcessingCost = contentSourcesCount * contentProcessingPerSource;
-    const aiGenerationCost = bookSpecs.targetChapters[0] * aiGenerationPerChapter;
+    const subtotal = (basePrice * complexityMultiplier) + contentProcessingFee;
     
-    const subtotal = baseCost + contentProcessingCost + aiGenerationCost;
-    const total = subtotal * complexityMultiplier;
+    return Math.round(subtotal); // Round to nearest dollar
+  };
+
+  const calculateEpisodesNeeded = () => {
+    // Average speaking rate: 130 words per minute
+    // 60 minutes = 7,800 words
+    // Target: 100-300 pages = approximately 25,000 - 75,000 words
+    const targetWords = bookSpecs.targetPages[0] * 250; // Assume 250 words per page
     
-    return total;
+    // Calculate minutes needed
+    const minutesNeeded = targetWords / 130; // 130 words per minute
+    
+    // Convert to episodes (assuming average episode length of 45 minutes)
+    const averageEpisodeLength = 45; // minutes
+    const episodesNeeded = Math.ceil(minutesNeeded / averageEpisodeLength);
+    
+    return Math.max(1, episodesNeeded); // Minimum 1 episode
+  };
+
+  const calculateContentHours = () => {
+    const targetWords = bookSpecs.targetPages[0] * 250;
+    const minutesNeeded = targetWords / 130;
+    const hoursNeeded = minutesNeeded / 60;
+    
+    return Math.round(hoursNeeded * 10) / 10; // Round to 1 decimal place
   };
 
   const processContent = async () => {
@@ -520,10 +537,10 @@ const BookCreationWizard = () => {
         {bookTypes.map((type) => (
           <Card 
             key={type.id}
-            className={`cursor-pointer transition-all hover:shadow-md ${
+            className={`cursor-pointer transition-all bg-background ${
               selectedBookType === type.id 
                 ? 'ring-2 ring-primary bg-primary/5' 
-                : 'hover:bg-muted/50'
+                : 'hover:bg-muted/50 hover:scale-105'
             }`}
             onClick={() => setSelectedBookType(type.id)}
           >
@@ -840,12 +857,12 @@ const BookCreationWizard = () => {
               <Upload className="w-5 h-5 text-primary" />
               File Upload
             </CardTitle>
-            <CardDescription>Upload documents, images, audio, or video files</CardDescription>
+            <CardDescription>Upload audio and video files only</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="border-2 border-dashed border-muted rounded-lg p-8 text-center">
               <Upload className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
-              <p className="text-muted-foreground mb-2">Drag and drop files here, or click to browse</p>
+              <p className="text-muted-foreground mb-2">Drag and drop audio/video files here, or click to browse</p>
               <Button variant="outline" onClick={() => document.getElementById('file-upload')?.click()}>
                 Choose Files
               </Button>
@@ -853,7 +870,7 @@ const BookCreationWizard = () => {
                 id="file-upload"
                 type="file"
                 multiple
-                accept="*/*"
+                accept="audio/*,video/*"
                 className="hidden"
                 onChange={(e) => handleFileUpload(e.target.files)}
               />
@@ -941,42 +958,21 @@ const BookCreationWizard = () => {
               <div className="grid grid-cols-3 gap-4 text-center">
                 <div>
                   <div className="text-2xl font-medium text-primary">{preview.totalPages}</div>
-                  <div className="text-sm text-muted-foreground">Total Pages</div>
+                  <div className="text-sm text-muted-foreground">Approximate Total Pages</div>
                 </div>
                 <div>
                   <div className="text-2xl font-medium text-primary">{preview.totalWords.toLocaleString()}</div>
-                  <div className="text-sm text-muted-foreground">Word Count</div>
+                  <div className="text-sm text-muted-foreground">Approximate Word Count</div>
                 </div>
                 <div>
-                  <div className="text-2xl font-medium text-primary">{preview.chapters.length}</div>
-                  <div className="text-sm text-muted-foreground">Chapters</div>
+                  <div className="text-2xl font-medium text-primary">2-4</div>
+                  <div className="text-sm text-muted-foreground">Estimated Turnaround (Business Days)</div>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          {/* Chapter List */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Chapter Structure</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {preview.chapters.map((chapter, index) => (
-                  <div key={chapter.id} className="flex items-center justify-between p-3 bg-muted rounded-lg">
-                    <div>
-                      <h4 className="font-medium">Chapter {index + 1}: {chapter.title}</h4>
-                      <p className="text-sm text-muted-foreground">{chapter.description}</p>
-                    </div>
-                    <div className="text-right text-sm">
-                      <div className="font-medium">{chapter.wordCount.toLocaleString()} words</div>
-                      <div className="text-muted-foreground">~{chapter.estimatedPages} pages</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+
 
           {/* Price Calculator */}
           <Card>
@@ -998,14 +994,6 @@ const BookCreationWizard = () => {
                       <span>Uploaded Files:</span>
                       <span className="font-medium">{contentSources.uploadedFiles.length}</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span>Text Content:</span>
-                      <span className="font-medium">{contentSources.textContent ? 'Yes' : 'No'}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>URLs:</span>
-                      <span className="font-medium">{contentSources.urls.length}</span>
-                    </div>
                   </div>
                 </div>
                 
@@ -1017,12 +1005,16 @@ const BookCreationWizard = () => {
                       <span className="font-medium">{bookSpecs.targetPages[0]}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span>Target Chapters:</span>
-                      <span className="font-medium">{bookSpecs.targetChapters[0]}</span>
-                    </div>
-                    <div className="flex justify-between">
                       <span>Book Type:</span>
                       <span className="font-medium capitalize">{selectedBookType.replace('-', ' ')}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Content Hours:</span>
+                      <span className="font-medium">{calculateContentHours()} hours</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Recommended Episodes:</span>
+                      <span className="font-medium">{calculateEpisodesNeeded()} episodes</span>
                     </div>
                   </div>
                 </div>
@@ -1033,35 +1025,94 @@ const BookCreationWizard = () => {
                 <h4 className="font-medium mb-3">Pricing Breakdown</h4>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span>Base Cost (per page):</span>
-                    <span>$0.15</span>
+                    <span>Base Price (per page):</span>
+                    <span>$2.50</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span>Content Processing (per source):</span>
-                    <span>$0.10</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span>AI Generation (per chapter):</span>
-                    <span>$0.25</span>
+                    <span>Content Processing Fee:</span>
+                    <span>$25.00</span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span>Complexity Multiplier:</span>
-                    <span>{selectedBookType === 'technical' || selectedBookType === 'academic' ? '1.5x' : '1.0x'}</span>
+                    <span>
+                      {selectedBookType === 'technical' || selectedBookType === 'academic' ? '1.3x' : 
+                       selectedBookType === 'creative' ? '0.9x' : '1.0x'}
+                    </span>
                   </div>
                   <Separator className="my-2" />
                   <div className="flex justify-between font-medium">
                     <span>Estimated Total:</span>
-                    <span className="text-primary text-lg">${calculateTotalPrice().toFixed(2)}</span>
+                    <span className="text-primary text-lg">${calculateTotalPrice().toFixed(0)}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Content Requirements */}
+              <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <h4 className="font-medium mb-3 text-blue-800">Content Requirements</h4>
+                <div className="space-y-2 text-sm text-blue-700">
+                  <div className="flex justify-between">
+                    <span>Estimated Content Hours:</span>
+                    <span className="font-medium">{calculateContentHours()} hours</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Recommended Episodes:</span>
+                    <span className="font-medium">{calculateEpisodesNeeded()} episodes</span>
+                  </div>
+                  <div className="text-xs mt-2">
+                    Based on 130 words/minute speaking rate • 45-minute average episode length
+                  </div>
+                </div>
+              </div>
+              
+              {/* Money-Back Guarantee */}
+              <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                <div className="flex items-start gap-3">
+                  <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <CheckCircle className="w-4 h-4 text-green-600" />
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="font-medium text-green-900 mb-2">Purchase in confidence!</h4>
+                    <p className="text-sm text-green-700 mb-3">
+                      If you are not completely satisfied with your book, you have 1 week to review it in view-only mode on our site and request a refund (minus processing fees). Downloading the book waives your refund eligibility.{' '}
+                      <button 
+                        className="text-green-800 underline hover:text-green-900 font-medium"
+                        onClick={() => window.open('/money-back-guarantee', '_blank')}
+                      >
+                        Learn more
+                      </button>.
+                    </p>
                   </div>
                 </div>
               </div>
               
               <div className="flex gap-3">
-                <Button variant="outline" className="flex-1">
-                  <Download className="w-4 h-4 mr-2" />
-                  Download Overview
-                </Button>
-                <Button className="flex-1 bg-primary hover:bg-primary/90">
+                <Button 
+                  className="w-full bg-primary hover:bg-primary/90"
+                  onClick={() => {
+                    // TODO: In production, this would integrate with Stripe
+                    // For demo purposes, create a mock order and navigate to processing
+                    const orderId = 'order-' + Date.now();
+                    
+                    // Store order data in localStorage for demo purposes
+                    const orderData = {
+                      id: orderId,
+                      bookTitle: bookDetails.title,
+                      bookType: selectedBookType,
+                      targetPages: bookSpecs.targetPages[0],
+                      contentSources: contentSources,
+                      pricing: {
+                        subtotal: calculateTotalPrice(),
+                        processingFee: 0.20,
+                        total: calculateTotalPrice() + 0.20
+                      }
+                    };
+                    localStorage.setItem('currentOrder', JSON.stringify(orderData));
+                    
+                    // Navigate to order processing page
+                    navigate(`/order-processing/${orderId}`);
+                  }}
+                >
                   <CreditCard className="w-4 h-4 mr-2" />
                   Purchase & Generate
                 </Button>
@@ -1119,14 +1170,19 @@ const BookCreationWizard = () => {
 
         {/* Navigation */}
         <div className="flex justify-between">
-          <Button
-            variant="outline"
-            onClick={handlePrevious}
-            disabled={currentStep === 1}
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Previous
-          </Button>
+          {/* Only show Previous button if not on first step */}
+          {currentStep > 1 && (
+            <Button
+              variant="outline"
+              onClick={handlePrevious}
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Previous
+            </Button>
+          )}
+          
+          {/* Show empty div on first step to maintain layout */}
+          {currentStep === 1 && <div></div>}
           
           {currentStep === steps.length ? (
             <Button

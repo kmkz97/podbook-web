@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useAuth } from "@/contexts/AuthContext";
+import Logo from "@/components/Logo";
 import {
   BookOpen,
   Home,
@@ -31,14 +32,7 @@ const LeftNavigation = ({ activePage = 'dashboard' }: LeftNavigationProps) => {
     <aside className="w-64 bg-card border-r border-border h-screen flex flex-col sticky top-0">
       {/* Logo Section */}
       <div className="p-6">
-        <div className="flex items-center gap-2">
-          <img 
-            src={theme === 'dark' ? '/logo-white.svg' : '/logo.svg'} 
-            alt="Podbook Logo" 
-            className="w-6 h-6" 
-          />
-          <h1 className="text-2xl font-medium text-foreground" style={{ letterSpacing: '-1px' }}>Podbook</h1>
-        </div>
+        <Logo size="md" showText={true} textSize="2xl" />
       </div>
       
       {/* Navigation Content */}
@@ -95,6 +89,12 @@ const LeftNavigation = ({ activePage = 'dashboard' }: LeftNavigationProps) => {
               <Button variant="ghost" className="w-full justify-start left-nav-hover">
                 <Download className="w-4 h-4 mr-3" />
                 Import RSS
+              </Button>
+              <Button variant="ghost" className="w-full justify-start left-nav-hover" asChild>
+                <Link to="/component-library">
+                  <Settings className="w-4 h-4 mr-3" />
+                  Component Library
+                </Link>
               </Button>
             </div>
           </div>

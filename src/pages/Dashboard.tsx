@@ -3,7 +3,6 @@ import LeftNavigation from "@/components/LeftNavigation";
 import ChatInput from "@/components/ChatInput";
 import { useAuth } from "@/contexts/AuthContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
-import OnboardingTestButton from "@/components/OnboardingTestButton";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -56,7 +55,6 @@ const Dashboard = () => {
             </div>
           </main>
         </div>
-        <OnboardingTestButton />
       </div>
     </ProtectedRoute>
   );

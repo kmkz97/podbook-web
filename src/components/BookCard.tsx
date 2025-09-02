@@ -22,10 +22,15 @@ const BookCard = ({ project, showActions = true }: BookCardProps) => {
   const isFailed = project.status === 'failed';
 
   const handleCardClick = () => {
-    if (isProcessing || isFailed) {
-      navigate(`/processing/${project.id}`);
+    // Navigate to book landing variations with appropriate state
+    if (project.id === 'order-demo') {
+      navigate(`/order-processing/${project.id}`);
+    } else if (isProcessing || isFailed) {
+      navigate(`/book-landing-variations?state=processing`);
+    } else if (isCompleted) {
+      navigate(`/book-landing-variations?state=completed`);
     } else {
-      navigate(`/projects/${project.id}`);
+      navigate(`/book-landing-variations?state=processing`);
     }
   };
 
@@ -57,7 +62,12 @@ const BookCard = ({ project, showActions = true }: BookCardProps) => {
         <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
           {/* View Button - Always enabled */}
           <Button variant="outline" size="sm" className="flex-1" asChild>
-            <Link to={isProcessing || isFailed ? `/processing/${project.id}` : `/projects/${project.id}`}>
+            <Link to={
+              project.id === 'order-demo' 
+                ? `/order-processing/${project.id}` 
+                : (isProcessing || isFailed ? `/book-landing-variations?state=processing` : 
+                   isCompleted ? `/book-landing-variations?state=completed` : `/book-landing-variations?state=processing`)
+            }>
               <Eye className="h-4 w-4 mr-2" />
               View
             </Link>
@@ -66,7 +76,7 @@ const BookCard = ({ project, showActions = true }: BookCardProps) => {
           {/* Failed State: View + Retry */}
           {isFailed && (
             <Button variant="outline" size="sm" className="flex-1" asChild>
-              <Link to={`/processing/${project.id}`}>
+              <Link to={`/book-landing-variations?state=processing`}>
                 <Clock className="h-4 w-4 mr-2" />
                 Retry
               </Link>
@@ -91,7 +101,7 @@ const BookCard = ({ project, showActions = true }: BookCardProps) => {
           {isCompleted && (
             <>
               <Button variant="outline" size="sm" className="flex-1" asChild>
-                <Link to={`/projects/${project.id}`}>
+                <Link to={`/book-landing-variations?state=completed`}>
                   <Edit className="h-4 w-4 mr-2" />
                   Edit
                 </Link>
