@@ -69,8 +69,11 @@ export const usersAPI = {
 export const projectAPI = {
   // Create or update project data
   saveProject: async (data: any) => {
-    const url = data.id ? `/project/${data.id}` : '/project/save';
-    const method = data.id ? 'PUT' : 'POST';
+    console.log('Saving project data:', data);
+    console.log('project id:', data.id); 
+    // Backend supports POST /project/save for both create and update
+    const url = '/project/save'; 
+    const method = 'POST';
     
     return apiRequest(url, {
       method,
@@ -105,6 +108,8 @@ export const projectAPI = {
 
   // List user's projects
   listProjects: async () => {
+    // NOTE: Backend does not expose GET /project (list) yet
+    // This will 404 until the API is implemented
     return apiRequest('/project', {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
@@ -149,10 +154,54 @@ export const aiAPI = {
   },
 };
 
+// RSS API
+export const rssAPI = {
+  fetchEpisodes: async (url: string) => {
+    const encoded = encodeURIComponent(url);
+    return apiRequest(`/rss/episodes?url=${encoded}`);
+  },
+};
+
+// Uploads API
+export const uploadsAPI = {
+  saveRssEpisodes: async (payload: { projectId: string; episodes: Array<{ id: string; title: string; link?: string | null; duration?: string | null; pubDate?: string | null }> }) => {
+    return apiRequest('/uploads/rss', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+      },
+    });
+  },
+  presign: async (payload: { filename: string; contentType: string; projectId: string }) => {
+    return apiRequest('/uploads/presign', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+      },
+    });
+  },
+  saveUploadedFiles: async (payload: { projectId: string; files: Array<{ filename: string; url: string; size: number; contentType: string }> }) => {
+    return apiRequest('/uploads/files', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+      },
+    });
+  },
+};
+
 export default {
   auth: authAPI,
   users: usersAPI,
   project: projectAPI,
   content: contentAPI,
   ai: aiAPI,
+  rss: rssAPI,
+  uploads: uploadsAPI,
 };

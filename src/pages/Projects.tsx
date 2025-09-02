@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,11 +6,12 @@ import { Search, Plus, BookOpen } from "lucide-react";
 import LeftNavigation from "@/components/LeftNavigation";
 import BookCard from "@/components/BookCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { projectAPI } from "@/services/api";
 
 interface Project {
   id: string;
   title: string;
-  status: 'processing' | 'completed' | 'failed';
+  status: 'processing' | 'completed' | 'failed' | 'draft' | 'archived';
   edited_at?: string;
   word_count?: number;
   pages_count?: number;
@@ -18,45 +19,40 @@ interface Project {
 
 const Projects = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  
-  const [projects] = useState<Project[]>([
-    {
-      id: '1',
-      title: 'Tech News Weekly',
-      status: 'completed',
-      edited_at: '2024-01-15',
-      word_count: 45000,
-      pages_count: 124
-    },
-    {
-      id: '2',
-      title: 'Design Inspiration Daily',
-      status: 'processing',
-      edited_at: '2024-01-20'
-    },
-    {
-      id: '3',
-      title: 'Industry Updates',
-      status: 'failed',
-      edited_at: '2024-01-18'
-    },
-    {
-      id: '4',
-      title: 'Marketing Insights',
-      status: 'completed',
-      edited_at: '2024-01-10',
-      word_count: 32000,
-      pages_count: 89
-    },
-    {
-      id: '5',
-      title: 'Science Breakthroughs',
-      status: 'completed',
-      edited_at: '2024-01-05',
-      word_count: 58000,
-      pages_count: 156
-    }
-  ]);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    const fetchProjects = async () => {
+      try {
+        const resp = await projectAPI.listProjects();
+        const items = (resp?.data ?? resp ?? []) as any[];
+        const mapped: Project[] = items.map((p) => ({
+          id: p.id,
+          title: p.title ?? 'Untitled Project',
+          status: (p.status?.toLowerCase?.() ?? 'draft') as Project['status'],
+          edited_at: p.updatedAt ?? undefined,
+          word_count: p.totalWords ?? undefined,
+          pages_count: p.targetPages ?? undefined,
+        }));
+        if (mounted) {
+          setProjects(mapped);
+          setLoading(false);
+        }
+      } catch (e: any) {
+        if (mounted) {
+          setError(e?.message || 'Failed to load projects');
+          setLoading(false);
+        }
+      }
+    };
+    fetchProjects();
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const filteredProjects = projects.filter(project => {
     const matchesSearch = project.title.toLowerCase().includes(searchTerm.toLowerCase());
@@ -161,12 +157,27 @@ const Projects = () => {
 
         {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredProjects.map((project) => (
-            <BookCard key={project.id} project={project} />
+          {!loading && filteredProjects.map((project) => (
+            <BookCard key={project.id} project={{
+              id: project.id,
+              title: project.title,
+              // Map extra statuses to nearest supported ones used by BookCard
+              status: (project.status === 'draft' ? 'processing' : project.status === 'archived' ? 'failed' : project.status) as 'processing' | 'completed' | 'failed',
+              edited_at: project.edited_at,
+              word_count: project.word_count,
+              pages_count: project.pages_count,
+            }} />
           ))}
         </div>
 
-        {filteredProjects.length === 0 && (
+        {loading && (
+          <div className="text-center py-12">
+            <BookOpen className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+            <h3 className="text-lg font-medium text-foreground mb-2">Loading projects...</h3>
+          </div>
+        )}
+
+        {!loading && filteredProjects.length === 0 && (
           <div className="text-center py-12">
             <BookOpen className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
             <h3 className="text-lg font-medium text-foreground mb-2">

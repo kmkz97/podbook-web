@@ -19,11 +19,15 @@ import Settings from "./pages/Settings";
 import ApiTest from "./components/ApiTest";
 import Onboarding from "./pages/Onboarding";
 import OnboardingGuard from "./components/OnboardingGuard";
+import { ApolloProvider } from '@apollo/client';
+import client from './lib/apolloClient';
+
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
+    <ApolloProvider client={client}>
     <ThemeProvider>
       <AuthProvider>
         <TooltipProvider>
@@ -74,6 +78,7 @@ const App = () => (
         </TooltipProvider>
       </AuthProvider>
     </ThemeProvider>
+    </ApolloProvider>
   </QueryClientProvider>
 );
 
