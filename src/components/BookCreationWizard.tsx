@@ -10,6 +10,9 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import axios from "axios";
+import { useMutation } from '@apollo/client';
+import { CREATE_PODIUM_PACKAGE } from '@/lib/graphql/mutations/createPodiumPackage';
 import { 
   BookOpen, 
   FileText, 
@@ -31,7 +34,7 @@ import {
   X,
   Info
 } from "lucide-react";
-import { projectAPI } from "@/services/api";
+import { projectAPI, rssAPI, uploadsAPI } from "@/services/api";
 
 interface BookType {
   id: string;
@@ -39,6 +42,25 @@ interface BookType {
   description: string;
   icon: typeof BookOpen;
   category: string;
+}
+
+interface UploadingFile {
+  file: File;
+  progress: number;
+  status: 'pending' | 'uploading' | 'completed' | 'error';
+  error?: string;
+  url?: string;
+}
+
+interface FileMetadata {
+  name: string;
+  size: number;
+  type: string;
+  lastModified: number;
+  podiumPackageId: string;
+  url?: string;
+  duration?: number; // in seconds
+  projectId?: string;
 }
 
 interface Chapter {
@@ -81,11 +103,14 @@ const BookCreationWizard = () => {
   });
   const [contentSources, setContentSources] = useState({
     rssFeed: '',
-    uploadedFiles: [] as File[],
+    uploadedFiles: [] as FileMetadata[],
     textContent: '',
     urls: [] as string[]
   });
   const [selectedEpisodes, setSelectedEpisodes] = useState<Set<number>>(new Set());
+  const [rssLoading, setRssLoading] = useState(false);
+  const [rssError, setRssError] = useState<string | null>(null);
+  const [rssEpisodes, setRssEpisodes] = useState<Array<{ id: string; title: string; link?: string | null; pubDate?: string | null; duration?: string | null }>>([]);
   const [processing, setProcessing] = useState(false);
   const [processingProgress, setProcessingProgress] = useState<number>(0);
   const [projectId, setProjectId] = useState<string | null>(null);
@@ -174,7 +199,64 @@ const BookCreationWizard = () => {
     { id: 5, title: 'Book Overview', description: 'Review and save', completed: !!preview },
   ];
 
-  const handleNext = () => {
+  const handleNext = async () => {
+    // On step 4, persist selected RSS episodes as uploads before proceeding
+    if (currentStep === 4 && ( selectedEpisodes.size > 0 || contentSources.uploadedFiles.length > 0)) {
+      try {
+        const episodesToSave = Array.from(selectedEpisodes).map((idx) => rssEpisodes[idx]).filter(Boolean);
+        // Ensure we have a projectId; trigger save if needed
+        if (!projectId) {
+          const saveResp = await projectAPI.saveProject({
+            type: selectedBookType || undefined,
+            details: bookDetails,
+            specs: bookSpecs,
+            content: { ...contentSources, selectedEpisodes: Array.from(selectedEpisodes) },
+            step: currentStep,
+          } as any);
+          const savedId = saveResp?.data?.id || saveResp?.id;
+          if (savedId) setProjectId(savedId);
+        }
+        const effectiveProjectId = projectId || (await (async () => {
+          const saveResp = await projectAPI.saveProject({
+            type: selectedBookType || undefined,
+            details: bookDetails,
+            specs: bookSpecs,
+            content: { ...contentSources, selectedEpisodes: Array.from(selectedEpisodes) },
+            step: currentStep,
+          } as any);
+          return saveResp?.data?.id || saveResp?.id;
+        })());
+
+        if (effectiveProjectId) {
+          if (selectedEpisodes.size > 0) {
+            await uploadsAPI.saveRssEpisodes({
+              projectId: effectiveProjectId,
+              episodes: episodesToSave as any,
+            });
+          }
+          // Save any direct-uploaded files as uploads too
+          const uploadedFiles = contentSources.uploadedFiles
+            .filter(f => f.podiumPackageId) // Only include successfully uploaded files
+            .map(f => ({
+              filename: f.name,
+              url: f.podiumPackageId, // You might need to construct this from your storage URL and package ID
+              size: f.size,
+              contentType: f.type,
+              duration: f.duration
+            }));
+
+          if (uploadedFiles.length > 0) {
+            console.log('Saving uploaded files:', uploadedFiles);
+            await uploadsAPI.saveUploadedFiles({ 
+              projectId: effectiveProjectId, 
+              files: uploadedFiles 
+            });
+          }
+        }
+      } catch (e) {
+        // Non-blocking: we still allow moving forward
+      }
+    }
     if (currentStep < steps.length) {
       setCurrentStep(currentStep + 1);
     }
@@ -198,13 +280,112 @@ const BookCreationWizard = () => {
     navigate(`/projects/${projectId}`);
   };
 
-  const handleFileUpload = (files: FileList | null) => {
-    if (files) {
-      const newFiles = Array.from(files);
-      setContentSources(prev => ({
-        ...prev,
-        uploadedFiles: [...prev.uploadedFiles, ...newFiles]
-      }));
+  const [uploadingFiles, setUploadingFiles] = useState<UploadingFile[]>([]);
+  const [createPodiumPackage] = useMutation(CREATE_PODIUM_PACKAGE);
+
+  const handleFileUpload = async (files: FileList | null) => {
+    if (!files) return;
+    
+    const list = Array.from(files);
+    const effectiveProjectId = projectId || (await (async () => {
+      const saveResp = await projectAPI.saveProject({
+        type: selectedBookType || undefined,
+        details: bookDetails,
+        specs: bookSpecs,
+        content: contentSources,
+        step: currentStep,
+      } as any);
+      const savedId = saveResp?.data?.id || saveResp?.id;
+      if (savedId && !projectId) setProjectId(savedId);
+      return savedId;
+    })());
+    if (!effectiveProjectId) return;
+  
+    const newUploadingFiles: UploadingFile[] = list.map(file => ({
+      file,
+      progress: 0,
+      status: 'pending' as const
+    }));
+    
+    setUploadingFiles(prev => [...prev, ...newUploadingFiles]);
+  
+    for (let i = 0; i < newUploadingFiles.length; i++) {
+      const { file } = newUploadingFiles[i];
+      const fileIndex = uploadingFiles.length + i;
+      
+      try {
+        setUploadingFiles(prev => {
+          const updated = [...prev];
+          updated[fileIndex] = { ...updated[fileIndex], status: 'uploading' };
+          return updated;
+        });
+  
+        // 1. Get upload credentials from GraphQL
+        const { data } = await createPodiumPackage({
+          variables: {
+            userEmail: 'test123test020@podium.page', // Make sure you have access to the user object
+            originalFilename: file.name,
+            projectId: null,
+            languageCode: 'en', // Set appropriate language
+            contentType: 'Podcast'
+          }
+        });
+  
+        // 2. Create FormData
+        const formData = new FormData();
+        formData.append('key', data.createPodiumPackage.key);
+        formData.append('AWSAccessKeyId', data.createPodiumPackage.AWSAccessKeyId);
+        formData.append('policy', data.createPodiumPackage.policy);
+        formData.append('signature', data.createPodiumPackage.signature);
+        formData.append('file', file);
+  
+        // 3. Upload the file
+        await axios.post(data.createPodiumPackage.url, formData, {
+          onUploadProgress: (progressEvent) => {
+            const progress = Math.round(
+              (progressEvent.loaded * 100) / (progressEvent.total || file.size)
+            );
+            setUploadingFiles(prev => {
+              const updated = [...prev];
+              updated[fileIndex] = { 
+                ...updated[fileIndex], 
+                progress,
+                status: progress === 100 ? 'completed' : 'uploading' as const
+              };
+              return updated;
+            });
+          },
+        });
+
+        const uploadedFileData: FileMetadata = {
+          name: file.name,
+          size: file.size,
+          type: file.type,
+          lastModified: file.lastModified,
+          podiumPackageId: data.createPodiumPackage.podiumPackageGuid,
+          projectId: effectiveProjectId
+          // duration will be updated later if available
+        };
+  
+        // Update state
+        setUploadingFiles(prev => prev.filter((_, idx) => idx !== fileIndex));
+        setContentSources(prev => ({
+          ...prev,
+          uploadedFiles: [...prev.uploadedFiles, uploadedFileData]
+        }));
+  
+      } catch (error) {
+        console.error("Upload failed:", file.name, error);
+        setUploadingFiles(prev => {
+          const updated = [...prev];
+          updated[fileIndex] = { 
+            ...updated[fileIndex], 
+            status: 'error' as const,
+            error: error.message 
+          };
+          return updated;
+        });
+      }
     }
   };
 
@@ -567,37 +748,78 @@ const BookCreationWizard = () => {
                 onChange={(e) => setContentSources(prev => ({ ...prev, rssFeed: e.target.value }))}
                 className="flex-1"
               />
-              <Button variant="outline">Validate</Button>
+              <Button
+                variant="outline"
+                disabled={!contentSources.rssFeed || rssLoading}
+                onClick={async () => {
+                  setRssError(null);
+                  setRssLoading(true);
+                  try {
+                    const data = await rssAPI.fetchEpisodes(contentSources.rssFeed);
+                    setRssEpisodes(data.episodes || []);
+                  } catch (e: any) {
+                    setRssEpisodes([]);
+                    setRssError(e?.message || 'Failed to fetch RSS');
+                  } finally {
+                    setRssLoading(false);
+                  }
+                }}
+              >
+                {rssLoading ? 'Loading…' : 'Validate'}
+              </Button>
             </div>
-            {contentSources.rssFeed && (
+            {rssError && (
+              <div className="text-sm text-red-600 mt-2">{rssError}</div>
+            )}
+            {contentSources.rssFeed && rssEpisodes.length > 0 && (
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <h4 className="font-medium">Select the episodes for your book:</h4>
-                  <span className="text-sm text-muted-foreground">
-                    {selectedEpisodes.size} episode{selectedEpisodes.size !== 1 ? 's' : ''} selected
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-muted-foreground">
+                      {selectedEpisodes.size} episode{selectedEpisodes.size !== 1 ? 's' : ''} selected
+                    </span>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => {
+                        const all = new Set<number>();
+                        for (let i = 0; i < rssEpisodes.length; i++) all.add(i);
+                        setSelectedEpisodes(all);
+                      }}
+                    >
+                      Select all
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setSelectedEpisodes(new Set())}
+                    >
+                      Deselect all
+                    </Button>
+                  </div>
                 </div>
                 <div className="max-h-60 overflow-y-auto space-y-2 custom-scrollbar">
-                  {[1, 2, 3, 4, 5].map((i) => {
-                    const isSelected = selectedEpisodes.has(i);
+                  {rssEpisodes.map((ep, idx) => {
+                    const isSelected = selectedEpisodes.has(idx);
                     return (
                       <div 
-                        key={i} 
+                        key={ep.id || idx} 
                         className={`flex items-center justify-between p-2 rounded transition-colors ${
                           isSelected ? 'bg-primary/10 border border-primary/20' : 'bg-muted'
                         }`}
                       >
                         <div className="flex items-center gap-2">
                           <Rss className="w-4 h-4" />
-                          <span className="text-sm">Episode {i}: Sample Title</span>
+                          <span className="text-sm truncate max-w-[320px]" title={ep.title}>Episode {idx + 1}: {ep.title}</span>
                           <Badge variant="secondary" className="text-xs">
-                            ~15 min
+                            {ep.duration ? ep.duration : (ep.pubDate ? new Date(ep.pubDate).toLocaleDateString() : '—')}
                           </Badge>
                         </div>
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => toggleEpisodeSelection(i)}
+                          onClick={() => toggleEpisodeSelection(idx)}
                           className="min-w-[80px]"
                         >
                           {isSelected ? 'Remove' : 'Add'}
@@ -636,30 +858,56 @@ const BookCreationWizard = () => {
                 onChange={(e) => handleFileUpload(e.target.files)}
               />
             </div>
-            
-            {contentSources.uploadedFiles.length > 0 && (
+            {uploadingFiles.length > 0 && (
               <div className="mt-4 space-y-2">
-                <h4 className="font-medium">Uploaded Files:</h4>
-                {contentSources.uploadedFiles.map((file, index) => (
-                  <div key={index} className="flex items-center justify-between p-2 bg-muted rounded">
-                    <div className="flex items-center gap-2">
-                      <FileText className="w-4 h-4" />
-                      <span className="text-sm">{file.name}</span>
-                      <Badge variant="secondary" className="text-xs">
-                        {(file.size / 1024 / 1024).toFixed(2)} MB
-                      </Badge>
+                <h4 className="font-medium">Uploading Files:</h4>
+                {uploadingFiles.map((uploadingFile, index) => (
+                  <div key={index} className="p-2 bg-muted rounded">
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="flex items-center gap-2">
+                        <FileText className="w-4 h-4" />
+                        <span className="text-sm">{uploadingFile.file.name}</span>
+                        <Badge variant="secondary" className="text-xs">
+                          {(uploadingFile.file.size / 1024 / 1024).toFixed(2)} MB
+                        </Badge>
+                        {uploadingFile.status === 'error' && (
+                          <span className="text-xs text-red-500">{uploadingFile.error}</span>
+                        )}
+                      </div>
+                      {uploadingFile.status === 'uploading' && (
+                        <span className="text-xs text-muted-foreground">
+                          {uploadingFile.progress}%
+                        </span>
+                      )}
                     </div>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => removeFile(index)}
-                    >
-                      Remove
-                    </Button>
+                    {uploadingFile.status === 'uploading' && (
+                      <Progress value={uploadingFile.progress} className="h-2" />
+                    )}
                   </div>
                 ))}
               </div>
             )}
+            {contentSources.uploadedFiles.map((file, index) => (
+              <div key={file.podiumPackageId || index} className="flex items-center justify-between p-2 bg-muted rounded">
+                <div className="flex items-center gap-2">
+                  <FileText className="w-4 h-4" />
+                  <div>
+                    <div className="text-sm">{file.name}</div>
+                    <div className="text-xs text-muted-foreground">
+                      {(file.size / 1024 / 1024).toFixed(2)} MB
+                      {file.duration && ` • ${Math.floor(file.duration / 60)}:${(file.duration % 60).toString().padStart(2, '0')}`}
+                    </div>
+                  </div>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => removeFile(index)}
+                >
+                  Remove
+                </Button>
+              </div>
+            ))}
           </CardContent>
         </Card>
       </div>
