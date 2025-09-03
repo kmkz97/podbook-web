@@ -23,7 +23,7 @@ const BookCard = ({ project, showActions = true }: BookCardProps) => {
 
   const handleCardClick = () => {
     // Navigate to book landing variations with appropriate state
-    if (project.id === 'order-demo') {
+    /*if (project.id === 'order-demo') {
       navigate(`/order-processing/${project.id}`);
     } else if (isProcessing || isFailed) {
       navigate(`/book-landing-variations?state=processing`);
@@ -31,7 +31,8 @@ const BookCard = ({ project, showActions = true }: BookCardProps) => {
       navigate(`/book-landing-variations?state=completed`);
     } else {
       navigate(`/book-landing-variations?state=processing`);
-    }
+    }*/
+      navigate(`/projects/${project.id}`);
   };
 
   return (

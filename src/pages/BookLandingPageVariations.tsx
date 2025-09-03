@@ -353,7 +353,7 @@ const BookLandingPageVariations = () => {
         <div className="px-6 py-4">
           <Button 
             variant="ghost" 
-            onClick={() => navigate('/component-library')} 
+            onClick={() => navigate('/projects')} 
             className="hover:bg-muted p-2 h-10 w-10 rounded-full"
           >
             <ArrowLeft className="w-4 h-4" />

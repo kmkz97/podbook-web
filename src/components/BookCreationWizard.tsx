@@ -8,7 +8,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Separator } from "@/components/ui/separator";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import axios from "axios";
 import { useMutation } from '@apollo/client';
@@ -23,11 +22,8 @@ import {
   Sparkles, 
   Eye, 
   Download,
-  CreditCard,
   ArrowLeft,
   ArrowRight,
-  CheckCircle,
-  Clock,
   FileImage,
   FileAudio,
   FileVideo,
@@ -111,15 +107,8 @@ const BookCreationWizard = () => {
   const [rssLoading, setRssLoading] = useState(false);
   const [rssError, setRssError] = useState<string | null>(null);
   const [rssEpisodes, setRssEpisodes] = useState<Array<{ id: string; title: string; link?: string | null; pubDate?: string | null; duration?: string | null }>>([]);
-  const [processing, setProcessing] = useState(false);
-  const [processingProgress, setProcessingProgress] = useState<number>(0);
   const [projectId, setProjectId] = useState<string | null>(null);
   const autosaveTimerRef = useRef<number | null>(null);
-  const [preview, setPreview] = useState<{
-    totalWords: number;
-    totalPages: number;
-    estimatedCost: number;
-  } | null>(null);
   const [showChangesSaved, setShowChangesSaved] = useState(false);
 
   const toggleEpisodeSelection = (episodeId: number) => {
@@ -134,7 +123,6 @@ const BookCreationWizard = () => {
     });
   };
 
-  // Show "changes saved" message periodically when step changes
   useEffect(() => {
     if (currentStep > 1) {
       setShowChangesSaved(true);
@@ -183,23 +171,14 @@ const BookCreationWizard = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBookType, bookDetails, bookSpecs, contentSources, selectedEpisodes, currentStep]);
 
-  // Auto-process content when reaching step 5
-  useEffect(() => {
-    if (currentStep === 5 && !preview && !processing) {
-      processContent();
-    }
-  }, [currentStep, preview, processing]);
-
   const steps: WizardStep[] = [
     { id: 1, title: 'Book Type', description: 'Choose your book category', completed: !!selectedBookType },
     { id: 2, title: 'Details', description: 'Book information', completed: !!bookDetails.title && !!bookDetails.description },
     { id: 3, title: 'Specifications', description: 'Size and structure', completed: true },
     { id: 4, title: 'Content', description: 'Add your content sources', completed: true },
-    { id: 5, title: 'Book Overview', description: 'Review and save', completed: !!preview },
   ];
 
   const handleNext = async () => {
-    // On step 4, persist selected RSS episodes as uploads before proceeding
     if (currentStep === 4 && ( selectedEpisodes.size > 0 || contentSources.uploadedFiles.length > 0)) {
       try {
         const episodesToSave = Array.from(selectedEpisodes).map((idx) => rssEpisodes[idx]).filter(Boolean);
@@ -239,10 +218,12 @@ const BookCreationWizard = () => {
             .map(f => ({
               filename: f.name,
               url: f.podiumPackageId, // You might need to construct this from your storage URL and package ID
-              size: f.size,
+              size: f.duration || 0, // Store duration instead of file size for cost calculation
               contentType: f.type,
               duration: f.duration
             }));
+
+            console.log('Uploaded files:', uploadedFiles);
 
           if (uploadedFiles.length > 0) {
             console.log('Saving uploaded files:', uploadedFiles);
@@ -251,9 +232,17 @@ const BookCreationWizard = () => {
               files: uploadedFiles 
             });
           }
+
+          // After saving, navigate to project detail page
+          navigate(`/projects/${effectiveProjectId}`);
+          return;
         }
       } catch (e) {
-        // Non-blocking: we still allow moving forward
+        // Even if saving uploads fails, attempt navigation to project page if we have an id
+        if (projectId) {
+          navigate(`/projects/${projectId}`);
+          return;
+        }
       }
     }
     if (currentStep < steps.length) {
@@ -281,6 +270,30 @@ const BookCreationWizard = () => {
 
   const [uploadingFiles, setUploadingFiles] = useState<UploadingFile[]>([]);
   const [createPodiumPackage] = useMutation(CREATE_PODIUM_PACKAGE);
+
+  // Helper function to extract duration from audio/video files
+  const getFileDuration = (file: File): Promise<number> => {
+    return new Promise((resolve) => {
+      if (file.type.startsWith('audio/') || file.type.startsWith('video/')) {
+        const url = URL.createObjectURL(file);
+        const media = document.createElement(file.type.startsWith('audio/') ? 'audio' : 'video');
+        
+        media.addEventListener('loadedmetadata', () => {
+          URL.revokeObjectURL(url);
+          resolve(Math.round(media.duration));
+        });
+        
+        media.addEventListener('error', () => {
+          URL.revokeObjectURL(url);
+          resolve(0);
+        });
+        
+        media.src = url;
+      } else {
+        resolve(0);
+      }
+    });
+  };
 
   const handleFileUpload = async (files: FileList | null) => {
     if (!files) return;
@@ -318,7 +331,11 @@ const BookCreationWizard = () => {
           updated[fileIndex] = { ...updated[fileIndex], status: 'uploading' };
           return updated;
         });
-  
+
+        // Extract duration from the file
+        const duration = await getFileDuration(file);
+        console.log(`File ${file.name} duration: ${duration} seconds`);
+
         // 1. Get upload credentials from GraphQL
         const { data } = await createPodiumPackage({
           variables: {
@@ -362,8 +379,8 @@ const BookCreationWizard = () => {
           type: file.type,
           lastModified: file.lastModified,
           podiumPackageId: data.createPodiumPackage.podiumPackageGuid,
-          projectId: effectiveProjectId
-          // duration will be updated later if available
+          projectId: effectiveProjectId,
+          duration: duration // Now includes the extracted duration
         };
   
         // Update state
@@ -404,7 +421,7 @@ const BookCreationWizard = () => {
     let basePrice = bookSpecs.targetPages[0] * targetPricePerPage;
     
     // Adjust for book type complexity
-    const complexityMultiplier = (selectedBookType === 'technical' || selectedBookType === 'academic') ? 1.3 : 1.0;
+    let complexityMultiplier = (selectedBookType === 'technical' || selectedBookType === 'academic') ? 1.3 : 1.0;
     if (selectedBookType === 'creative') complexityMultiplier = 0.9; // Creative content is easier to generate
     
     // Content source processing fee
@@ -440,91 +457,7 @@ const BookCreationWizard = () => {
     return Math.round(hoursNeeded * 10) / 10; // Round to 1 decimal place
   };
 
-  const processContent = async () => {
-    setProcessing(true);
-    setProcessingProgress(5);
-    try {
-      // Ensure project exists; save current state
-      if (!projectId) {
-        const resp = await projectAPI.saveProject({
-          type: selectedBookType || undefined,
-          details: bookDetails,
-          specs: bookSpecs,
-          content: {
-            rssFeed: contentSources.rssFeed,
-            uploadedFiles: contentSources.uploadedFiles.map(f => ({ name: f.name, size: f.size, type: f.type })),
-            textContent: contentSources.textContent,
-            urls: contentSources.urls,
-            selectedEpisodes: Array.from(selectedEpisodes),
-          },
-          step: currentStep,
-        } as any);
-        const savedId = resp?.data?.id || resp?.id;
-        if (savedId) setProjectId(savedId);
-      } else {
-        await projectAPI.saveProject({
-          id: projectId,
-          type: selectedBookType || undefined,
-          details: bookDetails,
-          specs: bookSpecs,
-          content: {
-            rssFeed: contentSources.rssFeed,
-            uploadedFiles: contentSources.uploadedFiles.map(f => ({ name: f.name, size: f.size, type: f.type })),
-            textContent: contentSources.textContent,
-            urls: contentSources.urls,
-            selectedEpisodes: Array.from(selectedEpisodes),
-          },
-          step: currentStep,
-        } as any);
-      }
-
-      // Simulate progress locally without hitting AI backend
-      let progress = 10;
-      const interval = setInterval(() => {
-        progress = Math.min(progress + Math.random() * 20, 95);
-        setProcessingProgress(progress);
-      }, 800);
-
-      // After a short delay, generate a mock preview
-      setTimeout(() => {
-        clearInterval(interval);
-        const mockChapters: Chapter[] = [
-          { id: '1', title: 'Introduction', description: 'Overview and context setting', wordCount: 1200, estimatedPages: 4 },
-          { id: '2', title: 'Getting Started', description: 'Basic concepts and setup', wordCount: 1800, estimatedPages: 6 },
-          { id: '3', title: 'Core Concepts', description: 'Main ideas and principles', wordCount: 2400, estimatedPages: 8 },
-          { id: '4', title: 'Advanced Topics', description: 'Complex scenarios and solutions', wordCount: 2000, estimatedPages: 7 },
-          { id: '5', title: 'Conclusion', description: 'Summary and next steps', wordCount: 800, estimatedPages: 3 },
-        ];
-        setPreview({
-          chapters: mockChapters,
-          totalWords: mockChapters.reduce((sum, ch) => sum + ch.wordCount, 0),
-          totalPages: mockChapters.reduce((sum, ch) => sum + ch.estimatedPages, 0),
-          estimatedCost: 25,
-        });
-        setProcessingProgress(100);
-        setProcessing(false);
-      }, 3500);
-    } catch (error) {
-      // Still present a mock preview on error
-      setTimeout(() => {
-        const mockChapters: Chapter[] = [
-          { id: '1', title: 'Introduction', description: 'Overview and context setting', wordCount: 1200, estimatedPages: 4 },
-          { id: '2', title: 'Getting Started', description: 'Basic concepts and setup', wordCount: 1800, estimatedPages: 6 },
-          { id: '3', title: 'Core Concepts', description: 'Main ideas and principles', wordCount: 2400, estimatedPages: 8 },
-          { id: '4', title: 'Advanced Topics', description: 'Complex scenarios and solutions', wordCount: 2000, estimatedPages: 7 },
-          { id: '5', title: 'Conclusion', description: 'Summary and next steps', wordCount: 800, estimatedPages: 3 },
-        ];
-        setPreview({
-          chapters: mockChapters,
-          totalWords: mockChapters.reduce((sum, ch) => sum + ch.wordCount, 0),
-          totalPages: mockChapters.reduce((sum, ch) => sum + ch.estimatedPages, 0),
-          estimatedCost: 25,
-        });
-        setProcessingProgress(100);
-        setProcessing(false);
-      }, 3000);
-    }
-  };
+  // Step 5 processing moved out; no longer handled in this wizard
 
   const renderStep1 = () => (
     <div className="space-y-6">
@@ -931,198 +864,7 @@ const BookCreationWizard = () => {
     </div>
   );
 
-  const renderStep5 = () => (
-    <div className="space-y-6">
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-medium text-foreground mb-2">Book Overview</h2>
-        <p className="text-muted-foreground">Review your book structure and save your project</p>
-      </div>
-      
-      {!preview ? (
-        <div className="text-center py-12">
-          <div className="space-y-4">
-            <Clock className="w-8 h-8 mx-auto text-primary" />
-            <h3 className="text-lg font-medium">Processing Your Content</h3>
-            <p className="text-muted-foreground">AI is analyzing your content and generating your book structure...</p>
-            <Progress value={processingProgress} className="w-64 mx-auto" />
-          </div>
-        </div>
-      ) : (
-        <div className="max-w-4xl mx-auto space-y-6">
-          {/* Book Overview */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Book Overview</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-3 gap-4 text-center">
-                <div>
-                  <div className="text-2xl font-medium text-primary">{preview.totalPages}</div>
-                  <div className="text-sm text-muted-foreground">Approximate Total Pages</div>
-                </div>
-                <div>
-                  <div className="text-2xl font-medium text-primary">{preview.totalWords.toLocaleString()}</div>
-                  <div className="text-sm text-muted-foreground">Approximate Word Count</div>
-                </div>
-                <div>
-                  <div className="text-2xl font-medium text-primary">2-4</div>
-                  <div className="text-sm text-muted-foreground">Estimated Turnaround (Business Days)</div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-
-
-          {/* Price Calculator */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Price Calculator</CardTitle>
-              <CardDescription>Calculate the cost based on your content and book specifications</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {/* Content Analysis */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="p-4 bg-muted rounded-lg">
-                  <h4 className="font-medium mb-2">Content Sources</h4>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span>RSS Feed Articles:</span>
-                      <span className="font-medium">{contentSources.rssFeed ? selectedEpisodes.size : 0}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Uploaded Files:</span>
-                      <span className="font-medium">{contentSources.uploadedFiles.length}</span>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="p-4 bg-muted rounded-lg">
-                  <h4 className="font-medium mb-2">Book Specifications</h4>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span>Target Pages:</span>
-                      <span className="font-medium">{bookSpecs.targetPages[0]}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Book Type:</span>
-                      <span className="font-medium capitalize">{selectedBookType.replace('-', ' ')}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Content Hours:</span>
-                      <span className="font-medium">{calculateContentHours()} hours</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Recommended Episodes:</span>
-                      <span className="font-medium">{calculateEpisodesNeeded()} episodes</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Pricing Breakdown */}
-              <div className="p-4 bg-muted rounded-lg">
-                <h4 className="font-medium mb-3">Pricing Breakdown</h4>
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span>Base Price (per page):</span>
-                    <span>$2.50</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span>Content Processing Fee:</span>
-                    <span>$25.00</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span>Complexity Multiplier:</span>
-                    <span>
-                      {selectedBookType === 'technical' || selectedBookType === 'academic' ? '1.3x' : 
-                       selectedBookType === 'creative' ? '0.9x' : '1.0x'}
-                    </span>
-                  </div>
-                  <Separator className="my-2" />
-                  <div className="flex justify-between font-medium">
-                    <span>Estimated Total:</span>
-                    <span className="text-primary text-lg">${calculateTotalPrice().toFixed(0)}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Content Requirements */}
-              <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                <h4 className="font-medium mb-3 text-blue-800">Content Requirements</h4>
-                <div className="space-y-2 text-sm text-blue-700">
-                  <div className="flex justify-between">
-                    <span>Estimated Content Hours:</span>
-                    <span className="font-medium">{calculateContentHours()} hours</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Recommended Episodes:</span>
-                    <span className="font-medium">{calculateEpisodesNeeded()} episodes</span>
-                  </div>
-                  <div className="text-xs mt-2">
-                    Based on 130 words/minute speaking rate • 45-minute average episode length
-                  </div>
-                </div>
-              </div>
-              
-              {/* Money-Back Guarantee */}
-              <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-                <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <CheckCircle className="w-4 h-4 text-green-600" />
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="font-medium text-green-900 mb-2">Purchase in confidence!</h4>
-                    <p className="text-sm text-green-700 mb-3">
-                      If you are not completely satisfied with your book, you have 1 week to review it in view-only mode on our site and request a refund (minus processing fees). Downloading the book waives your refund eligibility.{' '}
-                      <button 
-                        className="text-green-800 underline hover:text-green-900 font-medium"
-                        onClick={() => window.open('/money-back-guarantee', '_blank')}
-                      >
-                        Learn more
-                      </button>.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="flex gap-3">
-                <Button 
-                  className="w-full bg-primary hover:bg-primary/90"
-                  onClick={() => {
-                    // TODO: In production, this would integrate with Stripe
-                    // For demo purposes, create a mock order and navigate to processing
-                    const orderId = 'order-' + Date.now();
-                    
-                    // Store order data in localStorage for demo purposes
-                    const orderData = {
-                      id: orderId,
-                      bookTitle: bookDetails.title,
-                      bookType: selectedBookType,
-                      targetPages: bookSpecs.targetPages[0],
-                      contentSources: contentSources,
-                      pricing: {
-                        subtotal: calculateTotalPrice(),
-                        processingFee: 0.20,
-                        total: calculateTotalPrice() + 0.20
-                      }
-                    };
-                    localStorage.setItem('currentOrder', JSON.stringify(orderData));
-                    
-                    // Navigate to order processing page
-                    navigate(`/order-processing/${orderId}`);
-                  }}
-                >
-                  <CreditCard className="w-4 h-4 mr-2" />
-                  Purchase & Generate
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
-    </div>
-  );
+  // Step 5 (Book Overview) has been extracted into a separate component/page
 
   const renderCurrentStep = () => {
     switch (currentStep) {
@@ -1130,7 +872,6 @@ const BookCreationWizard = () => {
       case 2: return renderStep2();
       case 3: return renderStep3();
       case 4: return renderStep4();
-      case 5: return renderStep5();
       default: return null;
     }
   };
@@ -1184,55 +925,17 @@ const BookCreationWizard = () => {
           {/* Show empty div on first step to maintain layout */}
           {currentStep === 1 && <div></div>}
           
-          {currentStep === steps.length ? (
-            <Button
-              onClick={async () => {
-                try {
-                  // Ensure we have latest saved data
-                  const payload = {
-                    id: projectId || undefined,
-                    type: selectedBookType || undefined,
-                    details: bookDetails,
-                    specs: bookSpecs,
-                    content: {
-                      rssFeed: contentSources.rssFeed,
-                      uploadedFiles: contentSources.uploadedFiles.map(f => ({ name: f.name, size: f.size, type: f.type })),
-                      textContent: contentSources.textContent,
-                      urls: contentSources.urls,
-                      selectedEpisodes: Array.from(selectedEpisodes),
-                    },
-                    step: currentStep,
-                  } as any;
-                  const saveResp = await projectAPI.saveProject(payload);
-                  const savedId = (saveResp?.data?.id || saveResp?.id) as string;
-                  const finalId = projectId || savedId;
-                  if (finalId) {
-                    await projectAPI.completeProject(finalId, { status: 'ACTIVE' });
-                    navigate(`/projects/${finalId}`);
-                  } else {
-                    navigate(`/dashboard`);
-                  }
-                } catch (e) {
-                  navigate(`/dashboard`);
-                }
-              }}
-              className="bg-primary hover:bg-primary/90"
-            >
-              Save for Later
-            </Button>
-          ) : (
-            <Button
-              onClick={handleNext}
-              disabled={
-                (currentStep === 1 && !selectedBookType) ||
-                (currentStep === 2 && (!bookDetails.title || !bookDetails.description))
-              }
-              className="bg-primary hover:bg-primary/90"
-            >
-              Next
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
-          )}
+          <Button
+            onClick={handleNext}
+            disabled={
+              (currentStep === 1 && !selectedBookType) ||
+              (currentStep === 2 && (!bookDetails.title || !bookDetails.description))
+            }
+            className="bg-primary hover:bg-primary/90"
+          >
+            Next
+            <ArrowRight className="w-4 h-4 ml-2" />
+          </Button>
         </div>
       </div>
     </div>
